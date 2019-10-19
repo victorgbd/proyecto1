@@ -11,8 +11,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 /**
  *
  * @author victor
@@ -21,6 +24,7 @@ public class Redneu extends javax.swing.JFrame {
 
     public Redneu() {
         initComponents();
+        this.setLocationRelativeTo(this);
     }
     private File es = null;
 
@@ -34,7 +38,8 @@ public class Redneu extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         evaluar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jList1 = new javax.swing.JList<>();
+        imagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,43 +59,54 @@ public class Redneu extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        imagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         javax.swing.GroupLayout panelprincipalLayout = new javax.swing.GroupLayout(panelprincipal);
         panelprincipal.setLayout(panelprincipalLayout);
         panelprincipalLayout.setHorizontalGroup(
             panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(evaluar)
-                .addGap(139, 139, 139))
             .addGroup(panelprincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelprincipalLayout.createSequentialGroup()
+                .addGap(273, 273, 273)
+                .addComponent(evaluar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(19, 19, 19)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(150, 150, 150))))
         );
         panelprincipalLayout.setVerticalGroup(
             panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
-                .addGap(0, 82, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
+                .addGap(13, 13, 13)
                 .addComponent(evaluar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,6 +129,7 @@ public class Redneu extends javax.swing.JFrame {
         if (file.getSelectedFile() != null) {
             es = file.getSelectedFile();
             this.jTextField1.setText(es.getAbsolutePath());
+            rsscalelabel.RSScaleLabel.setScaleLabel(imagen, es.getAbsolutePath());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -132,22 +149,28 @@ public class Redneu extends javax.swing.JFrame {
             String output;
             String resultados = "";
             while ((output = br.readLine()) != null) {
-                resultados += output + "\n";
+                resultados += output;
             }
-            resultados = resultados.replace("[", "");
-            resultados = resultados.replace("]", "");
+            resultados = resultados.replace("{", "");
+            resultados = resultados.replace("}", "");
             String[] resul = resultados.split(",");
             resultados = "";
-            for (String palabra : resul) {
-                resultados+=palabra+"\n";
-            }
-            this.jTextArea1.setText(resultados);
+            
+            this.jList1.setListData(resul);
+            
+            
             conn.disconnect();
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Exception in NetClientGet:- " + e);
         }
     }//GEN-LAST:event_evaluarActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        if(!evt.getValueIsAdjusting()){
+            JOptionPane.showMessageDialog(null, "usted selecciono: "+jList1.getSelectedValue());
+        }
+    }//GEN-LAST:event_jList1ValueChanged
 
     /**
      * @param args the command line arguments
@@ -180,16 +203,22 @@ public class Redneu extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Redneu().setVisible(true);
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(Redneu.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton evaluar;
+    private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panelprincipal;
     // End of variables declaration//GEN-END:variables
