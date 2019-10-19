@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author victor
@@ -43,6 +44,8 @@ public class Redneu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelprincipal.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setText("selecciona una imagen:");
 
         jButton1.setText("ua");
@@ -59,9 +62,14 @@ public class Redneu extends javax.swing.JFrame {
             }
         });
 
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jList1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jList1KeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(jList1);
@@ -155,22 +163,29 @@ public class Redneu extends javax.swing.JFrame {
             resultados = resultados.replace("}", "");
             String[] resul = resultados.split(",");
             resultados = "";
-            
+
             this.jList1.setListData(resul);
-            
-            
+
             conn.disconnect();
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Exception in NetClientGet:- " + e);
         }
     }//GEN-LAST:event_evaluarActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        if(!evt.getValueIsAdjusting()){
-            JOptionPane.showMessageDialog(null, "usted selecciono: "+jList1.getSelectedValue());
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        if (jList1.getSelectedValue() != null) {
+            JOptionPane.showMessageDialog(null, "usted selecciono: " + jList1.getSelectedValue());
         }
-    }//GEN-LAST:event_jList1ValueChanged
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (jList1.getSelectedValue() != null) {
+                JOptionPane.showMessageDialog(null, "usted selecciono: " + jList1.getSelectedValue());
+            }
+        }
+    }//GEN-LAST:event_jList1KeyPressed
 
     /**
      * @param args the command line arguments
