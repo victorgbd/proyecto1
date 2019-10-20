@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -135,6 +136,13 @@ public class Redneu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser file = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.JPG", "jpg");
+        FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("*.PNG", "png");
+        FileNameExtensionFilter filtro3 = new FileNameExtensionFilter("*.GIF", "gif");
+        file.addChoosableFileFilter(filtro2);
+        file.addChoosableFileFilter(filtro3);
+        file.setFileFilter(filtro);
+        
         file.showOpenDialog(this);
         if (file.getSelectedFile() != null) {
             es = file.getSelectedFile();
