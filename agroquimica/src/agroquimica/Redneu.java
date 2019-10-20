@@ -165,9 +165,7 @@ public class Redneu extends javax.swing.JFrame {
                 resultados = resultados.replace("}", "");
                 resultados = resultados.replace(":", " porciento de acierto: ");
                 String[] resul = resultados.split(",");
-
                 this.jList1.setListData(resul);
-                
                 conn.disconnect();
             }
 
