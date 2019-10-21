@@ -5,6 +5,7 @@
  */
 package agroquimica;
 
+import java.awt.Image;
 import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -29,7 +31,7 @@ public class Redneu extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
     }
     private File es = null;
-
+    private JFileChooser file;
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -42,12 +44,19 @@ public class Redneu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         imagen = new javax.swing.JLabel();
+        salir = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
-        panelprincipal.setBackground(new java.awt.Color(255, 255, 255));
+        panelprincipal.setBackground(new java.awt.Color(0, 0, 51));
+        panelprincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("selecciona una imagen:");
+        panelprincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 204, -1, -1));
+        panelprincipal.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 202, 202, -1));
 
         jButton1.setText("ua");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -55,13 +64,16 @@ public class Redneu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        panelprincipal.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(428, 201, 27, -1));
 
+        evaluar.setFont(new java.awt.Font("Arial", 3, 11)); // NOI18N
         evaluar.setText("evaluar");
         evaluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 evaluarActionPerformed(evt);
             }
         });
+        panelprincipal.add(evaluar, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 235, -1, -1));
 
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -75,81 +87,55 @@ public class Redneu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        imagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        panelprincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 439, 89));
 
-        javax.swing.GroupLayout panelprincipalLayout = new javax.swing.GroupLayout(panelprincipal);
-        panelprincipal.setLayout(panelprincipalLayout);
-        panelprincipalLayout.setHorizontalGroup(
-            panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
-                .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelprincipalLayout.createSequentialGroup()
-                        .addContainerGap(77, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelprincipalLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelprincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(77, 77, 77))
-            .addGroup(panelprincipalLayout.createSequentialGroup()
-                .addGap(262, 262, 262)
-                .addComponent(evaluar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelprincipalLayout.setVerticalGroup(
-            panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelprincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panelprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(evaluar)
-                .addGap(8, 8, 8)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
+        imagen.setBackground(new java.awt.Color(255, 255, 255));
+        imagen.setForeground(new java.awt.Color(255, 255, 255));
+        imagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        panelprincipal.add(imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 11, 202, 172));
+
+        salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        salir.setForeground(new java.awt.Color(255, 255, 255));
+        salir.setText("X");
+        salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salirMouseClicked(evt);
+            }
+        });
+        panelprincipal.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 17, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelprincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser file = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.JPG", "jpg");
-        FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("*.PNG", "png");
-        FileNameExtensionFilter filtro3 = new FileNameExtensionFilter("*.GIF", "gif");
-        file.addChoosableFileFilter(filtro2);
-        file.addChoosableFileFilter(filtro3);
-        file.setFileFilter(filtro);
-        
-        file.showOpenDialog(this);
-        if (file.getSelectedFile() != null) {
-            es = file.getSelectedFile();
-            this.jTextField1.setText(es.getAbsolutePath());
-            rsscalelabel.RSScaleLabel.setScaleLabel(imagen, es.getAbsolutePath());
+    private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_salirMouseClicked
+
+    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (jList1.getSelectedValue() != null) {
+                JOptionPane.showMessageDialog(null, "usted selecciono: " + jList1.getSelectedValue());
+            }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jList1KeyPressed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        if (jList1.getSelectedValue() != null) {
+            String[] r=jList1.getSelectedValue().toString().split(" porciento de acierto: ");
+            JOptionPane.showMessageDialog(null, "usted selecciono: " + r[0]);
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
     private void evaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evaluarActionPerformed
         try {
@@ -160,7 +146,7 @@ public class Redneu extends javax.swing.JFrame {
                 conn.setRequestProperty("Accept", "application/json");
                 if (conn.getResponseCode() != 200) {
                     throw new RuntimeException("Failed : HTTP Error code : "
-                            + conn.getResponseCode());
+                        + conn.getResponseCode());
                 }
                 InputStreamReader in = new InputStreamReader(conn.getInputStream());
                 BufferedReader br = new BufferedReader(in);
@@ -183,20 +169,19 @@ public class Redneu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_evaluarActionPerformed
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        if (jList1.getSelectedValue() != null) {
-            String[] r=jList1.getSelectedValue().toString().split(" porciento de acierto: ");
-            JOptionPane.showMessageDialog(null, "usted selecciono: " + r[0]);
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        file = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("jpg, png y gif", "jpg","png","gif");
+        file.setFileFilter(filtro);
+        file.setCurrentDirectory(es);
+        file.showOpenDialog(this);
+        
+        if (file.getSelectedFile() != null) {
+            es = file.getSelectedFile();
+            this.jTextField1.setText(es.getAbsolutePath());
+            rsscalelabel.RSScaleLabel.setScaleLabel(imagen, es.getAbsolutePath());
         }
-    }//GEN-LAST:event_jList1MouseClicked
-
-    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if (jList1.getSelectedValue() != null) {
-                JOptionPane.showMessageDialog(null, "usted selecciono: " + jList1.getSelectedValue());
-            }
-        }
-    }//GEN-LAST:event_jList1KeyPressed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,5 +232,6 @@ public class Redneu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panelprincipal;
+    private javax.swing.JLabel salir;
     // End of variables declaration//GEN-END:variables
 }
