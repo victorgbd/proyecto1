@@ -5,7 +5,6 @@
  */
 package agroquimica;
 
-import java.awt.Image;
 import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.BufferedReader;
@@ -14,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -160,7 +158,6 @@ public class Redneu extends javax.swing.JFrame {
                 resultados = resultados.replace(":", " porciento de acierto: ");
                 String[] resul = resultados.split(",");
                 this.jList1.setListData(resul);
-                
                 conn.disconnect();
             }
 
