@@ -5,7 +5,9 @@
  */
 package agroquimica;
 
+
 import java.awt.Color;
+import java.awt.Frame;
 import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.BufferedReader;
@@ -44,6 +46,7 @@ public class Redneu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         salir = new javax.swing.JLabel();
+        minimizar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,6 +117,27 @@ public class Redneu extends javax.swing.JFrame {
             }
         });
         panelprincipal.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 30, 30));
+
+        minimizar.setBackground(new java.awt.Color(255, 255, 255));
+        minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimizar.setText("_");
+        minimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        minimizar.setMaximumSize(new java.awt.Dimension(12, 22));
+        minimizar.setMinimumSize(new java.awt.Dimension(12, 22));
+        minimizar.setOpaque(true);
+        minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                minimizarMousePressed(evt);
+            }
+        });
+        panelprincipal.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 0, 30, 30));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setOpaque(true);
@@ -208,6 +232,14 @@ public class Redneu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_salirMousePressed
     private int x,y;
+    private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
+        salir.setBackground(new Color(232,17,35));
+    }//GEN-LAST:event_salirMouseEntered
+
+    private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
+        salir.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_salirMouseExited
+
     private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
         x=evt.getX();
         y=evt.getY();
@@ -217,14 +249,18 @@ public class Redneu extends javax.swing.JFrame {
         this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
     }//GEN-LAST:event_jLabel2MouseDragged
 
-    private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
-        salir.setBackground(new Color(232,17,35));
-    }//GEN-LAST:event_salirMouseEntered
+    private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
+        minimizar.setBackground(new Color(229,229,229));
+    }//GEN-LAST:event_minimizarMouseEntered
 
-    private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
-        salir.setBackground(new Color(255,255,255));
-    }//GEN-LAST:event_salirMouseExited
+    private void minimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseExited
+        minimizar.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_minimizarMouseExited
 
+    private void minimizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMousePressed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizarMousePressed
+    
     /**
      * @param args the command line arguments
      */
@@ -274,6 +310,7 @@ public class Redneu extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel minimizar;
     private javax.swing.JPanel panelprincipal;
     private javax.swing.JLabel salir;
     // End of variables declaration//GEN-END:variables
