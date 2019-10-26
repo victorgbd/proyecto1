@@ -5,6 +5,7 @@
  */
 package agroquimica;
 
+import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 import java.io.BufferedReader;
@@ -96,14 +97,23 @@ public class Redneu extends javax.swing.JFrame {
 
         panelprincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 439, 89));
 
+        salir.setBackground(new java.awt.Color(255, 255, 255));
         salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         salir.setText("X");
+        salir.setOpaque(true);
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                salirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                salirMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 salirMousePressed(evt);
             }
         });
-        panelprincipal.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 20, -1));
+        panelprincipal.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 30, 30));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setOpaque(true);
@@ -206,6 +216,14 @@ public class Redneu extends javax.swing.JFrame {
     private void jLabel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseDragged
         this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
     }//GEN-LAST:event_jLabel2MouseDragged
+
+    private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
+        salir.setBackground(new Color(232,17,35));
+    }//GEN-LAST:event_salirMouseEntered
+
+    private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
+        salir.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_salirMouseExited
 
     /**
      * @param args the command line arguments
