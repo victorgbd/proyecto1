@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agroquimica;
+package agroquimica.ventas;
 
+import agroquimica.ConexionBD;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,6 +42,7 @@ public class ventas extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,12 +74,21 @@ public class ventas extends javax.swing.JFrame {
 
         jTextField1.setText("Codigo");
 
+        jButton2.setText("realizar venta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(127, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -90,15 +105,22 @@ public class ventas extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addGap(202, 202, 202))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    static ConexionBD cc = new ConexionBD();
-    public static Connection cn=cc.conexion();
+    private static ConexionBD cc = new ConexionBD();
+    private static Connection cn=cc.conexion();
+    private PreparedStatement ps;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel tabladet = (DefaultTableModel) this.jTable1.getModel();
         String[] dato = new String[6];
@@ -122,22 +144,52 @@ public class ventas extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        dato[0] = cod;
+        dato[1] = descripcion;
+        dato[2] = precio;
+        dato[3] = cant;
 
-        
+        tabladet.addRow(dato);
 
-       
-        
-
-            dato[0] = cod;
-            dato[1] = descripcion;
-            dato[2] = precio;
-            dato[3] = cant;
-
-            tabladet.addRow(dato);
-
-            this.jTable1.setModel(tabladet);
+        this.jTable1.setModel(tabladet);
          
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (this.jTable1.getRowCount() < 1) {
+            JOptionPane.showMessageDialog(null, "agregar una compra");
+        } else {
+            String sql="insert into detalle_factura(numfact,codprod,cantvent,precvent) values (1,?,?,?)";
+            int contador = 0;
+            //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
+            for (int i = 0; i < this.jTable1.getRowCount(); i++) {
+                int opcion = 0;
+                try {
+                    ps = cn.prepareStatement(sql);
+                    ps.setInt(1, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
+                    ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
+                    ps.setDouble(3, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
+                    opcion = ps.executeUpdate();
+                } catch (SQLException ex) {
+                }
+                
+                if (opcion != 0) {
+                    contador++;
+                }
+            }
+
+            if (contador == this.jTable1.getRowCount()) {
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+                while (modelo.getRowCount() > 0) {
+                    modelo.removeRow(0);
+                }
+                this.jTextField1.setText("");
+                
+                JOptionPane.showMessageDialog(null, "transaccion realizada");
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +228,7 @@ public class ventas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
