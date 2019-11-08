@@ -165,14 +165,19 @@ public class ventas extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        dato[0] = cod;
-        dato[1] = descripcion;
-        dato[2] = precio;
-        dato[3] = cant;
+        if(!cod.isEmpty()){
+            dato[0] = cod;
+            dato[1] = descripcion;
+            dato[2] = precio;
+            dato[3] = cant;
 
-        tabladet.addRow(dato);
+            tabladet.addRow(dato);
 
-        this.jTable1.setModel(tabladet);
+            this.jTable1.setModel(tabladet);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "este producto no existe");
+        }
          
     }//GEN-LAST:event_jButton1ActionPerformed
 
