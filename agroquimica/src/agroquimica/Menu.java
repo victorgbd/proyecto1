@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author victor
@@ -38,8 +39,9 @@ public class Menu extends javax.swing.JFrame {
     private File es = null;
     private JFileChooser file;
     private static ConexionBD cc = new ConexionBD();
-    private static Connection cn=cc.conexion();
+    private static Connection cn = cc.conexion();
     private PreparedStatement ps;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -310,27 +312,25 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.repaint();
         jPanel2.revalidate();
         int posicion = this.jPanel3.getX();
-        if(posicion>-1){
+        if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
         }
     }//GEN-LAST:event_lbRecomendacionMouseReleased
 
     private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
         int posicion = this.jPanel3.getX();
-        if(posicion>-1){
+        if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
         }
     }//GEN-LAST:event_jLabel2MousePressed
 
     private void seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarActionPerformed
         file = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("jpg, png y gif", "jpg","png","gif");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("jpg, png y gif", "jpg", "png", "gif");
         file.setFileFilter(filtro);
         file.setCurrentDirectory(es);
         file.showOpenDialog(this);
@@ -351,7 +351,7 @@ public class Menu extends javax.swing.JFrame {
                 conn.setRequestProperty("Accept", "application/json");
                 if (conn.getResponseCode() != 200) {
                     throw new RuntimeException("Failed : HTTP Error code : "
-                        + conn.getResponseCode());
+                            + conn.getResponseCode());
                 }
                 InputStreamReader in = new InputStreamReader(conn.getInputStream());
                 BufferedReader br = new BufferedReader(in);
@@ -375,7 +375,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if (jList1.getSelectedValue() != null) {
-            String[] r=jList1.getSelectedValue().toString().split(" porciento de acierto: ");
+            String[] r = jList1.getSelectedValue().toString().split(" porciento de acierto: ");
             JOptionPane.showMessageDialog(null, "usted selecciono: " + r[0]);
         }
     }//GEN-LAST:event_jList1MouseClicked
@@ -396,10 +396,9 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.repaint();
         jPanel2.revalidate();
         int posicion = this.jPanel3.getX();
-        if(posicion>-1){
+        if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
         }
     }//GEN-LAST:event_lbInicioMouseReleased
@@ -408,35 +407,45 @@ public class Menu extends javax.swing.JFrame {
         if (this.jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "agregar una compra");
         } else {
-            String sql="insert into detalle_factura(numfact,codprod,cantvent,precvent) values (1,?,?,?)";
-            int contador = 0;
-            //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
-            for (int i = 0; i < this.jTable1.getRowCount(); i++) {
-                int opcion = 0;
-                try {
-                    ps = cn.prepareStatement(sql);
-                    ps.setInt(1, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
-                    ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
-                    ps.setDouble(3, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
-                    opcion = ps.executeUpdate();
-                } catch (SQLException ex) {
+            try {
+                Statement st = cn.createStatement();
+                ResultSet res = st.executeQuery("call sp_factura(1,1,1,1,1)");
+                res.next();
+                int numfac=res.getInt(1);
+                String sql = "call sp_detallefactura(?,?,?,?)";
+                int contador = 0;
+                //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
+                for (int i = 0; i < this.jTable1.getRowCount(); i++) {
+                    int opcion = 0;
+                    try {
+                        ps = cn.prepareStatement(sql);
+                        ps.setInt(1, numfac);
+                        ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
+                        ps.setInt(3, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
+                        ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
+                        opcion = ps.executeUpdate();
+                    } catch (SQLException ex) {
+                    }
+
+                    if (opcion != 0) {
+                        contador++;
+                    }
                 }
 
-                if (opcion != 0) {
-                    contador++;
+                if (contador == this.jTable1.getRowCount()) {
+                    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+                    while (modelo.getRowCount() > 0) {
+                        modelo.removeRow(0);
+                    }
+                    this.jTextField1.setText("");
+
+                    JOptionPane.showMessageDialog(null, "transaccion realizada");
                 }
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (contador == this.jTable1.getRowCount()) {
-                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-
-                while (modelo.getRowCount() > 0) {
-                    modelo.removeRow(0);
-                }
-                this.jTextField1.setText("");
-
-                JOptionPane.showMessageDialog(null, "transaccion realizada");
-            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -454,7 +463,7 @@ public class Menu extends javax.swing.JFrame {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                cod=rs.getString("codproducto");
+                cod = rs.getString("codproducto");
 
                 descripcion = rs.getString("descripcion");
                 precio = rs.getString("preciovent");
@@ -481,10 +490,9 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.repaint();
         jPanel2.revalidate();
         int posicion = this.jPanel3.getX();
-        if(posicion>-1){
+        if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
         }
     }//GEN-LAST:event_lbVentasMouseReleased
