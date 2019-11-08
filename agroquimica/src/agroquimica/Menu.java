@@ -423,7 +423,9 @@ public class Menu extends javax.swing.JFrame {
                         ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
                         ps.setInt(3, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
                         ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
-                        opcion = ps.executeUpdate();
+                        res = ps.executeQuery();
+                        res.next();
+                        opcion=res.getInt(1);
                     } catch (SQLException ex) {
                     }
 
