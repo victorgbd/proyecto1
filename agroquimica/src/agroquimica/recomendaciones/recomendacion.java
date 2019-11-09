@@ -7,6 +7,7 @@ package agroquimica.recomendaciones;
 
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
+import agroquimica.Menu;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -162,7 +163,29 @@ public class recomendacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //recomendacion(enfermedad.getText());
+        String[] dato = new String[4];
+        DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+        for(int i=0;i<tabla.getRowCount();i++){
+            dato[0] = tabla.getValueAt(i, 0).toString();
+            dato[1] = tabla.getValueAt(i, 1).toString();
+            dato[2] = tabla.getValueAt(i, 2).toString();
+            dato[3] = tabla.getValueAt(i, 3).toString();
+            tabladet.addRow(dato);
+        }
+        Menu.jTable1.setModel(tabladet);
+        this.setVisible(false);
+        Menu.jPanel2.removeAll();
+        Menu.jPanel2.repaint();
+        Menu.jPanel2.revalidate();
+        Menu.jPanel2.add(Menu.jPanel5);
+        Menu.jPanel2.repaint();
+        Menu.jPanel2.revalidate();
+        int posicion = Menu.jPanel3.getX();
+        if (posicion > -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+        } else {
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, Menu.jPanel3);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
