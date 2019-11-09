@@ -81,6 +81,7 @@ public class buscar_productos extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         jtcantidad = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar productos");
@@ -137,12 +138,14 @@ public class buscar_productos extends javax.swing.JFrame {
         tabla.setDoubleBuffered(true);
         jScrollPane1.setViewportView(tabla);
 
-        jButton1.setText("agrega");
+        jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabel3.setText("Cantidad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,7 +157,9 @@ public class buscar_productos extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(96, 96, 96)
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +181,8 @@ public class buscar_productos extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addComponent(jButton1)
+                            .addComponent(jLabel3))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(91, Short.MAX_VALUE))
@@ -193,15 +199,27 @@ public class buscar_productos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
-        String[] dato = new String[4];
+        if(jtcantidad.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
+        jtcantidad.requestFocus();
+        }else{
+            try {
+              String[] dato = new String[4];
         DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+        
         dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
         dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
         dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
         dato[3] = jtcantidad.getText();
         tabladet.addRow(dato);
         Menu.jTable1.setModel(tabladet);
-        this.setVisible(false);
+        this.setVisible(false);  
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, e);
+            }
+            
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -212,6 +230,7 @@ public class buscar_productos extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
