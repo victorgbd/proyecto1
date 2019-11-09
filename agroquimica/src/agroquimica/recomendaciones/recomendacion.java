@@ -20,28 +20,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class recomendacion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form recomendacion
-     */
     public recomendacion(String enfe) {
         initComponents();
         recomendacion(enfe);
     }
 
-    private ConexionBD cc = new ConexionBD();
-    private Connection cn = cc.conexion();
-    private void recomendacion(String enfermedad){
+    private void recomendacion(String enfermedad) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
 
-        String sql = "SELECT codenfer from enfermedad where descripcion="+"'"+enfermedad+"'";
-        
+        String sql = "SELECT codenfer from enfermedad where descripcion=" + "'" + enfermedad + "'";
+
         ResultSet rs = Funciones.consulta(sql);
         try {
             rs.next();
             int codenf = rs.getInt("codenfer");
             sql = "SELECT  p.codproducto,p.descripcion,p.preciovent,pe.cantidad from productovsefermedad as pe"
-                    + " INNER JOIN enfermedad as enf on pe.codenfer="+codenf+" "
+                    + " INNER JOIN enfermedad as enf on pe.codenfer=" + codenf + " "
                     + "INNER JOIN producto as p on pe.codprod=p.codproducto";
             rs = Funciones.consulta(sql);
 
@@ -58,6 +52,7 @@ public class recomendacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -163,16 +158,30 @@ public class recomendacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String[] dato = new String[4];
-        DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
-        for(int i=0;i<tabla.getRowCount();i++){
-            dato[0] = tabla.getValueAt(i, 0).toString();
-            dato[1] = tabla.getValueAt(i, 1).toString();
-            dato[2] = tabla.getValueAt(i, 2).toString();
-            dato[3] = tabla.getValueAt(i, 3).toString();
-            tabladet.addRow(dato);
+        boolean f = true;
+        for (int j = 0; j < tabla.getRowCount(); j++){
+            for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(j, 0))) {
+                    int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                    cant += Integer.parseInt(tabla.getValueAt(j, 3).toString());
+                    Menu.jTable1.setValueAt(cant, i, 3);
+                    f = false;
+                }
+            }
         }
-        Menu.jTable1.setModel(tabladet);
+        if (f) {
+            String[] dato = new String[4];
+            DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                dato[0] = tabla.getValueAt(i, 0).toString();
+                dato[1] = tabla.getValueAt(i, 1).toString();
+                dato[2] = tabla.getValueAt(i, 2).toString();
+                dato[3] = tabla.getValueAt(i, 3).toString();
+                tabladet.addRow(dato);
+            }
+            Menu.jTable1.setModel(tabladet);
+        }
+
         this.setVisible(false);
         Menu.jPanel2.removeAll();
         Menu.jPanel2.repaint();
@@ -181,7 +190,9 @@ public class recomendacion extends javax.swing.JFrame {
         Menu.jPanel2.repaint();
         Menu.jPanel2.revalidate();
         int posicion = Menu.jPanel3.getX();
-        if (posicion > -1) {
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+        } else {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -189,7 +200,6 @@ public class recomendacion extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField enfermedad;

@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,9 +58,7 @@ public class buscar_productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
         }
     }
-    private static ConexionBD cc = new ConexionBD();
-    private static Connection cn = cc.conexion();
-    private PreparedStatement ps;
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

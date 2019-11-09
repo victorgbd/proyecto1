@@ -40,8 +40,8 @@ public class Menu extends javax.swing.JFrame {
     }
     private File es = null;
     private JFileChooser file;
-    private static ConexionBD cc = new ConexionBD();
-    private static Connection cn = cc.conexion();
+    private final ConexionBD cc = new ConexionBD();
+    private final Connection cn = cc.conexion();
     private PreparedStatement ps;
     private boolean animacion=true;
 
@@ -329,7 +329,6 @@ public class Menu extends javax.swing.JFrame {
             this.txruta.setText(es.getAbsolutePath());
             rsscalelabel.RSScaleLabel.setScaleLabel(imagen, es.getAbsolutePath());
             int posicion = Menu.jPanel3.getX();
-            System.out.println(posicion);
             if (posicion < -1) {
                 Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
                 Menu.jPanel3.setVisible(false);
