@@ -29,11 +29,7 @@ public class buscar_productos extends javax.swing.JFrame {
         initComponents();
         llenarTabla("");
     }
-    private Productos productos = new Productos();
-
-    public Productos getProductos() {
-        return productos;
-    }
+    
 
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
