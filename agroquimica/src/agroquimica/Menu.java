@@ -5,6 +5,7 @@
  */
 package agroquimica;
 
+import agroquimica.ventas.buscar_productos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -35,6 +36,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        this.setLocationRelativeTo(this);
     }
     private File es = null;
     private JFileChooser file;
@@ -68,7 +70,6 @@ public class Menu extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -206,8 +207,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("Codigo");
-
         jButton1.setText("agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,40 +237,30 @@ public class Menu extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(275, 275, 275)
+                .addComponent(jButton2)
+                .addGap(52, 52, 52)
+                .addComponent(jButton1)
+                .addContainerGap(303, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addComponent(jButton2)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                            .addGap(160, 160, 160)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(195, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(5, 5, 5)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(114, 114, 114)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap(423, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addGap(41, 41, 41)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jButton1)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addGap(49, 49, 49)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton2)
-                            .addGap(191, 191, 191)))
+                    .addGap(151, 151, 151)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(158, Short.MAX_VALUE)))
         );
 
@@ -305,12 +294,14 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbRecomendacionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRecomendacionMouseReleased
+        //pasar de un panel a otro
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
         jPanel2.add(this.Recomendacion);
         jPanel2.repaint();
         jPanel2.revalidate();
+        //mover el panel de menu con la animacion
         int posicion = this.jPanel3.getX();
         if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
@@ -320,6 +311,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbRecomendacionMouseReleased
 
     private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
+        //mover el panel de menu con la animacion
         int posicion = this.jPanel3.getX();
         if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
@@ -389,12 +381,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1KeyPressed
 
     private void lbInicioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbInicioMouseReleased
+        //pasar de un panel a otro
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
         jPanel2.add(this.jPanel4);
         jPanel2.repaint();
         jPanel2.revalidate();
+        //mover el panel de menu con la animacion
         int posicion = this.jPanel3.getX();
         if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
@@ -411,10 +405,11 @@ public class Menu extends javax.swing.JFrame {
                 Statement st = cn.createStatement();
                 ResultSet res = st.executeQuery("call sp_factura(1,1,1,1,1)");
                 res.next();
-                int numfac=res.getInt(1);
+                int numfac = res.getInt(1);
                 String sql = "call sp_detallefactura(?,?,?,?)";
                 int contador = 0;
                 //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
+                //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
                 for (int i = 0; i < this.jTable1.getRowCount(); i++) {
                     int opcion = 0;
                     try {
@@ -425,7 +420,7 @@ public class Menu extends javax.swing.JFrame {
                         ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
                         res = ps.executeQuery();
                         res.next();
-                        opcion=res.getInt(1);
+                        opcion = res.getInt(1);
                     } catch (SQLException ex) {
                     }
 
@@ -433,15 +428,13 @@ public class Menu extends javax.swing.JFrame {
                         contador++;
                     }
                 }
-
+                //si no encuentra nada no presenta el mensaje
                 if (contador == this.jTable1.getRowCount()) {
                     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
 
                     while (modelo.getRowCount() > 0) {
                         modelo.removeRow(0);
                     }
-                    this.jTextField1.setText("");
-
                     JOptionPane.showMessageDialog(null, "transaccion realizada");
                 }
             } catch (SQLException ex) {
@@ -452,41 +445,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultTableModel tabladet = (DefaultTableModel) this.jTable1.getModel();
-        String[] dato = new String[6];
-
-        String sql = "SELECT * FROM producto WHERE codproducto = " + this.jTextField1.getText();
-        String cod = "";
-
-        String descripcion = null;
-        String precio = null;
-        String cant = "2";
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                cod = rs.getString("codproducto");
-
-                descripcion = rs.getString("descripcion");
-                precio = rs.getString("preciovent");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        if(!cod.isEmpty()){
-            dato[0] = cod;
-            dato[1] = descripcion;
-            dato[2] = precio;
-            dato[3] = cant;
-
-            tabladet.addRow(dato);
-
-            this.jTable1.setModel(tabladet);
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "este producto no existe");
-        }
-
+        buscar_productos obj = new buscar_productos();
+        obj.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lbVentasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbVentasMouseReleased
@@ -560,8 +520,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    public static javax.swing.JTable jTable1;
     private javax.swing.JLabel lbInicio;
     private javax.swing.JLabel lbRecomendacion;
     private javax.swing.JLabel lbVentas;
