@@ -183,8 +183,6 @@ public class recomendacion extends javax.swing.JFrame {
         int posicion = Menu.jPanel3.getX();
         if (posicion > -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-        } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, Menu.jPanel3);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
