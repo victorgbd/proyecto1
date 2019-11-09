@@ -6,6 +6,7 @@
 package agroquimica;
 
 import agroquimica.ventas.buscar_productos;
+import agroquimica.recomendaciones.recomendacion;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -23,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -354,7 +356,8 @@ public class Menu extends javax.swing.JFrame {
                 }
                 resultados = resultados.replace("{", "");
                 resultados = resultados.replace("}", "");
-                resultados = resultados.replace(":", " porciento de acierto: ");
+                resultados = resultados.replace(":", "  porciento de acierto: ");
+                resultados = resultados.replace("\"", "");
                 String[] resul = resultados.split(",");
                 this.jList1.setListData(resul);
                 conn.disconnect();
@@ -367,8 +370,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if (jList1.getSelectedValue() != null) {
-            String[] r = jList1.getSelectedValue().toString().split(" porciento de acierto: ");
-            JOptionPane.showMessageDialog(null, "usted selecciono: " + r[0]);
+            String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
+            int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
+            if (opcion == JOptionPane.YES_OPTION) {
+                recomendacion obj = new recomendacion(r[0]);
+                obj.enfermedad.setText(r[0]);
+                obj.setLocationRelativeTo(jPanel2);
+                obj.setVisible(true);
+            }
         }
     }//GEN-LAST:event_jList1MouseClicked
 
