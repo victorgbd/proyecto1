@@ -29,7 +29,6 @@ public class buscar_productos extends javax.swing.JFrame {
         initComponents();
         llenarTabla("");
     }
-    
 
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -199,27 +198,36 @@ public class buscar_productos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
-        if(jtcantidad.getText().isEmpty()){
+        if (jtcantidad.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
-        jtcantidad.requestFocus();
-        }else{
+            jtcantidad.requestFocus();
+        } else {
             try {
-              String[] dato = new String[4];
-        DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
-        
-        dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-        dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-        dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
-        dato[3] = jtcantidad.getText();
-        tabladet.addRow(dato);
-        Menu.jTable1.setModel(tabladet);
-        this.setVisible(false);  
+                boolean f = true;
+                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                    if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                        int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                        cant += Integer.parseInt(jtcantidad.getText());
+                        Menu.jTable1.setValueAt(cant, i, 3);
+                        f=false;
+                    }
+                }
+                if (f) {
+                    String[] dato = new String[4];
+                    DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+
+                    dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                    dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                    dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                    dato[3] = jtcantidad.getText();
+                    tabladet.addRow(dato);
+                    Menu.jTable1.setModel(tabladet);
+                }
+                this.setVisible(false);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, e);
             }
-            
         }
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
