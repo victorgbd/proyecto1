@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
  * @author Felix Artiles
  */
 public class Funciones {
-    private static ConexionBD cc = new ConexionBD();
-    private static Connection cn=cc.conexion();
+    private static final ConexionBD cc = new ConexionBD();
+    private static final Connection cn=cc.conexion();
     public static ResultSet consulta(String consulta){
        Statement st;
        ResultSet datos = null;

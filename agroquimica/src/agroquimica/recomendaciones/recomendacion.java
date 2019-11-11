@@ -5,10 +5,10 @@
  */
 package agroquimica.recomendaciones;
 
-import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import agroquimica.Menu;
-import java.sql.Connection;
+import java.awt.Color;
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -24,6 +24,7 @@ public class recomendacion extends javax.swing.JFrame {
         initComponents();
         recomendacion(enfe);
     }
+    private int x, y;
 
     private void recomendacion(String enfermedad) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
@@ -57,20 +58,30 @@ public class recomendacion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        PanelPrincipal = new javax.swing.JPanel();
         enfermedad = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        minimizar = new javax.swing.JLabel();
+        salir = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+
+        PanelPrincipal.setBackground(new java.awt.Color(0, 111, 152));
+        PanelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PanelPrincipal.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 93, 164, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Productos Recomendados");
+        PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 31, 194, 52));
 
         jLabel2.setText("Enfermedad:");
+        PanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(419, 96, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,67 +102,79 @@ public class recomendacion extends javax.swing.JFrame {
         tabla.setDoubleBuffered(true);
         jScrollPane1.setViewportView(tabla);
 
+        PanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 424, 171));
+
         jButton1.setText("Agregar compra");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        PanelPrincipal.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(574, 159, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 114, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(enfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(2, 2, 2))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jButton1)))
-                .addGap(71, 71, 71))
-        );
+        minimizar.setBackground(new java.awt.Color(255, 255, 255));
+        minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimizar.setText("_");
+        minimizar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        minimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        minimizar.setMaximumSize(new java.awt.Dimension(12, 22));
+        minimizar.setMinimumSize(new java.awt.Dimension(12, 22));
+        minimizar.setOpaque(true);
+        minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                minimizarMousePressed(evt);
+            }
+        });
+        PanelPrincipal.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 30, 30));
+
+        salir.setBackground(new java.awt.Color(255, 255, 255));
+        salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        salir.setText("X");
+        salir.setOpaque(true);
+        salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                salirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                salirMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                salirMousePressed(evt);
+            }
+        });
+        PanelPrincipal.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 0, 30, 30));
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setOpaque(true);
+        jLabel6.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jLabel6MouseDragged(evt);
+            }
+        });
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel6MousePressed(evt);
+            }
+        });
+        PanelPrincipal.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+            .addComponent(PanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(PanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
         );
 
         pack();
@@ -159,7 +182,7 @@ public class recomendacion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean f = true;
-        for (int j = 0; j < tabla.getRowCount(); j++){
+        for (int j = 0; j < tabla.getRowCount(); j++) {
             for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
                 if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(j, 0))) {
                     int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
@@ -197,17 +220,53 @@ public class recomendacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jLabel6MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseDragged
+        this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
+    }//GEN-LAST:event_jLabel6MouseDragged
+
+    private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
+        x=evt.getX();
+        y=evt.getY();
+    }//GEN-LAST:event_jLabel6MousePressed
+
+    private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
+        minimizar.setBackground(new Color(229,229,229));
+    }//GEN-LAST:event_minimizarMouseEntered
+
+    private void minimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseExited
+        minimizar.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_minimizarMouseExited
+
+    private void minimizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMousePressed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizarMousePressed
+
+    private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
+        salir.setBackground(new Color(232,17,35));
+    }//GEN-LAST:event_salirMouseEntered
+
+    private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
+        salir.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_salirMouseExited
+
+    private void salirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMousePressed
+        this.dispose();
+    }//GEN-LAST:event_salirMousePressed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelPrincipal;
     public javax.swing.JTextField enfermedad;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel minimizar;
+    private javax.swing.JLabel salir;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }
