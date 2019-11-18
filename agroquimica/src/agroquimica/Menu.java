@@ -70,6 +70,8 @@ public class Menu extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jlTotal = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
@@ -238,6 +240,13 @@ public class Menu extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 151, 600, 251));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Total:");
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, -1, -1));
+
+        jlTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel5.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
 
         jPanel2.add(jPanel5, "card4");
 
@@ -473,6 +482,7 @@ public class Menu extends javax.swing.JFrame {
         buscar_productos obj = new buscar_productos();
         obj.setLocationRelativeTo(jPanel2);
         obj.setVisible(true);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lbVentasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbVentasMouseReleased
@@ -577,6 +587,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
@@ -588,6 +599,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTable1;
+    public static javax.swing.JLabel jlTotal;
     private javax.swing.JLabel jltab;
     private javax.swing.JLabel lbInicio;
     private javax.swing.JLabel lbRecomendacion;
