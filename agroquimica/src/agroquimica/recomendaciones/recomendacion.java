@@ -204,7 +204,13 @@ public class recomendacion extends javax.swing.JFrame {
             }
             Menu.jTable1.setModel(tabladet);
         }
-
+        double total = 0;
+        for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+            int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+            double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+            total += (cant*precio);
+        }
+        Menu.jlTotal.setText(total+"");
         this.setVisible(false);
         Menu.jPanel2.removeAll();
         Menu.jPanel2.repaint();

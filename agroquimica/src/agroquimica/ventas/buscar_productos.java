@@ -262,6 +262,11 @@ public class buscar_productos extends javax.swing.JFrame {
                 }
                 Menu.jlTotal.setText(total+"");
                 this.setVisible(false);
+                int posicion = Menu.jPanel3.getX();
+                if (posicion < -1) {
+                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                    Menu.jPanel3.setVisible(false);
+                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, e);
             }
