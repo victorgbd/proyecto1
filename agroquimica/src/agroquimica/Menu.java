@@ -55,8 +55,11 @@ public class Menu extends javax.swing.JFrame {
         lbRecomendacion = new javax.swing.JLabel();
         lbVentas = new javax.swing.JLabel();
         lbInicio = new javax.swing.JLabel();
+        lb_resigstrar_usuarios = new javax.swing.JLabel();
+        lbSalir = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        lbRecomendacion2 = new javax.swing.JLabel();
         Recomendacion = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txruta = new javax.swing.JTextField();
@@ -65,7 +68,7 @@ public class Menu extends javax.swing.JFrame {
         imagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jPanel5 = new javax.swing.JPanel();
+        Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -145,11 +148,69 @@ public class Menu extends javax.swing.JFrame {
         });
         jPanel3.add(lbInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 190, 42));
 
+        lb_resigstrar_usuarios.setBackground(new java.awt.Color(102, 102, 102));
+        lb_resigstrar_usuarios.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lb_resigstrar_usuarios.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_resigstrar_usuarios.setText("Registrar usuarios");
+        lb_resigstrar_usuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lb_resigstrar_usuarios.setOpaque(true);
+        lb_resigstrar_usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lb_resigstrar_usuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lb_resigstrar_usuariosMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lb_resigstrar_usuariosMouseReleased(evt);
+            }
+        });
+        jPanel3.add(lb_resigstrar_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 190, 42));
+
+        lbSalir.setBackground(new java.awt.Color(102, 102, 102));
+        lbSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbSalir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSalir.setText("Cerrar sesion");
+        lbSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbSalir.setOpaque(true);
+        lbSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbSalirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbSalirMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbSalirMouseReleased(evt);
+            }
+        });
+        jPanel3.add(lbSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 190, 42));
+
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 89, -1, 560));
 
         jPanel2.setLayout(new java.awt.CardLayout());
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbRecomendacion2.setBackground(new java.awt.Color(102, 102, 102));
+        lbRecomendacion2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbRecomendacion2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbRecomendacion2.setText("Registrar usuarios");
+        lbRecomendacion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRecomendacion2.setOpaque(true);
+        lbRecomendacion2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbRecomendacion2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbRecomendacion2MouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbRecomendacion2MouseReleased(evt);
+            }
+        });
+        jPanel4.add(lbRecomendacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 190, 42));
+
         jPanel2.add(jPanel4, "card3");
 
         Recomendacion.setBackground(new java.awt.Color(0, 0, 51));
@@ -202,7 +263,7 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel2.add(Recomendacion, "card2");
 
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Ventas_ventana.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setText("realizar venta");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +271,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 114, -1, -1));
+        Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 114, -1, -1));
 
         jButton1.setText("agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +279,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 114, -1, -1));
+        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 114, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -239,20 +300,19 @@ public class Menu extends javax.swing.JFrame {
         jTable1.setDoubleBuffered(true);
         jScrollPane2.setViewportView(jTable1);
 
-        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 151, 600, 251));
+        Ventas_ventana.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 151, 600, 251));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Total:");
-        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, -1, -1));
+        Ventas_ventana.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, -1, -1));
 
         jlTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel5.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
+        Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
 
-        jPanel2.add(jPanel5, "card4");
+        jPanel2.add(Ventas_ventana, "card4");
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 800, 560));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\victor\\Desktop\\Recursos\\Recursos\\img\\menu.png")); // NOI18N
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -432,7 +492,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbInicioMouseReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (this.jTable1.getRowCount() < 1) {
+            if (this.jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "agregar una compra");
         } else {
             try {
@@ -489,7 +549,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
-        jPanel2.add(this.jPanel5);
+        jPanel2.add(this.Ventas_ventana);
         jPanel2.repaint();
         jPanel2.revalidate();
         int posicion = this.jPanel3.getX();
@@ -541,6 +601,50 @@ public class Menu extends javax.swing.JFrame {
         y = evt.getY();
     }//GEN-LAST:event_jltabMousePressed
 
+    private void lb_resigstrar_usuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrar_usuariosMouseEntered
+        // TODO add your handling code here:
+         lb_resigstrar_usuarios.setBackground(new Color(153, 153, 153));
+    }//GEN-LAST:event_lb_resigstrar_usuariosMouseEntered
+
+    private void lb_resigstrar_usuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrar_usuariosMouseExited
+        // TODO add your handling code here:
+        lb_resigstrar_usuarios.setBackground(new Color(102, 102, 102));
+    }//GEN-LAST:event_lb_resigstrar_usuariosMouseExited
+
+    private void lb_resigstrar_usuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrar_usuariosMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lb_resigstrar_usuariosMouseReleased
+
+    private void lbRecomendacion2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRecomendacion2MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbRecomendacion2MouseEntered
+
+    private void lbRecomendacion2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRecomendacion2MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbRecomendacion2MouseExited
+
+    private void lbRecomendacion2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRecomendacion2MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbRecomendacion2MouseReleased
+
+    private void lbSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSalirMouseEntered
+        // TODO add your handling code here:
+        lbSalir.setBackground(new Color(153, 153, 153));
+    }//GEN-LAST:event_lbSalirMouseEntered
+
+    private void lbSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSalirMouseExited
+        // TODO add your handling code here:
+        lbSalir.setBackground(new Color(102, 102, 102));
+        
+    }//GEN-LAST:event_lbSalirMouseExited
+
+    private void lbSalirMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSalirMouseReleased
+        // TODO add your handling code here:
+        agroquimica.Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lbSalirMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -583,6 +687,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel Recomendacion;
+    public static javax.swing.JPanel Ventas_ventana;
     private javax.swing.JButton evaluar;
     private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton1;
@@ -595,7 +700,6 @@ public class Menu extends javax.swing.JFrame {
     public static javax.swing.JPanel jPanel2;
     public static javax.swing.JPanel jPanel3;
     private static javax.swing.JPanel jPanel4;
-    public static javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTable1;
@@ -603,7 +707,10 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jltab;
     private javax.swing.JLabel lbInicio;
     private javax.swing.JLabel lbRecomendacion;
+    private javax.swing.JLabel lbRecomendacion2;
+    private javax.swing.JLabel lbSalir;
     private javax.swing.JLabel lbVentas;
+    private javax.swing.JLabel lb_resigstrar_usuarios;
     private javax.swing.JLabel minimizar;
     private javax.swing.JLabel salir;
     private javax.swing.JButton seleccionar;
