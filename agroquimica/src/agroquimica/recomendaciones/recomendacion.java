@@ -215,7 +215,7 @@ public class recomendacion extends javax.swing.JFrame {
         Menu.jPanel2.removeAll();
         Menu.jPanel2.repaint();
         Menu.jPanel2.revalidate();
-        Menu.jPanel2.add(Menu.jPanel5);
+        Menu.jPanel2.add(Menu.Ventas_ventana);
         Menu.jPanel2.repaint();
         Menu.jPanel2.revalidate();
         int posicion = Menu.jPanel3.getX();
