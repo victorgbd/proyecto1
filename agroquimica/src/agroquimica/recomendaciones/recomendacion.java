@@ -72,16 +72,19 @@ public class recomendacion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        PanelPrincipal.setBackground(new java.awt.Color(0, 111, 152));
+        PanelPrincipal.setBackground(new java.awt.Color(19, 19, 123));
         PanelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        PanelPrincipal.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 93, 164, -1));
+        PanelPrincipal.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, 164, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Productos Recomendados");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 31, 194, 52));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Enfermedad:");
-        PanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(419, 96, -1, -1));
+        PanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

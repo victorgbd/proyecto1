@@ -90,7 +90,7 @@ public class buscar_productos extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        PanelPrincipal.setBackground(new java.awt.Color(0, 111, 152));
+        PanelPrincipal.setBackground(new java.awt.Color(19, 19, 123));
         PanelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -126,6 +126,8 @@ public class buscar_productos extends javax.swing.JFrame {
 
         PanelPrincipal.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 206, -1));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar Productos");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
@@ -159,8 +161,10 @@ public class buscar_productos extends javax.swing.JFrame {
         });
         PanelPrincipal.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, -1, -1));
 
-        jLabel3.setText("Cantidad");
-        PanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, -1, -1));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Cantidad:");
+        PanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
         minimizar.setBackground(new java.awt.Color(255, 255, 255));
         minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

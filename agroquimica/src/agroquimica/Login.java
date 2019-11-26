@@ -5,6 +5,8 @@
  */
 package agroquimica;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,7 +25,9 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-ConexionBD bd = new ConexionBD();
+    private final ConexionBD cc = new ConexionBD();
+    private final Connection cn = cc.conexion();
+    private PreparedStatement ps;
                
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,11 +137,13 @@ ConexionBD bd = new ConexionBD();
        }else{
            
                
-                String sql = "Select * from usuario where nickname ='"+txt_usuario.getText()+"'";
+        String sql = "Select * from usuario where nickname =?";
         
-        ResultSet rs = Funciones.consulta(sql);
         
         try {
+            ps = cn.prepareStatement(sql);
+            ps.setString(1,txt_usuario.getText());
+            ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 usuario = rs.getString("nickname");
                 contra = rs.getString("contrasena");
