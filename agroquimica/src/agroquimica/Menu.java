@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author victor
@@ -39,9 +40,19 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(this);
+        cargarIconos();
+    }
+
+    private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
-        ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(),Image.SCALE_DEFAULT));
+        ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(), Image.SCALE_DEFAULT));
         lbregistrar_usuarios.setIcon(usuarioico1);
+        ImageIcon consultaRico = new ImageIcon(getClass().getResource("/iconos/81088.png"));
+        ImageIcon consultaRico1 = new ImageIcon(consultaRico.getImage().getScaledInstance(consult_receta.getWidth(), consult_receta.getHeight(), Image.SCALE_DEFAULT));
+        consult_receta.setIcon(consultaRico1);
+        ImageIcon consultaEico = new ImageIcon(getClass().getResource("/iconos/subir.png"));
+        ImageIcon consultaEico1 = new ImageIcon(consultaEico.getImage().getScaledInstance(consult_enfermedad.getWidth(), consult_enfermedad.getHeight(), Image.SCALE_DEFAULT));
+        consult_enfermedad.setIcon(consultaEico1);
     }
     private File es = null;
     private JFileChooser file;
@@ -63,6 +74,9 @@ public class Menu extends javax.swing.JFrame {
         lbcerrarsesion = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         inicio = new javax.swing.JPanel();
+        recomendacionprincipal = new javax.swing.JPanel();
+        consult_enfermedad = new javax.swing.JLabel();
+        consult_receta = new javax.swing.JLabel();
         Recomendacion = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txruta = new javax.swing.JTextField();
@@ -71,6 +85,13 @@ public class Menu extends javax.swing.JFrame {
         imagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        Recomendacion2 = new javax.swing.JPanel();
+        enfermedad = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
         Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -199,6 +220,26 @@ public class Menu extends javax.swing.JFrame {
         inicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel2.add(inicio, "card3");
 
+        recomendacionprincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        consult_enfermedad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        consult_enfermedad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                consult_enfermedadMouseReleased(evt);
+            }
+        });
+        recomendacionprincipal.add(consult_enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 150, 130));
+
+        consult_receta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        consult_receta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                consult_recetaMouseReleased(evt);
+            }
+        });
+        recomendacionprincipal.add(consult_receta, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 150, 130));
+
+        jPanel2.add(recomendacionprincipal, "card7");
+
         Recomendacion.setBackground(new java.awt.Color(0, 0, 51));
         Recomendacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -249,6 +290,51 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel2.add(Recomendacion, "card2");
 
+        Recomendacion2.setBackground(new java.awt.Color(0, 0, 102));
+        Recomendacion2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Recomendacion2.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, 164, -1));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Productos Recomendados");
+        Recomendacion2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 31, 194, 52));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Enfermedad:");
+        Recomendacion2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "codpro", "nombre", "precio", "cantidad"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.setDoubleBuffered(true);
+        jScrollPane3.setViewportView(tabla);
+
+        Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 424, 171));
+
+        jButton3.setText("Agregar compra");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(574, 159, -1, -1));
+
+        jPanel2.add(Recomendacion2, "card8");
+
         Ventas_ventana.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setText("realizar venta");
@@ -293,6 +379,7 @@ public class Menu extends javax.swing.JFrame {
         Ventas_ventana.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, -1, -1));
 
         jlTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
 
         jPanel2.add(Ventas_ventana, "card4");
@@ -389,7 +476,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
-        jPanel2.add(this.Recomendacion);
+        jPanel2.add(this.recomendacionprincipal);
         jPanel2.repaint();
         jPanel2.revalidate();
         //mover el panel de menu con la animacion
@@ -469,10 +556,24 @@ public class Menu extends javax.swing.JFrame {
             String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
-                recomendacion obj = new recomendacion(r[0]);
-                obj.enfermedad.setText(r[0]);
-                obj.setLocationRelativeTo(jPanel2);
-                obj.setVisible(true);
+//                recomendacion obj = new recomendacion(r[0]);
+//                obj.enfermedad.setText(r[0]);
+//                obj.setLocationRelativeTo(jPanel2);
+//                obj.setVisible(true);
+                this.enfermedad.setText(r[0]);
+                recomendacion(r[0]);
+                jPanel2.removeAll();
+                jPanel2.repaint();
+                jPanel2.revalidate();
+                jPanel2.add(Recomendacion2);
+                jPanel2.repaint();
+                jPanel2.revalidate();
+                int posicion = jPanel3.getX();
+                if (posicion < -1) {
+                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                } else {
+                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                }
             }
         }
     }//GEN-LAST:event_jList1MouseClicked
@@ -510,7 +611,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbInicioMouseReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            if (this.jTable1.getRowCount() < 1) {
+        if (this.jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "agregar una compra");
         } else {
             try {
@@ -560,7 +661,7 @@ public class Menu extends javax.swing.JFrame {
         buscar_productos obj = new buscar_productos();
         obj.setLocationRelativeTo(jPanel2);
         obj.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lbVentasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbVentasMouseReleased
@@ -621,7 +722,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void lb_resigstrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrarMouseEntered
         // TODO add your handling code here:
-         lb_resigstrar.setBackground(new Color(153, 153, 153));
+        lb_resigstrar.setBackground(new Color(153, 153, 153));
     }//GEN-LAST:event_lb_resigstrarMouseEntered
 
     private void lb_resigstrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrarMouseExited
@@ -652,7 +753,7 @@ public class Menu extends javax.swing.JFrame {
     private void lbcerrarsesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcerrarsesionMouseExited
         // TODO add your handling code here:
         lbcerrarsesion.setBackground(new Color(102, 102, 102));
-        
+
     }//GEN-LAST:event_lbcerrarsesionMouseExited
 
     private void lbcerrarsesionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcerrarsesionMouseReleased
@@ -669,20 +770,128 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbregistrar_usuariosMouseReleased
 
     private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
-        salir.setBackground(new Color(19,19,123));
+        salir.setBackground(new Color(19, 19, 123));
     }//GEN-LAST:event_salirMouseExited
 
     private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
-        salir.setBackground(new Color(232,17,35));
+        salir.setBackground(new Color(232, 17, 35));
     }//GEN-LAST:event_salirMouseEntered
 
     private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
-        minimizar.setBackground(new Color(0,0,102));
+        minimizar.setBackground(new Color(0, 0, 102));
     }//GEN-LAST:event_minimizarMouseEntered
 
     private void minimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseExited
-        minimizar.setBackground(new Color(19,19,123));
+        minimizar.setBackground(new Color(19, 19, 123));
     }//GEN-LAST:event_minimizarMouseExited
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        boolean f = true;
+        for (int j = 0; j < tabla.getRowCount(); j++) {
+            for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(j, 0))) {
+                    int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                    cant += Integer.parseInt(tabla.getValueAt(j, 3).toString());
+                    Menu.jTable1.setValueAt(cant, i, 3);
+                    f = false;
+                }
+            }
+        }
+        if (f) {
+            String[] dato = new String[4];
+            DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                dato[0] = tabla.getValueAt(i, 0).toString();
+                dato[1] = tabla.getValueAt(i, 1).toString();
+                dato[2] = tabla.getValueAt(i, 2).toString();
+                dato[3] = tabla.getValueAt(i, 3).toString();
+                tabladet.addRow(dato);
+            }
+            Menu.jTable1.setModel(tabladet);
+        }
+        double total = 0;
+        for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+            int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+            double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+            total += (cant * precio);
+        }
+        Menu.jlTotal.setText(total + "");
+        Menu.jPanel2.removeAll();
+        Menu.jPanel2.repaint();
+        Menu.jPanel2.revalidate();
+        Menu.jPanel2.add(Ventas_ventana);
+        Menu.jPanel2.repaint();
+        Menu.jPanel2.revalidate();
+        int posicion = Menu.jPanel3.getX();
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+        } else {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void consult_enfermedadMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consult_enfermedadMouseReleased
+        jPanel2.removeAll();
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        jPanel2.add(Recomendacion);
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        int posicion = this.jPanel3.getX();
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            Menu.jPanel3.setVisible(false);
+        }
+        else{
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            
+        }
+    }//GEN-LAST:event_consult_enfermedadMouseReleased
+
+    private void consult_recetaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consult_recetaMouseReleased
+        jPanel2.removeAll();
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        jPanel2.add(Recomendacion2);
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        int posicion = this.jPanel3.getX();
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
+            jPanel3.setVisible(false);
+        }
+        else{
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
+            
+        }
+    }//GEN-LAST:event_consult_recetaMouseReleased
+    private void recomendacion(String enfermedad) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+
+        String sql = "SELECT codenfer from enfermedad where descripcion=" + "'" + enfermedad + "'";
+
+        ResultSet rs = Funciones.consulta(sql);
+        try {
+            rs.next();
+            int codenf = rs.getInt("codenfer");
+            sql = "SELECT  p.codproducto,p.descripcion,p.preciovent,pe.cantidad from productovsefermedad as pe"
+                    + " INNER JOIN enfermedad as enf on pe.codenfer=" + codenf + " "
+                    + "INNER JOIN producto as p on pe.codprod=p.codproducto";
+            rs = Funciones.consulta(sql);
+
+            while (rs.next()) {
+                // agrega los datos de la consulta al modelo de la tabla
+                modelo.addRow(new Object[]{
+                    rs.getString("codproducto"),
+                    rs.getString("descripcion"),
+                    rs.getString("preciovent"),
+                    rs.getString("cantidad"),});
+            }
+            tabla.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -726,23 +935,31 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel Recomendacion;
+    private javax.swing.JPanel Recomendacion2;
     private javax.swing.JPanel Registrar;
     public static javax.swing.JPanel Ventas_ventana;
+    private javax.swing.JLabel consult_enfermedad;
+    private javax.swing.JLabel consult_receta;
+    public javax.swing.JTextField enfermedad;
     private javax.swing.JButton evaluar;
     private javax.swing.JLabel imagen;
     private static javax.swing.JPanel inicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
     public static javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JTable jTable1;
     public static javax.swing.JLabel jlTotal;
     private javax.swing.JLabel jltab;
@@ -753,8 +970,10 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lbcerrarsesion;
     private javax.swing.JLabel lbregistrar_usuarios;
     private javax.swing.JLabel minimizar;
+    private javax.swing.JPanel recomendacionprincipal;
     private javax.swing.JLabel salir;
     private javax.swing.JButton seleccionar;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField txruta;
     // End of variables declaration//GEN-END:variables
 }

@@ -229,15 +229,6 @@ public class recomendacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jLabel6MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseDragged
-        this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
-    }//GEN-LAST:event_jLabel6MouseDragged
-
-    private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        x=evt.getX();
-        y=evt.getY();
-    }//GEN-LAST:event_jLabel6MousePressed
-
     private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
         minimizar.setBackground(new Color(229,229,229));
     }//GEN-LAST:event_minimizarMouseEntered
@@ -261,6 +252,15 @@ public class recomendacion extends javax.swing.JFrame {
     private void salirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMousePressed
         this.dispose();
     }//GEN-LAST:event_salirMousePressed
+
+    private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
+        x=evt.getX();
+        y=evt.getY();
+    }//GEN-LAST:event_jLabel6MousePressed
+
+    private void jLabel6MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseDragged
+        this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
+    }//GEN-LAST:event_jLabel6MouseDragged
 
     /**
      * @param args the command line arguments
