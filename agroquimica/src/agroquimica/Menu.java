@@ -28,7 +28,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -112,9 +111,11 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(19, 19, 123));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         jPanel3.setAutoscrolls(true);
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -215,6 +216,7 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 89, -1, 510));
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         jPanel2.setLayout(new java.awt.CardLayout());
 
         inicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -429,7 +431,7 @@ public class Menu extends javax.swing.JFrame {
                 salirMousePressed(evt);
             }
         });
-        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 0, 30, 30));
+        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 30, 30));
 
         minimizar.setBackground(new java.awt.Color(19, 19, 123));
         minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -452,7 +454,7 @@ public class Menu extends javax.swing.JFrame {
                 minimizarMousePressed(evt);
             }
         });
-        jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 30, 30));
+        jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 30, 30));
 
         jltab.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -668,14 +670,14 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
-        jPanel2.add(this.Ventas_ventana);
+        jPanel2.add(Ventas_ventana);
         jPanel2.repaint();
         jPanel2.revalidate();
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
         } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lbVentasMouseReleased
 

@@ -48,6 +48,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(19, 19, 123));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -96,6 +97,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
         salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         salir.setText("X");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         salir.setOpaque(true);
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -114,6 +116,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
         minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         minimizar.setText("_");
+        minimizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         minimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         minimizar.setMaximumSize(new java.awt.Dimension(12, 22));
         minimizar.setMinimumSize(new java.awt.Dimension(12, 22));
@@ -132,6 +135,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
         jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 30, 30));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         jLabel5.setOpaque(true);
         jLabel5.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -145,7 +149,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
         });
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 353));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
