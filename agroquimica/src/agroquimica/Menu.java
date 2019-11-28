@@ -38,8 +38,9 @@ public class Menu extends javax.swing.JFrame {
 
     public Menu() {
         initComponents();
-        this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(null);
         cargarIconos();
+        cargaCombobox();
     }
 
     private void cargarIconos() {
@@ -52,6 +53,19 @@ public class Menu extends javax.swing.JFrame {
         ImageIcon consultaEico = new ImageIcon(getClass().getResource("/iconos/subir.png"));
         ImageIcon consultaEico1 = new ImageIcon(consultaEico.getImage().getScaledInstance(consult_enfermedad.getWidth(), consult_enfermedad.getHeight(), Image.SCALE_DEFAULT));
         consult_enfermedad.setIcon(consultaEico1);
+    }
+
+    private void cargaCombobox() {
+        try {
+            Statement st = cn.createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM `forma_de_pago`");
+            while (res.next()) {
+                jComboformapago.addItem(res.getString("descripcion"));
+            }
+            jComboformapago.setSelectedIndex(-1);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     private File es = null;
     private JFileChooser file;
@@ -76,6 +90,8 @@ public class Menu extends javax.swing.JFrame {
         recomendacionprincipal = new javax.swing.JPanel();
         consult_enfermedad = new javax.swing.JLabel();
         consult_receta = new javax.swing.JLabel();
+        lbsubirimg = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         Recomendacion = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txruta = new javax.swing.JTextField();
@@ -98,10 +114,14 @@ public class Menu extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jlTotal = new javax.swing.JLabel();
+        jCombotipofactura = new javax.swing.JComboBox<>();
+        lbtipofact = new javax.swing.JLabel();
+        jComboformapago = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jlmenu = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
         jltab = new javax.swing.JLabel();
@@ -240,6 +260,14 @@ public class Menu extends javax.swing.JFrame {
         });
         recomendacionprincipal.add(consult_receta, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 150, 130));
 
+        lbsubirimg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbsubirimg.setText("Buscar recomendacion por imagen");
+        recomendacionprincipal.add(lbsubirimg, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 200, -1));
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Buscar Recomendacion");
+        recomendacionprincipal.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 290, 160, -1));
+
         jPanel2.add(recomendacionprincipal, "card7");
 
         Recomendacion.setBackground(new java.awt.Color(0, 0, 51));
@@ -339,7 +367,7 @@ public class Menu extends javax.swing.JFrame {
 
         Ventas_ventana.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton2.setText("realizar venta");
+        jButton2.setText("Realizar Venta");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -347,7 +375,7 @@ public class Menu extends javax.swing.JFrame {
         });
         Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 114, -1, -1));
 
-        jButton1.setText("agregar");
+        jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -384,6 +412,17 @@ public class Menu extends javax.swing.JFrame {
         jlTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
 
+        jCombotipofactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Credito" }));
+        jCombotipofactura.setSelectedIndex(-1);
+        Ventas_ventana.add(jCombotipofactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, 80, -1));
+
+        lbtipofact.setText("Tipo de Factura:");
+        Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, -1, 20));
+        Ventas_ventana.add(jComboformapago, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 120, -1));
+
+        jLabel8.setText("Forma de Pago:");
+        Ventas_ventana.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, -1, 20));
+
         jPanel2.add(Ventas_ventana, "card4");
 
         Registrar.setBackground(new java.awt.Color(255, 255, 255));
@@ -405,14 +444,14 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 920, 510));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/menu.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jlmenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/menu.png"))); // NOI18N
+        jlmenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jlmenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel2MousePressed(evt);
+                jlmenuMousePressed(evt);
             }
         });
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 40, 40));
+        jPanel1.add(jlmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 40, 40));
 
         salir.setBackground(new java.awt.Color(19, 19, 123));
         salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -490,7 +529,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbRecomendacionMouseReleased
 
-    private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
+    private void jlmenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlmenuMousePressed
         //mover el panel de menu con la animacion
         Menu.jPanel3.setVisible(true);
         int posicion = this.jPanel3.getX();
@@ -499,7 +538,7 @@ public class Menu extends javax.swing.JFrame {
         } else {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
         }
-    }//GEN-LAST:event_jLabel2MousePressed
+    }//GEN-LAST:event_jlmenuMousePressed
 
     private void seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarActionPerformed
         file = new JFileChooser();
@@ -556,6 +595,7 @@ public class Menu extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if (jList1.getSelectedValue() != null) {
             String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
+            r[0] = r[0].replace(" ", "");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
 //                recomendacion obj = new recomendacion(r[0]);
@@ -586,10 +626,20 @@ public class Menu extends javax.swing.JFrame {
                 String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
                 int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
                 if (opcion == JOptionPane.YES_OPTION) {
-                    recomendacion obj = new recomendacion(r[0]);
-                    obj.enfermedad.setText(r[0]);
-                    obj.setLocationRelativeTo(jPanel2);
-                    obj.setVisible(true);
+                    this.enfermedad.setText(r[0]);
+                    recomendacion(r[0]);
+                    jPanel2.removeAll();
+                    jPanel2.repaint();
+                    jPanel2.revalidate();
+                    jPanel2.add(Recomendacion2);
+                    jPanel2.repaint();
+                    jPanel2.revalidate();
+                    int posicion = jPanel3.getX();
+                    if (posicion < -1) {
+                        Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                    } else {
+                        Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                    }
                 }
             }
         }
@@ -618,11 +668,32 @@ public class Menu extends javax.swing.JFrame {
         } else {
             try {
                 //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
+                int codcli = 1;
+                boolean estado = true;
+                int tipfact = jCombotipofactura.getSelectedIndex();
+                if (tipfact == 1) {
+                    estado = false;
+                }
                 Statement st = cn.createStatement();
-                ResultSet res = st.executeQuery("call sp_factura(1,1,1,1,1)");
+                ResultSet res = st.executeQuery("SELECT codformapag FROM `forma_de_pago` WHERE descripcion = '" + jComboformapago.getSelectedItem().toString() + "'");
+                res.next();
+                int codformpag = res.getInt(1);
+                int codemp = 1;
+                double balance = 0;
+                double total = Double.parseDouble(jlTotal.getText());
+                String sql = "call sp_factura(?,?,?,?,?,?,?)";
+                ps = cn.prepareStatement(sql);
+                ps.setInt(1, codcli);
+                ps.setBoolean(2, estado);
+                ps.setInt(3, tipfact);
+                ps.setInt(4, codformpag);
+                ps.setInt(5, codemp);
+                ps.setDouble(6, balance);
+                ps.setDouble(7, total);
+                res = ps.executeQuery();
                 res.next();
                 int numfac = res.getInt(1);
-                String sql = "call sp_detallefactura(?,?,?,?)";
+                sql = "call sp_detallefactura(?,?,?,?)";
                 int contador = 0;
                 //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
                 //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
@@ -651,6 +722,9 @@ public class Menu extends javax.swing.JFrame {
                     while (modelo.getRowCount() > 0) {
                         modelo.removeRow(0);
                     }
+                    jlTotal.setText("");
+                    jComboformapago.setSelectedIndex(-1);
+                    jCombotipofactura.setSelectedIndex(-1);
                     JOptionPane.showMessageDialog(null, "transaccion realizada");
                 }
             } catch (SQLException ex) {
@@ -817,6 +891,10 @@ public class Menu extends javax.swing.JFrame {
             double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
             total += (cant * precio);
         }
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         Menu.jlTotal.setText(total + "");
         Menu.jPanel2.removeAll();
         Menu.jPanel2.repaint();
@@ -843,10 +921,9 @@ public class Menu extends javax.swing.JFrame {
         if (posicion < -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
             Menu.jPanel3.setVisible(false);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-            
+
         }
     }//GEN-LAST:event_consult_enfermedadMouseReleased
 
@@ -861,10 +938,9 @@ public class Menu extends javax.swing.JFrame {
         if (posicion < -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
             jPanel3.setVisible(false);
-        }
-        else{
+        } else {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
-            
+
         }
     }//GEN-LAST:event_consult_recetaMouseReleased
     private void recomendacion(String enfermedad) {
@@ -877,8 +953,8 @@ public class Menu extends javax.swing.JFrame {
             rs.next();
             int codenf = rs.getInt("codenfer");
             sql = "SELECT  p.codproducto,p.descripcion,p.preciovent,pe.cantidad from productovsefermedad as pe"
-                    + " INNER JOIN enfermedad as enf on pe.codenfer=" + codenf + " "
-                    + "INNER JOIN producto as p on pe.codprod=p.codproducto";
+                    + " INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
+                    + "INNER JOIN producto as p on pe.codprod=p.codproducto where pe.codenfer=" + codenf;
             rs = Funciones.consulta(sql);
 
             while (rs.next()) {
@@ -895,9 +971,6 @@ public class Menu extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -949,12 +1022,15 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboformapago;
+    private javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
@@ -964,6 +1040,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JTable jTable1;
     public static javax.swing.JLabel jlTotal;
+    private javax.swing.JLabel jlmenu;
     private javax.swing.JLabel jltab;
     private javax.swing.JLabel lbInicio;
     private javax.swing.JLabel lbRecomendacion;
@@ -971,6 +1048,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lb_resigstrar;
     private javax.swing.JLabel lbcerrarsesion;
     private javax.swing.JLabel lbregistrar_usuarios;
+    private javax.swing.JLabel lbsubirimg;
+    private javax.swing.JLabel lbtipofact;
     private javax.swing.JLabel minimizar;
     private javax.swing.JPanel recomendacionprincipal;
     private javax.swing.JLabel salir;
