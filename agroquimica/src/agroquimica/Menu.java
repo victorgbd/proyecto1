@@ -40,7 +40,6 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarIconos();
-        cargaCombobox();
     }
 
     private void cargarIconos() {
@@ -55,18 +54,7 @@ public class Menu extends javax.swing.JFrame {
         consult_enfermedad.setIcon(consultaEico1);
     }
 
-    private void cargaCombobox() {
-        try {
-            Statement st = cn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM `forma_de_pago`");
-            while (res.next()) {
-                jComboformapago.addItem(res.getString("descripcion"));
-            }
-            jComboformapago.setSelectedIndex(-1);
-        } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     private File es = null;
     private JFileChooser file;
     private final ConexionBD cc = new ConexionBD();
@@ -116,8 +104,6 @@ public class Menu extends javax.swing.JFrame {
         jlTotal = new javax.swing.JLabel();
         jCombotipofactura = new javax.swing.JComboBox<>();
         lbtipofact = new javax.swing.JLabel();
-        jComboformapago = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -418,10 +404,6 @@ public class Menu extends javax.swing.JFrame {
 
         lbtipofact.setText("Tipo de Factura:");
         Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, -1, 20));
-        Ventas_ventana.add(jComboformapago, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 120, -1));
-
-        jLabel8.setText("Forma de Pago:");
-        Ventas_ventana.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, -1, 20));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -458,6 +440,7 @@ public class Menu extends javax.swing.JFrame {
         salir.setForeground(new java.awt.Color(255, 255, 255));
         salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         salir.setText("X");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         salir.setOpaque(true);
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -470,7 +453,7 @@ public class Menu extends javax.swing.JFrame {
                 salirMousePressed(evt);
             }
         });
-        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 30, 30));
+        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 0, 30, 30));
 
         minimizar.setBackground(new java.awt.Color(19, 19, 123));
         minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -478,6 +461,7 @@ public class Menu extends javax.swing.JFrame {
         minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         minimizar.setText("_");
         minimizar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        minimizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
         minimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         minimizar.setMaximumSize(new java.awt.Dimension(12, 22));
         minimizar.setMinimumSize(new java.awt.Dimension(12, 22));
@@ -493,7 +477,7 @@ public class Menu extends javax.swing.JFrame {
                 minimizarMousePressed(evt);
             }
         });
-        jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 30, 30));
+        jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 30, 30));
 
         jltab.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -674,23 +658,22 @@ public class Menu extends javax.swing.JFrame {
                 if (tipfact == 1) {
                     estado = false;
                 }
-                Statement st = cn.createStatement();
-                ResultSet res = st.executeQuery("SELECT codformapag FROM `forma_de_pago` WHERE descripcion = '" + jComboformapago.getSelectedItem().toString() + "'");
-                res.next();
-                int codformpag = res.getInt(1);
+                
                 int codemp = 1;
                 double balance = 0;
+                if(tipfact == 1){
+                    balance = Double.parseDouble(jlTotal.getText());
+                }
                 double total = Double.parseDouble(jlTotal.getText());
-                String sql = "call sp_factura(?,?,?,?,?,?,?)";
+                String sql = "call sp_factura(?,?,?,?,?,?)";
                 ps = cn.prepareStatement(sql);
                 ps.setInt(1, codcli);
                 ps.setBoolean(2, estado);
                 ps.setInt(3, tipfact);
-                ps.setInt(4, codformpag);
-                ps.setInt(5, codemp);
-                ps.setDouble(6, balance);
-                ps.setDouble(7, total);
-                res = ps.executeQuery();
+                ps.setInt(4, codemp);
+                ps.setDouble(5, balance);
+                ps.setDouble(6, total);
+                ResultSet res = ps.executeQuery();
                 res.next();
                 int numfac = res.getInt(1);
                 sql = "call sp_detallefactura(?,?,?,?)";
@@ -723,7 +706,6 @@ public class Menu extends javax.swing.JFrame {
                         modelo.removeRow(0);
                     }
                     jlTotal.setText("");
-                    jComboformapago.setSelectedIndex(-1);
                     jCombotipofactura.setSelectedIndex(-1);
                     JOptionPane.showMessageDialog(null, "transaccion realizada");
                 }
@@ -1022,7 +1004,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboformapago;
     private javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -1030,7 +1011,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
