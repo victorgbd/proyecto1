@@ -5,12 +5,14 @@
  */
 package agroquimica;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -58,6 +60,11 @@ public class Login extends javax.swing.JFrame {
         txt_usuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txt_contra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_contra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_contraKeyPressed(evt);
+            }
+        });
 
         btn_entrar.setText("Entrar");
         btn_entrar.addActionListener(new java.awt.event.ActionListener() {
@@ -127,13 +134,13 @@ public class Login extends javax.swing.JFrame {
     txt_usuario.setText("");
     txt_contra.setText("");
   }
-    private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
-        // TODO add your handling code here:
-        String usuario = "",contra="",acceso=null;
+ void login(JTextField txt_usuario,JTextField txt_contra){
+     String usuario = "",contra="",acceso=null;
        
        
        if(txt_usuario.getText().isEmpty() || txt_contra.getText().isEmpty()){
            txt_usuario.requestFocus();
+           txt_contra.setText("");
        }else{
            
                
@@ -166,6 +173,13 @@ public class Login extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, e, "error", JOptionPane.ERROR_MESSAGE);
            }
        }
+ }
+    private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
+        // TODO add your handling code here:
+        
+       login(txt_usuario,txt_contra);
+       
+       
         
     }//GEN-LAST:event_btn_entrarActionPerformed
 
@@ -173,6 +187,13 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btn_salirActionPerformed
+
+    private void txt_contraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_contraKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyChar()== KeyEvent.VK_ENTER){
+            login(txt_usuario, txt_contra);
+        }
+    }//GEN-LAST:event_txt_contraKeyPressed
 
     /**
      * @param args the command line arguments

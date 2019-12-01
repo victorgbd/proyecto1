@@ -107,6 +107,8 @@ public class Menu extends javax.swing.JFrame {
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lbregistrar_empleados = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jlmenu = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
@@ -421,6 +423,17 @@ public class Menu extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Registrar usuarios");
         Registrar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 150, -1));
+
+        lbregistrar_empleados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbregistrar_empleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbregistrar_empleadosMouseReleased(evt);
+            }
+        });
+        Registrar.add(lbregistrar_empleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 150, 110));
+
+        jLabel2.setText("Empleados");
+        Registrar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, -1, -1));
 
         jPanel2.add(Registrar, "card5");
 
@@ -925,6 +938,13 @@ public class Menu extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_consult_recetaMouseReleased
+
+    private void lbregistrar_empleadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbregistrar_empleadosMouseReleased
+        // TODO add your handling code here:
+        Empleados obj = new Empleados();
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_lbregistrar_empleadosMouseReleased
     private void recomendacion(String enfermedad) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 
@@ -1006,6 +1026,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1027,6 +1048,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lbVentas;
     private javax.swing.JLabel lb_resigstrar;
     private javax.swing.JLabel lbcerrarsesion;
+    private javax.swing.JLabel lbregistrar_empleados;
     private javax.swing.JLabel lbregistrar_usuarios;
     private javax.swing.JLabel lbsubirimg;
     private javax.swing.JLabel lbtipofact;
