@@ -6,7 +6,6 @@
 package agroquimica;
 
 import agroquimica.ventas.buscar_productos;
-import agroquimica.recomendaciones.recomendacion;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Image;
@@ -424,6 +423,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel4.setText("Registrar usuarios");
         Registrar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 150, -1));
 
+        lbregistrar_empleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/3592854-add-user-business-man-employee-general-human-member-office_107767.png"))); // NOI18N
         lbregistrar_empleados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lbregistrar_empleados.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {

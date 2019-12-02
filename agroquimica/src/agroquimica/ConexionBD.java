@@ -10,9 +10,9 @@ import javax.swing.*;
 
 public class ConexionBD {
 
-    Connection conect = null;
+   static Connection conect = null;
 
-    public Connection conexion() {
+    public static Connection conexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conect = DriverManager.getConnection("jdbc:mysql://localhost/agroquimica", "root", "");

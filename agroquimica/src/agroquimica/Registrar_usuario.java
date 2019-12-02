@@ -173,10 +173,14 @@ public class Registrar_usuario extends javax.swing.JFrame {
                     acceso = 0;
                 }
                 String sql = "Insert into usuario(nickname,contrasena,tipoacceso) Values('" + usuario + "','" + contra + "','" + acceso + "')";
-                st.executeUpdate(sql);
+               st.executeUpdate(sql);
 
                 JOptionPane.showMessageDialog(null, "El usuario: " + usuario + " ha sido creado correctamente.", "Registro", JOptionPane.INFORMATION_MESSAGE);
                 limpiar();
+                if(Empleados.reg_emple){
+                 Empleados.txt_usuario.setText(usuario);
+                    dispose();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e, "error", JOptionPane.ERROR_MESSAGE);
             }
