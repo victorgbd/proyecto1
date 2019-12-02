@@ -9,48 +9,38 @@ package agroquimica;
  *
  * @author Felix Artiles
  */
-import agroquimica.ConexionBD;
-import agroquimica.Funciones;
-import agroquimica.Menu;
 import java.awt.Color;
 import java.awt.Frame;
+import agroquimica.Funciones;
+import static agroquimica.Funciones.consulta;
+import agroquimica.ventas.buscar_productos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 public class Empleados extends javax.swing.JFrame {
 
+    public static boolean reg_emple = false;
     /**
      * Creates new form Empleados
      */
     public Empleados() {
       
         initComponents();
-        llenar_combo(combo_puesto,"tipo_de_empleado","descripcion");
-        llenar_combo(combo_dias,"tipo_horario","descripcion");
-        llenar_combo(combo_horario_entrada,"horario","entrada");
-        llenar_combo(combo_horario_salida,"horario","salida");
+        Funciones.solo_numeros(txtcedula);
+        Funciones.llenar_combo(combo_puesto,"tipo_de_empleado","descripcion");
+         Funciones.llenar_combo(combo_dias,"tipo_horario","descripcion");
+        Funciones.llenar_combo(combo_horario_entrada,"horario","entrada");
+         Funciones.llenar_combo(combo_horario_salida,"horario","salida");
+         Funciones.llenar_combo(combo_telefono,"tipo_telefono","descripcion");
     }
     String sql = null;
     
-    private void llenar_combo(JComboBox combo,String tabla,String columna){
-       sql = "SELECT * from "+tabla;
-       combo.removeAllItems();
-        ResultSet rs = Funciones.consulta(sql);
-        try {
-           
-            while (rs.next()) {
-                
-                
-                   combo.addItem(rs.getString(columna));
-            }
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,9 +52,7 @@ public class Empleados extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtcedula = new javax.swing.JTextField();
-        txt_nombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -83,6 +71,7 @@ public class Empleados extends javax.swing.JFrame {
         btn_salir = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         combo_horario_salida = new javax.swing.JComboBox<>();
+        combo_telefono = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,8 +79,6 @@ public class Empleados extends javax.swing.JFrame {
         jLabel1.setText("Registro empleados");
 
         jLabel2.setText("Cedula");
-
-        jLabel3.setText("Nombre");
 
         jLabel4.setText("Correo");
 
@@ -114,6 +101,11 @@ public class Empleados extends javax.swing.JFrame {
         combo_dias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btn_guardar.setText("Guardar");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         btn_salir.setText("Salir");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +117,8 @@ public class Empleados extends javax.swing.JFrame {
         jLabel11.setText("/");
 
         combo_horario_salida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        combo_telefono.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,11 +138,9 @@ public class Empleados extends javax.swing.JFrame {
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel8))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_usuario, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtcedula)
                                     .addComponent(jTextField3)
                                     .addComponent(txt_correo)
@@ -163,20 +155,21 @@ public class Empleados extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addComponent(jLabel10)))
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_telefono)
-                                    .addComponent(combo_puesto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(combo_dias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(combo_puesto, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(combo_telefono, 0, 62, Short.MAX_VALUE))
+                                            .addComponent(txt_usuario, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(btn_salir))))
                 .addGap(111, 111, 111))
@@ -184,14 +177,14 @@ public class Empleados extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(73, 73, 73)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
                     .addComponent(txtcedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -211,12 +204,9 @@ public class Empleados extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                    .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combo_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardar)
                     .addComponent(btn_salir))
@@ -230,6 +220,25 @@ public class Empleados extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btn_salirActionPerformed
+    
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+        boolean encontrado = false;
+        Registrar_usuario form = new Registrar_usuario();
+               
+        if(txt_usuario.getText().isEmpty() || txtcedula.getText().isEmpty() || txt_correo.getText().isEmpty() ||  txt_telefono.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No debe dejar campos vacios.");
+        }else{
+            encontrado = Funciones.buscar_usuario(txt_usuario.getText());
+            if(encontrado){
+                
+            }else{
+               JOptionPane.showMessageDialog(null, "Debe crear un usuario para el empleado.","Empleado",JOptionPane.INFORMATION_MESSAGE); 
+            form.setVisible(true);
+            reg_emple = true;
+            }
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,11 +282,11 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combo_horario_entrada;
     private javax.swing.JComboBox<String> combo_horario_salida;
     private javax.swing.JComboBox<String> combo_puesto;
+    private javax.swing.JComboBox<String> combo_telefono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -286,9 +295,8 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txt_correo;
-    private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;
-    private javax.swing.JTextField txt_usuario;
+    public static javax.swing.JTextField txt_usuario;
     private javax.swing.JTextField txtcedula;
     // End of variables declaration//GEN-END:variables
 }
