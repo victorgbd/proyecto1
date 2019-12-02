@@ -9,18 +9,10 @@ package agroquimica;
  *
  * @author Felix Artiles
  */
-import java.awt.Color;
-import java.awt.Frame;
-import agroquimica.Funciones;
-import static agroquimica.Funciones.consulta;
-import agroquimica.ventas.buscar_productos;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 public class Empleados extends javax.swing.JFrame {
 
@@ -55,11 +47,9 @@ public class Empleados extends javax.swing.JFrame {
         txtcedula = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         txt_correo = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         combo_puesto = new javax.swing.JComboBox<>();
@@ -83,8 +73,6 @@ public class Empleados extends javax.swing.JFrame {
         jLabel4.setText("Correo");
 
         jLabel5.setText("Usuario");
-
-        jLabel6.setText("Correo");
 
         jLabel7.setText("Puesto");
 
@@ -130,45 +118,46 @@ public class Empleados extends javax.swing.JFrame {
                         .addGap(174, 174, 174)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btn_guardar)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel8))
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtcedula)
-                                    .addComponent(jTextField3)
                                     .addComponent(txt_correo)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(combo_horario_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(combo_horario_salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 27, Short.MAX_VALUE)))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(combo_horario_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel11)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(combo_horario_salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(combo_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(combo_dias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(combo_dias, 0, 151, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(combo_puesto, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(combo_telefono, 0, 62, Short.MAX_VALUE))
+                                            .addComponent(combo_puesto, javax.swing.GroupLayout.Alignment.LEADING, 0, 151, Short.MAX_VALUE)
                                             .addComponent(txt_usuario, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(btn_salir))))
@@ -189,8 +178,8 @@ public class Empleados extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combo_puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -201,8 +190,6 @@ public class Empleados extends javax.swing.JFrame {
                     .addComponent(combo_horario_salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(txt_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combo_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,17 +216,33 @@ public class Empleados extends javax.swing.JFrame {
         if(txt_usuario.getText().isEmpty() || txtcedula.getText().isEmpty() || txt_correo.getText().isEmpty() ||  txt_telefono.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "No debe dejar campos vacios.");
         }else{
-            encontrado = Funciones.buscar_usuario(txt_usuario.getText());
-            if(encontrado){
-                
-            }else{
-               JOptionPane.showMessageDialog(null, "Debe crear un usuario para el empleado.","Empleado",JOptionPane.INFORMATION_MESSAGE); 
-            form.setVisible(true);
-            reg_emple = true;
+            try {
+                Statement st = ConexionBD.conexion().createStatement();
+                Funciones.validar_correo(txt_correo);
+                encontrado = Funciones.buscar_usuario(txt_usuario.getText());
+                if(encontrado){
+                    String sql = "";
+                    st.executeUpdate(sql);
+                    
+                    JOptionPane.showMessageDialog(null, "El empleado ha sido creado correctamente.", "Registro", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Debe crear un usuario para el empleado.","Empleado",JOptionPane.INFORMATION_MESSAGE);
+                    form.setVisible(true);
+                    reg_emple = true;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Empleados.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
-
+    void limpiar(){
+        txt_correo.setText("");
+        txt_telefono.setText("");
+        txt_usuario.setText("");
+        txtcedula.setText("");
+        txtcedula.requestFocus();
+    }
     /**
      * @param args the command line arguments
      */
@@ -289,11 +292,9 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txt_correo;
     private javax.swing.JTextField txt_telefono;
     public static javax.swing.JTextField txt_usuario;
