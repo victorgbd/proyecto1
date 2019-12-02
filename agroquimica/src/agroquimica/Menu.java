@@ -53,7 +53,6 @@ public class Menu extends javax.swing.JFrame {
         consult_enfermedad.setIcon(consultaEico1);
     }
 
-    
     private File es = null;
     private JFileChooser file;
     private final ConexionBD cc = new ConexionBD();
@@ -309,7 +308,7 @@ public class Menu extends javax.swing.JFrame {
 
         Recomendacion2.setBackground(new java.awt.Color(0, 0, 102));
         Recomendacion2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        Recomendacion2.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, 164, -1));
+        Recomendacion2.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 164, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -319,18 +318,18 @@ public class Menu extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Enfermedad:");
-        Recomendacion2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
+        Recomendacion2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "codpro", "nombre", "precio", "cantidad"
+                "Codigo", "Nombre", "Precio", "Cantidad", "Unidad", "Codigo de Unidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -340,7 +339,7 @@ public class Menu extends javax.swing.JFrame {
         tabla.setDoubleBuffered(true);
         jScrollPane3.setViewportView(tabla);
 
-        Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 424, 171));
+        Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 600, 171));
 
         jButton3.setText("Agregar compra");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -348,7 +347,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(574, 159, -1, -1));
+        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
 
         jPanel2.add(Recomendacion2, "card8");
 
@@ -375,11 +374,11 @@ public class Menu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "codpro", "nombre", "precio", "cantidad"
+                "Codigo", "Nombre", "Precio", "Cantidad", "Unidad", "Codigo de Unidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, true, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -389,15 +388,15 @@ public class Menu extends javax.swing.JFrame {
         jTable1.setDoubleBuffered(true);
         jScrollPane2.setViewportView(jTable1);
 
-        Ventas_ventana.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 151, 600, 251));
+        Ventas_ventana.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 710, 251));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Total:");
-        Ventas_ventana.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, -1, -1));
+        Ventas_ventana.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 410, -1, -1));
 
         jlTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 120, 30));
+        Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 410, 120, 30));
 
         jCombotipofactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Credito" }));
         jCombotipofactura.setSelectedIndex(-1);
@@ -592,7 +591,7 @@ public class Menu extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if (jList1.getSelectedValue() != null) {
             String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
-            r[0] = r[0].replace(" ", "");
+            //r[0] = r[0].replace(" ", "");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
 //                recomendacion obj = new recomendacion(r[0]);
@@ -663,67 +662,72 @@ public class Menu extends javax.swing.JFrame {
         if (this.jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "agregar una compra");
         } else {
-            try {
-                //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
-                int codcli = 1;
-                boolean estado = true;
-                int tipfact = jCombotipofactura.getSelectedIndex();
-                if (tipfact == 1) {
-                    estado = false;
-                }
-                
-                int codemp = 1;
-                double balance = 0;
-                if(tipfact == 1){
-                    balance = Double.parseDouble(jlTotal.getText());
-                }
-                double total = Double.parseDouble(jlTotal.getText());
-                String sql = "call sp_factura(?,?,?,?,?,?)";
-                ps = cn.prepareStatement(sql);
-                ps.setInt(1, codcli);
-                ps.setBoolean(2, estado);
-                ps.setInt(3, tipfact);
-                ps.setInt(4, codemp);
-                ps.setDouble(5, balance);
-                ps.setDouble(6, total);
-                ResultSet res = ps.executeQuery();
-                res.next();
-                int numfac = res.getInt(1);
-                sql = "call sp_detallefactura(?,?,?,?)";
-                int contador = 0;
-                //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
-                //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
-                for (int i = 0; i < this.jTable1.getRowCount(); i++) {
-                    int opcion = 0;
-                    try {
-                        ps = cn.prepareStatement(sql);
-                        ps.setInt(1, numfac);
-                        ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
-                        ps.setInt(3, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
-                        ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
-                        res = ps.executeQuery();
-                        res.next();
-                        opcion = res.getInt(1);
-                    } catch (SQLException ex) {
+            if (jCombotipofactura.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "agregar un tipo de pago");
+            } else {
+                try {
+                    //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
+                    int codcli = 1;
+                    boolean estado = true;
+                    int tipfact = jCombotipofactura.getSelectedIndex();
+                    if (tipfact == 1) {
+                        estado = false;
                     }
 
-                    if (opcion != 0) {
-                        contador++;
+                    int codemp = 1;
+                    double balance = 0;
+                    if (tipfact == 1) {
+                        balance = Double.parseDouble(jlTotal.getText());
                     }
-                }
-                //si no encuentra nada no presenta el mensaje
-                if (contador == this.jTable1.getRowCount()) {
-                    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                    double total = Double.parseDouble(jlTotal.getText());
+                    String sql = "call sp_factura(?,?,?,?,?,?)";
+                    ps = cn.prepareStatement(sql);
+                    ps.setInt(1, codcli);
+                    ps.setBoolean(2, estado);
+                    ps.setInt(3, tipfact);
+                    ps.setInt(4, codemp);
+                    ps.setDouble(5, balance);
+                    ps.setDouble(6, total);
+                    ResultSet res = ps.executeQuery();
+                    res.next();
+                    int numfac = res.getInt(1);
+                    sql = "call sp_detallefactura(?,?,?,?,?)";
+                    int contador = 0;
+                    //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
+                    //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
+                    for (int i = 0; i < this.jTable1.getRowCount(); i++) {
+                        int opcion = 0;
+                        try {
+                            ps = cn.prepareStatement(sql);
+                            ps.setInt(1, numfac);
+                            ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
+                            ps.setInt(3, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
+                            ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
+                            ps.setInt(5, Integer.parseInt(this.jTable1.getValueAt(i, 5).toString()));
+                            res = ps.executeQuery();
+                            res.next();
+                            opcion = res.getInt(1);
+                        } catch (SQLException ex) {
+                        }
 
-                    while (modelo.getRowCount() > 0) {
-                        modelo.removeRow(0);
+                        if (opcion != 0) {
+                            contador++;
+                        }
                     }
-                    jlTotal.setText("");
-                    jCombotipofactura.setSelectedIndex(-1);
-                    JOptionPane.showMessageDialog(null, "transaccion realizada");
+                    //si no encuentra nada no presenta el mensaje
+                    if (contador == this.jTable1.getRowCount()) {
+                        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+                        while (modelo.getRowCount() > 0) {
+                            modelo.removeRow(0);
+                        }
+                        jlTotal.setText("");
+                        jCombotipofactura.setSelectedIndex(-1);
+                        JOptionPane.showMessageDialog(null, "transaccion realizada");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -869,13 +873,15 @@ public class Menu extends javax.swing.JFrame {
             }
         }
         if (f) {
-            String[] dato = new String[4];
+            String[] dato = new String[6];
             DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
             for (int i = 0; i < tabla.getRowCount(); i++) {
                 dato[0] = tabla.getValueAt(i, 0).toString();
                 dato[1] = tabla.getValueAt(i, 1).toString();
                 dato[2] = tabla.getValueAt(i, 2).toString();
                 dato[3] = tabla.getValueAt(i, 3).toString();
+                dato[4] = tabla.getValueAt(i, 4).toString();
+                dato[5] = tabla.getValueAt(i, 5).toString();
                 tabladet.addRow(dato);
             }
             Menu.jTable1.setModel(tabladet);
@@ -954,9 +960,11 @@ public class Menu extends javax.swing.JFrame {
         try {
             rs.next();
             int codenf = rs.getInt("codenfer");
-            sql = "SELECT  p.codproducto,p.descripcion,p.preciovent,pe.cantidad from productovsefermedad as pe"
-                    + " INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
-                    + "INNER JOIN producto as p on pe.codprod=p.codproducto where pe.codenfer=" + codenf;
+            sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pe.cantidad,u.descripcion as unidad,pe.coduni from productovsefermedad as pe "
+                    + "INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
+                    + "INNER JOIN producto as p on p.codproducto=pe.codprod "
+                    + "INNER JOIN unidad as u on u.coduni=pe.coduni "
+                    + "INNER JOIN productovsunidad as pu on pu.codproducto=pe.codprod where enf.codenfer=" + codenf;
             rs = Funciones.consulta(sql);
 
             while (rs.next()) {
@@ -964,8 +972,10 @@ public class Menu extends javax.swing.JFrame {
                 modelo.addRow(new Object[]{
                     rs.getString("codproducto"),
                     rs.getString("descripcion"),
-                    rs.getString("preciovent"),
-                    rs.getString("cantidad"),});
+                    rs.getString("precioventa"),
+                    rs.getString("cantidad"),
+                    rs.getString("Unidad"),
+                    rs.getString("coduni")});
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {

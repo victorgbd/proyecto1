@@ -34,12 +34,14 @@ public class buscar_productos extends javax.swing.JFrame {
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "codigo", "Descripcion", "precio de venta", "Cantidad existente"
+            "codigo", "Descripcion", "precio de venta", "Cantidad existente","Unidad","Codigo de Unidad"
         });
 
-        String sql = "SELECT codproducto,descripcion,preciovent,cantext FROM producto WHERE "
-                + "descripcion LIKE  '%" + dato + "%'"
-                + "OR codproducto LIKE  '%" + dato + "%'";
+        String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pu.cantext,u.descripcion as Unidad,pu.coduni from producto as p "
+                + "INNER JOIN productovsunidad as pu on pu.codproducto=p.codproducto "
+                + "INNER JOIN unidad as u on u.coduni=pu.coduni WHERE "
+                + "p.descripcion LIKE  '%" + dato + "%'"
+                + "OR p.codproducto LIKE  '%" + dato + "%'";
         if (jTextField1.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "No ha escrito", "busqueda", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -52,8 +54,11 @@ public class buscar_productos extends javax.swing.JFrame {
                 modelo.addRow(new Object[]{
                     rs.getString("codproducto"),
                     rs.getString("descripcion"),
-                    rs.getString("preciovent"),
-                    rs.getString("cantext"),});
+                    rs.getString("precioventa"),
+                    rs.getString("cantext"),
+                    rs.getString("Unidad"),
+                    rs.getString("coduni")
+                });
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {
@@ -137,11 +142,11 @@ public class buscar_productos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "codpro", "nombre", "precio", "cantidad"
+                "codpro", "nombre", "precio", "cantidad", "Unidad", "Codigo Uni"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -151,7 +156,7 @@ public class buscar_productos extends javax.swing.JFrame {
         tabla.setDoubleBuffered(true);
         jScrollPane1.setViewportView(tabla);
 
-        PanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 559, 171));
+        PanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 590, 171));
         PanelPrincipal.add(jtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 126, -1));
 
         jButton1.setText("Agregar");
@@ -252,13 +257,15 @@ public class buscar_productos extends javax.swing.JFrame {
                     }
                 }
                 if (f) {
-                    String[] dato = new String[4];
+                    String[] dato = new String[6];
                     DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
 
                     dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                     dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
                     dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
                     dato[3] = jtcantidad.getText();
+                    dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
                     tabladet.addRow(dato);
                     Menu.jTable1.setModel(tabladet);
                 }
