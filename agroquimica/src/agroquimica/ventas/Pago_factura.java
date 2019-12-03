@@ -5,6 +5,14 @@
  */
 package agroquimica.ventas;
 
+import agroquimica.ConexionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,6 +28,10 @@ public class Pago_factura extends javax.swing.JFrame {
         initComponents();
     }
 
+    private final ConexionBD cc = new ConexionBD();
+    private final Connection cn = cc.conexion();
+    private PreparedStatement ps;
+    DecimalFormat df = new DecimalFormat("#.00");
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,6 +222,22 @@ public class Pago_factura extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "El pago debe ser menor a "+txt_balance.getText()+"$RD y mayor a 0.00$RD", "Error de pago", JOptionPane.ERROR_MESSAGE);
                 txt_pago.requestFocus();
                 txt_pago.setText("");
+            }else{
+                String sql ="call sp_cobro_credito(?,?,?)";
+                try {
+                    ps = cn.prepareStatement(sql);
+                    
+                     ps.setInt(1, Integer.parseInt(txt_factura.getText()));
+                    ps.setDouble(2, Double.parseDouble(df.format(Double.parseDouble(txt_balance.getText()))));
+                    ps.setDouble(3, Double.parseDouble(df.format(Double.parseDouble(txt_pago.getText()))));
+                    ResultSet rs = ps.executeQuery();
+                    JOptionPane.showMessageDialog(null, "Pago realizado correctamente","Pago de factura",JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    cuentas_pagar obj = new cuentas_pagar();
+                    obj.llenarTabla("");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Pago_factura.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_btn_pagarActionPerformed
@@ -218,7 +246,7 @@ public class Pago_factura extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(radio_50.isSelected() && check_pago_porcentaje.isSelected()){
             
-        txt_pago.setText(String.valueOf(Double.parseDouble(txt_balance.getText()) * 0.50));
+        txt_pago.setText(String.valueOf(String.format("%.2f", Double.parseDouble(txt_balance.getText()) * 0.50)));
           txt_pago.setEditable(false);
         }else{
             txt_pago.setEditable(true);

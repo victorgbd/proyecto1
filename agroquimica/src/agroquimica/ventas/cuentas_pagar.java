@@ -25,7 +25,7 @@ public class cuentas_pagar extends javax.swing.JFrame {
         llenarTabla(jTextField1.getText());
         this.setLocationRelativeTo(null);
     }
-private void llenarTabla(String dato) {
+public void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
             "Numero factura", "Cliente", "Estado", "Deuda total","Total pagado","pendiente"
