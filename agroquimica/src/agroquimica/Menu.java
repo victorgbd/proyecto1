@@ -6,6 +6,7 @@
 package agroquimica;
 
 import agroquimica.ventas.buscar_productos;
+import agroquimica.ventas.cuentas_pagar;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Image;
@@ -107,6 +108,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         lbregistrar_empleados = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lbcuenta_por_cobrar = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jlmenu = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
@@ -433,6 +436,17 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel2.setText("Empleados");
         Registrar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, -1, -1));
+
+        lbcuenta_por_cobrar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbcuenta_por_cobrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbcuenta_por_cobrarMouseReleased(evt);
+            }
+        });
+        Registrar.add(lbcuenta_por_cobrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 150, 110));
+
+        jLabel8.setText("Cuentas por cobrar");
+        Registrar.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, -1));
 
         jPanel2.add(Registrar, "card5");
 
@@ -951,6 +965,13 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_lbregistrar_empleadosMouseReleased
+
+    private void lbcuenta_por_cobrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcuenta_por_cobrarMouseReleased
+        // TODO add your handling code here:
+        cuentas_pagar obj = new cuentas_pagar();
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_lbcuenta_por_cobrarMouseReleased
     private void recomendacion(String enfermedad) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 
@@ -1042,6 +1063,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
@@ -1058,6 +1080,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lbVentas;
     private javax.swing.JLabel lb_resigstrar;
     private javax.swing.JLabel lbcerrarsesion;
+    private javax.swing.JLabel lbcuenta_por_cobrar;
     private javax.swing.JLabel lbregistrar_empleados;
     private javax.swing.JLabel lbregistrar_usuarios;
     private javax.swing.JLabel lbsubirimg;
