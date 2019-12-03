@@ -36,7 +36,7 @@ public class buscar_productos extends javax.swing.JFrame {
         modelo.setColumnIdentifiers(new Object[]{
             "codigo", "Descripcion", "precio de venta", "Cantidad existente","Unidad","Codigo de Unidad"
         });
-
+        
         String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pu.cantext,u.descripcion as Unidad,pu.coduni from producto as p "
                 + "INNER JOIN productovsunidad as pu on pu.codproducto=p.codproducto "
                 + "INNER JOIN unidad as u on u.coduni=pu.coduni WHERE "

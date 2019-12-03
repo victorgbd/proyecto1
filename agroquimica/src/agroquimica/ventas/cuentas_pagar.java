@@ -6,10 +6,14 @@
 package agroquimica.ventas;
 
 import agroquimica.Funciones;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -22,21 +26,23 @@ public class cuentas_pagar extends javax.swing.JFrame {
      */
     public cuentas_pagar() {
         initComponents();
-        llenarTabla(jTextField1.getText());
+        llenarTabla("");
         this.setLocationRelativeTo(null);
     }
+    TableRowSorter trs;
+    DefaultTableModel modelo;
 public void llenarTabla(String dato) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
             "Numero factura", "Cliente", "Estado", "Deuda total","Total pagado","pendiente"
         });
-
+        //
         String sql = "SELECT  f.numfact as factura, CONCAT(p.nombre,\" \",p.apellido) as cliente, \n" +
-    "f.estado as estado,total,total-balance as totalpagado,balance\n" +
-"FROM cliente c \n" +
-"inner JOIN persona p ON c.codper = p.codper\n" +
-"inner JOIN factura f ON c.codclie = f.codcli\n" +
-"WHERE f.estado = 0 AND balance > 0;";
+        "total,total-balance as totalpagado,balance\n" +
+        "        FROM cliente c \n" +
+        "        inner JOIN persona p ON c.codper = p.codper \n" +
+        "        inner JOIN factura f ON c.codclie = f.codcli\n" +
+        "        WHERE p.nombre LIKE  '%"+ dato +"%' AND balance > 0";
                
                 
         ResultSet rs = Funciones.consulta(sql);
@@ -48,6 +54,7 @@ public void llenarTabla(String dato) {
                 modelo.addRow(new Object[]{
                     rs.getString("factura"),
                     rs.getString("cliente"),
+                    
                     "credito",
                     rs.getString("total"),
                     rs.getString("totalpagado"),
@@ -71,7 +78,7 @@ public void llenarTabla(String dato) {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_filtro = new javax.swing.JTextField();
         btn_pagar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -102,6 +109,15 @@ public void llenarTabla(String dato) {
 
         jLabel1.setText("Filtrar");
 
+        txt_filtro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_filtroKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_filtroKeyTyped(evt);
+            }
+        });
+
         btn_pagar.setText("Pagar");
         btn_pagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +144,7 @@ public void llenarTabla(String dato) {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_pagar)
                 .addGap(18, 18, 18)
@@ -146,7 +162,7 @@ public void llenarTabla(String dato) {
                 .addComponent(jLabel2)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(btn_pagar)
                     .addComponent(jButton1))
@@ -181,6 +197,16 @@ public void llenarTabla(String dato) {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txt_filtroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_filtroKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txt_filtroKeyTyped
+
+    private void txt_filtroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_filtroKeyReleased
+        // TODO add your handling code here:
+        llenarTabla(txt_filtro.getText());
+    }//GEN-LAST:event_txt_filtroKeyReleased
 
     /**
      * @param args the command line arguments
@@ -224,6 +250,6 @@ public void llenarTabla(String dato) {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txt_filtro;
     // End of variables declaration//GEN-END:variables
 }
