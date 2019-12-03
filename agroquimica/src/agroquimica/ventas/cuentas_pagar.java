@@ -168,7 +168,8 @@ public void llenarTabla(String dato) {
             Pago_factura.txt_deuda.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             Pago_factura.txt_balance.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString());
             Pago_factura.txt_pago.requestFocus();
-          obj.setVisible(true);  
+          obj.setVisible(true);
+          dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione una fila de la tabla.");
         }

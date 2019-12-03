@@ -232,9 +232,11 @@ public class Pago_factura extends javax.swing.JFrame {
                     ps.setDouble(3, Double.parseDouble(df.format(Double.parseDouble(txt_pago.getText()))));
                     ResultSet rs = ps.executeQuery();
                     JOptionPane.showMessageDialog(null, "Pago realizado correctamente","Pago de factura",JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
                     cuentas_pagar obj = new cuentas_pagar();
-                    obj.llenarTabla("");
+                   
+                    obj.setVisible(true);
+                    dispose();
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(Pago_factura.class.getName()).log(Level.SEVERE, null, ex);
                 }
