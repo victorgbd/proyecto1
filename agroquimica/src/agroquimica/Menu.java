@@ -6,6 +6,7 @@
 package agroquimica;
 
 import agroquimica.ventas.buscar_cliente;
+import agroquimica.ventas.buscar_empleado;
 import agroquimica.ventas.buscar_productos;
 import agroquimica.ventas.cuentas_pagar;
 import java.awt.Color;
@@ -44,7 +45,7 @@ public class Menu extends javax.swing.JFrame {
         cargarcomboRecomendacion();
         lb_fecha.setText(Funciones.fecha());
     }
-
+    public static int codemp=0;
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
         ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(), Image.SCALE_DEFAULT));
@@ -506,6 +507,11 @@ public class Menu extends javax.swing.JFrame {
         Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, -1, -1));
 
         btn_empleado.setText("Buscar empleado");
+        btn_empleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_empleadoActionPerformed(evt);
+            }
+        });
         Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -789,18 +795,24 @@ public class Menu extends javax.swing.JFrame {
                  buscar_cliente obj = new buscar_cliente();
                  
                  obj.setVisible(true);
-            } 
+            }else if(txt_empleado.getText().isEmpty()){
+                 JOptionPane.showMessageDialog(null, "agregar un empleado.");
+                 buscar_empleado obj = new buscar_empleado();
+                 
+                 obj.setVisible(true);
+            }  
             else {
                 try {
                     //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
                     int codcli = Integer.parseInt(txt_codigo.getText());
+                  
                     boolean estado = true;
                     int tipfact = jCombotipofactura.getSelectedIndex();
                     if (tipfact == 1) {
                         estado = false;
                     }
 
-                    int codemp = 1;
+                    
                     double balance = 0;
                     if (tipfact == 1) {
                         balance = Double.parseDouble(jlTotal.getText());
@@ -1098,6 +1110,13 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_btn_clienteActionPerformed
+
+    private void btn_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_empleadoActionPerformed
+        // TODO add your handling code here:
+        buscar_empleado obj = new buscar_empleado();
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btn_empleadoActionPerformed
     private void recomendacion(int codenf,int codsuelo,int codplanta,int codespecie,int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1233,6 +1252,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JTextField txruta;
     public static javax.swing.JTextField txt_cliente;
     public static javax.swing.JTextField txt_codigo;
-    private javax.swing.JTextField txt_empleado;
+    public static javax.swing.JTextField txt_empleado;
     // End of variables declaration//GEN-END:variables
 }
