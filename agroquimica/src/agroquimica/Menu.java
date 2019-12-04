@@ -40,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarIconos();
+        cargarcomboRecomendacion();
     }
 
     private void cargarIconos() {
@@ -54,6 +55,13 @@ public class Menu extends javax.swing.JFrame {
         consult_enfermedad.setIcon(consultaEico1);
     }
 
+    private void cargarcomboRecomendacion() {
+        //buscar forma mejor
+        Funciones.llenar_combo(jComboSuelo, "tipo_de_suelo", "descripcion");
+        Funciones.llenar_combo(jComboPlanta, "planta", "descripcion");
+        Funciones.llenar_combo(jComboenfermedad, "enfermedad", "descripcion");
+        Funciones.llenar_combo(jComboespecie, "especie", "descripcion");
+    }
     private File es = null;
     private JFileChooser file;
     private final ConexionBD cc = new ConexionBD();
@@ -88,12 +96,19 @@ public class Menu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         Recomendacion2 = new javax.swing.JPanel();
-        enfermedad = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
+        jComboenfermedad = new javax.swing.JComboBox<>();
+        jComboespecie = new javax.swing.JComboBox<>();
+        jComboPlanta = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jComboSuelo = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jbbuscareceta = new javax.swing.JButton();
         Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -311,17 +326,16 @@ public class Menu extends javax.swing.JFrame {
 
         Recomendacion2.setBackground(new java.awt.Color(0, 0, 102));
         Recomendacion2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        Recomendacion2.add(enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 164, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Productos Recomendados");
-        Recomendacion2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 31, 194, 52));
+        Recomendacion2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 194, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Enfermedad:");
-        Recomendacion2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, -1, -1));
+        Recomendacion2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 50, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -344,13 +358,44 @@ public class Menu extends javax.swing.JFrame {
 
         Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 600, 171));
 
-        jButton3.setText("Agregar compra");
+        jButton3.setText("Agregar Compra");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
+        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, -1, -1));
+
+        Recomendacion2.add(jComboenfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 130, -1));
+
+        Recomendacion2.add(jComboespecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 140, -1));
+
+        Recomendacion2.add(jComboPlanta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 140, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Especie:");
+        Recomendacion2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, 50, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Planta:");
+        Recomendacion2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, -1));
+
+        Recomendacion2.add(jComboSuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 140, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Tipo de Suelo:");
+        Recomendacion2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, -1, -1));
+
+        jbbuscareceta.setText("Buscar Receta");
+        jbbuscareceta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbbuscarecetaActionPerformed(evt);
+            }
+        });
+        Recomendacion2.add(jbbuscareceta, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 150, 110, -1));
 
         jPanel2.add(Recomendacion2, "card8");
 
@@ -605,15 +650,14 @@ public class Menu extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         if (jList1.getSelectedValue() != null) {
             String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
-            //r[0] = r[0].replace(" ", "");
+            String[] r2 = r[0].split(">");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
-//                recomendacion obj = new recomendacion(r[0]);
-//                obj.enfermedad.setText(r[0]);
-//                obj.setLocationRelativeTo(jPanel2);
-//                obj.setVisible(true);
-                this.enfermedad.setText(r[0]);
-                recomendacion(r[0]);
+                //buscar forma mejor
+                jComboPlanta.setSelectedIndex(Funciones.traeindice("planta", r2[0])-1);
+                
+                jComboenfermedad.setSelectedIndex(Funciones.traeindice("enfermedad", r2[2])-1);
+                jComboespecie.setSelectedIndex(Funciones.traeindice("especie", r2[1])-1);
                 jPanel2.removeAll();
                 jPanel2.repaint();
                 jPanel2.revalidate();
@@ -636,8 +680,8 @@ public class Menu extends javax.swing.JFrame {
                 String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
                 int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
                 if (opcion == JOptionPane.YES_OPTION) {
-                    this.enfermedad.setText(r[0]);
-                    recomendacion(r[0]);
+                    //this.enfermedad.setText(r[0]);
+                    //recomendacion(r[0]);
                     jPanel2.removeAll();
                     jPanel2.repaint();
                     jPanel2.revalidate();
@@ -972,22 +1016,23 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_lbcuenta_por_cobrarMouseReleased
-    private void recomendacion(String enfermedad) {
+
+    private void jbbuscarecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbbuscarecetaActionPerformed
+        recomendacion(jComboenfermedad.getSelectedIndex()+1,jComboSuelo.getSelectedIndex()+1,
+                jComboPlanta.getSelectedIndex()+1,jComboespecie.getSelectedIndex()+1,1);
+    }//GEN-LAST:event_jbbuscarecetaActionPerformed
+    private void recomendacion(int codenf,int codsuelo,int codplanta,int codespecie,int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 
-        String sql = "SELECT codenfer from enfermedad where descripcion=" + "'" + enfermedad + "'";
-
-        ResultSet rs = Funciones.consulta(sql);
-        try {
-            rs.next();
-            int codenf = rs.getInt("codenfer");
-            sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pe.cantidad,u.descripcion as unidad,pe.coduni from productovsefermedad as pe "
+        String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pe.cantidad,u.descripcion as unidad,pe.coduni FROM productovsefermedad as pe "
                     + "INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
                     + "INNER JOIN producto as p on p.codproducto=pe.codprod "
                     + "INNER JOIN unidad as u on u.coduni=pe.coduni "
-                    + "INNER JOIN productovsunidad as pu on pu.codproducto=pe.codprod where enf.codenfer=" + codenf;
-            rs = Funciones.consulta(sql);
-
+                    + "INNER JOIN productovsunidad as pu on pu.codproducto=pe.codprod WHERE pe.codenfer=" + codenf
+                    +" and pe.codsuelo="+codsuelo+" and pe.codplant="+codplanta+" and pe.codespecie="+codespecie
+                    +" and pe.clima="+clima;      
+        try {
+            ResultSet rs = Funciones.consulta(sql);
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
                 modelo.addRow(new Object[]{
@@ -1048,15 +1093,20 @@ public class Menu extends javax.swing.JFrame {
     public static javax.swing.JPanel Ventas_ventana;
     private javax.swing.JLabel consult_enfermedad;
     private javax.swing.JLabel consult_receta;
-    public javax.swing.JTextField enfermedad;
     private javax.swing.JButton evaluar;
     private javax.swing.JLabel imagen;
     private static javax.swing.JPanel inicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboPlanta;
+    private javax.swing.JComboBox<String> jComboSuelo;
+    private javax.swing.JComboBox<String> jComboenfermedad;
+    private javax.swing.JComboBox<String> jComboespecie;
     private javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1064,6 +1114,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JPanel jPanel2;
@@ -1072,6 +1123,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     public static javax.swing.JTable jTable1;
+    private javax.swing.JButton jbbuscareceta;
     public static javax.swing.JLabel jlTotal;
     private javax.swing.JLabel jlmenu;
     private javax.swing.JLabel jltab;
