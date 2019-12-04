@@ -109,6 +109,8 @@ public class Menu extends javax.swing.JFrame {
         jComboSuelo = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jbbuscareceta = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jComboClima = new javax.swing.JComboBox<>();
         Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -386,8 +388,8 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Tipo de Suelo:");
-        Recomendacion2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, -1, -1));
+        jLabel11.setText("Clima:");
+        Recomendacion2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 40, -1));
 
         jbbuscareceta.setText("Buscar Receta");
         jbbuscareceta.addActionListener(new java.awt.event.ActionListener() {
@@ -396,6 +398,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         Recomendacion2.add(jbbuscareceta, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 150, 110, -1));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Tipo de Suelo:");
+        Recomendacion2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, -1, -1));
+
+        jComboClima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Lluvioso" }));
+        Recomendacion2.add(jComboClima, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 140, -1));
 
         jPanel2.add(Recomendacion2, "card8");
 
@@ -407,7 +417,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 114, -1, -1));
+        Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, -1, -1));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1018,12 +1028,16 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbcuenta_por_cobrarMouseReleased
 
     private void jbbuscarecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbbuscarecetaActionPerformed
+        
         recomendacion(jComboenfermedad.getSelectedIndex()+1,jComboSuelo.getSelectedIndex()+1,
-                jComboPlanta.getSelectedIndex()+1,jComboespecie.getSelectedIndex()+1,1);
+                jComboPlanta.getSelectedIndex()+1,jComboespecie.getSelectedIndex()+1,jComboClima.getSelectedIndex());
+        //clima si es 0 es normal y si es 1 lluvioso
     }//GEN-LAST:event_jbbuscarecetaActionPerformed
     private void recomendacion(int codenf,int codsuelo,int codplanta,int codespecie,int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pe.cantidad,u.descripcion as unidad,pe.coduni FROM productovsefermedad as pe "
                     + "INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
                     + "INNER JOIN producto as p on p.codproducto=pe.codprod "
@@ -1099,6 +1113,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboClima;
     private javax.swing.JComboBox<String> jComboPlanta;
     private javax.swing.JComboBox<String> jComboSuelo;
     private javax.swing.JComboBox<String> jComboenfermedad;
@@ -1107,6 +1122,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
