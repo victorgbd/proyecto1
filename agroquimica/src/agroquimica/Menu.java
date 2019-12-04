@@ -5,6 +5,7 @@
  */
 package agroquimica;
 
+import agroquimica.ventas.buscar_cliente;
 import agroquimica.ventas.buscar_productos;
 import agroquimica.ventas.cuentas_pagar;
 import java.awt.Color;
@@ -41,6 +42,7 @@ public class Menu extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         cargarIconos();
         cargarcomboRecomendacion();
+        lb_fecha.setText(Funciones.fecha());
     }
 
     private void cargarIconos() {
@@ -120,6 +122,16 @@ public class Menu extends javax.swing.JFrame {
         jlTotal = new javax.swing.JLabel();
         jCombotipofactura = new javax.swing.JComboBox<>();
         lbtipofact = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lb_fecha = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txt_codigo = new javax.swing.JTextField();
+        txt_cliente = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        btn_cliente = new javax.swing.JButton();
+        btn_empleado = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        txt_empleado = new javax.swing.JTextField();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -417,7 +429,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, -1, -1));
+        Ventas_ventana.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 120, -1, -1));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -425,7 +437,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(426, 114, -1, -1));
+        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -458,10 +470,50 @@ public class Menu extends javax.swing.JFrame {
 
         jCombotipofactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Credito" }));
         jCombotipofactura.setSelectedIndex(-1);
-        Ventas_ventana.add(jCombotipofactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, 80, -1));
+        Ventas_ventana.add(jCombotipofactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, 80, -1));
 
         lbtipofact.setText("Tipo de Factura:");
-        Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, -1, 20));
+        Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 120, -1, 20));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setText("Codigo:");
+        Ventas_ventana.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, -1, -1));
+
+        lb_fecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_fecha.setText("00/00/00");
+        Ventas_ventana.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 100, -1));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setText("Empleado:");
+        Ventas_ventana.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
+
+        txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Ventas_ventana.add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 230, -1));
+
+        txt_cliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Ventas_ventana.add(txt_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 220, -1));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setText("Fecha:");
+        Ventas_ventana.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, -1));
+
+        btn_cliente.setText("Buscar cliente");
+        btn_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clienteActionPerformed(evt);
+            }
+        });
+        Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, -1, -1));
+
+        btn_empleado.setText("Buscar empleado");
+        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setText("Cliente:");
+        Ventas_ventana.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
+
+        txt_empleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Ventas_ventana.add(txt_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 220, 30));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -732,10 +784,16 @@ public class Menu extends javax.swing.JFrame {
         } else {
             if (jCombotipofactura.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "agregar un tipo de pago");
-            } else {
+            } else if(txt_codigo.getText().isEmpty()){
+                 JOptionPane.showMessageDialog(null, "agregar un cliente.");
+                 buscar_cliente obj = new buscar_cliente();
+                 
+                 obj.setVisible(true);
+            } 
+            else {
                 try {
                     //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
-                    int codcli = 1;
+                    int codcli = Integer.parseInt(txt_codigo.getText());
                     boolean estado = true;
                     int tipfact = jCombotipofactura.getSelectedIndex();
                     if (tipfact == 1) {
@@ -1033,6 +1091,13 @@ public class Menu extends javax.swing.JFrame {
                 jComboPlanta.getSelectedIndex()+1,jComboespecie.getSelectedIndex()+1,jComboClima.getSelectedIndex());
         //clima si es 0 es normal y si es 1 lluvioso
     }//GEN-LAST:event_jbbuscarecetaActionPerformed
+
+    private void btn_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clienteActionPerformed
+        // TODO add your handling code here:
+        buscar_cliente obj = new buscar_cliente();
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btn_clienteActionPerformed
     private void recomendacion(int codenf,int codsuelo,int codplanta,int codespecie,int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1105,6 +1170,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel Recomendacion2;
     private javax.swing.JPanel Registrar;
     public static javax.swing.JPanel Ventas_ventana;
+    private javax.swing.JButton btn_cliente;
+    private javax.swing.JButton btn_empleado;
     private javax.swing.JLabel consult_enfermedad;
     private javax.swing.JLabel consult_receta;
     private javax.swing.JButton evaluar;
@@ -1123,6 +1190,10 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1146,6 +1217,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lbInicio;
     private javax.swing.JLabel lbRecomendacion;
     private javax.swing.JLabel lbVentas;
+    private javax.swing.JLabel lb_fecha;
     private javax.swing.JLabel lb_resigstrar;
     private javax.swing.JLabel lbcerrarsesion;
     private javax.swing.JLabel lbcuenta_por_cobrar;
@@ -1159,5 +1231,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton seleccionar;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txruta;
+    public static javax.swing.JTextField txt_cliente;
+    public static javax.swing.JTextField txt_codigo;
+    private javax.swing.JTextField txt_empleado;
     // End of variables declaration//GEN-END:variables
 }

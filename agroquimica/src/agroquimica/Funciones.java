@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -83,7 +85,13 @@ public class Funciones {
 
         });
     }
-
+    public static String fecha(){
+        Date fecha = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        
+        
+        return sdf.format(fecha);
+    }
     public static boolean buscar_usuario(String usuario) {
         boolean encontrado = false;
         sql = "select nickname from usuario where nickname = " + usuario;
