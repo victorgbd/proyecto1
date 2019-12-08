@@ -5,9 +5,12 @@
  */
 package agroquimica;
 
-import agroquimica.ventas.buscar_cliente;
-import agroquimica.ventas.buscar_empleado;
-import agroquimica.ventas.buscar_productos;
+import agroquimica.consultas.buscar_cliente;
+import agroquimica.consultas.buscar_empleado;
+import agroquimica.consultas.buscar_enfermedad;
+import agroquimica.consultas.buscar_especie;
+import agroquimica.consultas.buscar_planta;
+import agroquimica.consultas.buscar_productos;
 import agroquimica.ventas.cuentas_pagar;
 import java.awt.Color;
 import java.awt.Frame;
@@ -27,7 +30,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,10 +44,11 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarIconos();
-        cargarcomboRecomendacion();
+        Funciones.llenar_combo(jComboSuelo, "tipo_de_suelo", "descripcion");
         lb_fecha.setText(Funciones.fecha());
     }
-    public static int codemp=0;
+    public static int codemp = 0;
+
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
         ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(), Image.SCALE_DEFAULT));
@@ -58,19 +61,13 @@ public class Menu extends javax.swing.JFrame {
         consult_enfermedad.setIcon(consultaEico1);
     }
 
-    private void cargarcomboRecomendacion() {
-        //buscar forma mejor
-        Funciones.llenar_combo(jComboSuelo, "tipo_de_suelo", "descripcion");
-        Funciones.llenar_combo(jComboPlanta, "planta", "descripcion");
-        Funciones.llenar_combo(jComboenfermedad, "enfermedad", "descripcion");
-        Funciones.llenar_combo(jComboespecie, "especie", "descripcion");
-    }
     private File es = null;
     private JFileChooser file;
     private final ConexionBD cc = new ConexionBD();
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
     private int x, y;
+    public static int codplant = 0, codespecie = 0, codenf = 0;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -104,9 +101,6 @@ public class Menu extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
-        jComboenfermedad = new javax.swing.JComboBox<>();
-        jComboespecie = new javax.swing.JComboBox<>();
-        jComboPlanta = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jComboSuelo = new javax.swing.JComboBox<>();
@@ -114,6 +108,12 @@ public class Menu extends javax.swing.JFrame {
         jbbuscareceta = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jComboClima = new javax.swing.JComboBox<>();
+        bt_buscaplanta = new javax.swing.JButton();
+        bt_buscaenfermedad = new javax.swing.JButton();
+        bt_buscaespecie = new javax.swing.JButton();
+        text_planta = new javax.swing.JTextField();
+        text_especie = new javax.swing.JTextField();
+        text_enfermedad = new javax.swing.JTextField();
         Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -161,7 +161,7 @@ public class Menu extends javax.swing.JFrame {
         lbRecomendacion.setBackground(new java.awt.Color(102, 102, 102));
         lbRecomendacion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lbRecomendacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbRecomendacion.setText("Recomendacion");
+        lbRecomendacion.setText("Recomendación");
         lbRecomendacion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbRecomendacion.setOpaque(true);
         lbRecomendacion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -237,7 +237,7 @@ public class Menu extends javax.swing.JFrame {
         lbcerrarsesion.setBackground(new java.awt.Color(102, 102, 102));
         lbcerrarsesion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lbcerrarsesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbcerrarsesion.setText("Cerrar sesion");
+        lbcerrarsesion.setText("Cerrar Sesión");
         lbcerrarsesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbcerrarsesion.setOpaque(true);
         lbcerrarsesion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -371,7 +371,7 @@ public class Menu extends javax.swing.JFrame {
         tabla.setDoubleBuffered(true);
         jScrollPane3.setViewportView(tabla);
 
-        Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 146, 600, 171));
+        Recomendacion2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 650, 290));
 
         jButton3.setText("Agregar Compra");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -379,13 +379,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, -1, -1));
-
-        Recomendacion2.add(jComboenfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 130, -1));
-
-        Recomendacion2.add(jComboespecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 140, -1));
-
-        Recomendacion2.add(jComboPlanta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 140, -1));
+        Recomendacion2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 290, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -410,7 +404,7 @@ public class Menu extends javax.swing.JFrame {
                 jbbuscarecetaActionPerformed(evt);
             }
         });
-        Recomendacion2.add(jbbuscareceta, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 150, 110, -1));
+        Recomendacion2.add(jbbuscareceta, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 240, 110, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -419,6 +413,35 @@ public class Menu extends javax.swing.JFrame {
 
         jComboClima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Lluvioso" }));
         Recomendacion2.add(jComboClima, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 140, -1));
+
+        bt_buscaplanta.setText("Planta");
+        bt_buscaplanta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscaplantaActionPerformed(evt);
+            }
+        });
+        Recomendacion2.add(bt_buscaplanta, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 120, 110, -1));
+
+        bt_buscaenfermedad.setText("Enfermedad");
+        bt_buscaenfermedad.setEnabled(false);
+        bt_buscaenfermedad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscaenfermedadActionPerformed(evt);
+            }
+        });
+        Recomendacion2.add(bt_buscaenfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, 110, -1));
+
+        bt_buscaespecie.setText("Especie");
+        bt_buscaespecie.setEnabled(false);
+        bt_buscaespecie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_buscaespecieActionPerformed(evt);
+            }
+        });
+        Recomendacion2.add(bt_buscaespecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 160, 110, -1));
+        Recomendacion2.add(text_planta, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 140, -1));
+        Recomendacion2.add(text_especie, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 140, -1));
+        Recomendacion2.add(text_enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 110, -1));
 
         jPanel2.add(Recomendacion2, "card8");
 
@@ -721,11 +744,16 @@ public class Menu extends javax.swing.JFrame {
             String[] r2 = r[0].split(">");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
-                //buscar forma mejor
-                jComboPlanta.setSelectedIndex(Funciones.traeindice("planta", r2[0])-1);
-                
-                jComboenfermedad.setSelectedIndex(Funciones.traeindice("enfermedad", r2[2])-1);
-                jComboespecie.setSelectedIndex(Funciones.traeindice("especie", r2[1])-1);
+                //setea el texto
+                text_planta.setText(r2[0]);
+                text_especie.setText(r2[1]);
+                text_enfermedad.setText(r2[2]);
+                //busca el codigo dada la descripcion
+                codplant = Funciones.traeindice("planta", r2[0]);
+                codespecie = Funciones.traeindice("especie", r2[1]);
+                codenf = Funciones.traeindice("enfermedad", r2[2]);
+                bt_buscaespecie.setEnabled(true);
+                bt_buscaenfermedad.setEnabled(true);
                 jPanel2.removeAll();
                 jPanel2.repaint();
                 jPanel2.revalidate();
@@ -746,10 +774,19 @@ public class Menu extends javax.swing.JFrame {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             if (jList1.getSelectedValue() != null) {
                 String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
+                String[] r2 = r[0].split(">");
                 int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
                 if (opcion == JOptionPane.YES_OPTION) {
-                    //this.enfermedad.setText(r[0]);
-                    //recomendacion(r[0]);
+                    ///setea el texto
+                    text_planta.setText(r2[0]);
+                    text_especie.setText(r2[1]);
+                    text_enfermedad.setText(r2[2]);
+                    //busca el codigo dada la descripcion
+                    codplant = Funciones.traeindice("planta", r2[0]);
+                    codespecie = Funciones.traeindice("especie", r2[1]);
+                    codenf = Funciones.traeindice("enfermedad", r2[2]);
+                    bt_buscaespecie.setEnabled(true);
+                    bt_buscaenfermedad.setEnabled(true);
                     jPanel2.removeAll();
                     jPanel2.repaint();
                     jPanel2.revalidate();
@@ -790,29 +827,27 @@ public class Menu extends javax.swing.JFrame {
         } else {
             if (jCombotipofactura.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "agregar un tipo de pago");
-            } else if(txt_codigo.getText().isEmpty()){
-                 JOptionPane.showMessageDialog(null, "agregar un cliente.");
-                 buscar_cliente obj = new buscar_cliente();
-                 
-                 obj.setVisible(true);
-            }else if(txt_empleado.getText().isEmpty()){
-                 JOptionPane.showMessageDialog(null, "agregar un empleado.");
-                 buscar_empleado obj = new buscar_empleado();
-                 
-                 obj.setVisible(true);
-            }  
-            else {
+            } else if (txt_codigo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "agregar un cliente.");
+                buscar_cliente obj = new buscar_cliente();
+
+                obj.setVisible(true);
+            } else if (txt_empleado.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "agregar un empleado.");
+                buscar_empleado obj = new buscar_empleado();
+
+                obj.setVisible(true);
+            } else {
                 try {
                     //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
                     int codcli = Integer.parseInt(txt_codigo.getText());
-                  
+
                     boolean estado = true;
                     int tipfact = jCombotipofactura.getSelectedIndex();
                     if (tipfact == 1) {
                         estado = false;
                     }
 
-                    
                     double balance = 0;
                     if (tipfact == 1) {
                         balance = Double.parseDouble(jlTotal.getText());
@@ -999,53 +1034,57 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_minimizarMouseExited
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        boolean f = true;
-        for (int j = 0; j < tabla.getRowCount(); j++) {
-            for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-                if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(j, 0))) {
-                    int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-                    cant += Integer.parseInt(tabla.getValueAt(j, 3).toString());
-                    Menu.jTable1.setValueAt(cant, i, 3);
-                    f = false;
+        if (tabla.getRowCount() <= 0) {
+            JOptionPane.showMessageDialog(null, "Debe buscar una receta", "Recomendación", JOptionPane.ERROR_MESSAGE);
+        } else {
+            boolean f = true;
+            for (int j = 0; j < tabla.getRowCount(); j++) {
+                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                    if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(j, 0))) {
+                        int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                        cant += Integer.parseInt(tabla.getValueAt(j, 3).toString());
+                        Menu.jTable1.setValueAt(cant, i, 3);
+                        f = false;
+                    }
                 }
             }
-        }
-        if (f) {
-            String[] dato = new String[6];
-            DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
-            for (int i = 0; i < tabla.getRowCount(); i++) {
-                dato[0] = tabla.getValueAt(i, 0).toString();
-                dato[1] = tabla.getValueAt(i, 1).toString();
-                dato[2] = tabla.getValueAt(i, 2).toString();
-                dato[3] = tabla.getValueAt(i, 3).toString();
-                dato[4] = tabla.getValueAt(i, 4).toString();
-                dato[5] = tabla.getValueAt(i, 5).toString();
-                tabladet.addRow(dato);
+            if (f) {
+                String[] dato = new String[6];
+                DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+                for (int i = 0; i < tabla.getRowCount(); i++) {
+                    dato[0] = tabla.getValueAt(i, 0).toString();
+                    dato[1] = tabla.getValueAt(i, 1).toString();
+                    dato[2] = tabla.getValueAt(i, 2).toString();
+                    dato[3] = tabla.getValueAt(i, 3).toString();
+                    dato[4] = tabla.getValueAt(i, 4).toString();
+                    dato[5] = tabla.getValueAt(i, 5).toString();
+                    tabladet.addRow(dato);
+                }
+                Menu.jTable1.setModel(tabladet);
             }
-            Menu.jTable1.setModel(tabladet);
-        }
-        double total = 0;
-        for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-            int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-            double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
-            total += (cant * precio);
-        }
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
-        Menu.jlTotal.setText(total + "");
-        Menu.jPanel2.removeAll();
-        Menu.jPanel2.repaint();
-        Menu.jPanel2.revalidate();
-        Menu.jPanel2.add(Ventas_ventana);
-        Menu.jPanel2.repaint();
-        Menu.jPanel2.revalidate();
-        int posicion = Menu.jPanel3.getX();
-        if (posicion < -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-        } else {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            double total = 0;
+            for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+                total += (cant * precio);
+            }
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            while (modelo.getRowCount() > 0) {
+                modelo.removeRow(0);
+            }
+            Menu.jlTotal.setText(total + "");
+            Menu.jPanel2.removeAll();
+            Menu.jPanel2.repaint();
+            Menu.jPanel2.revalidate();
+            Menu.jPanel2.add(Ventas_ventana);
+            Menu.jPanel2.repaint();
+            Menu.jPanel2.revalidate();
+            int posicion = Menu.jPanel3.getX();
+            if (posicion < -1) {
+                Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            } else {
+                Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -1098,9 +1137,17 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbcuenta_por_cobrarMouseReleased
 
     private void jbbuscarecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbbuscarecetaActionPerformed
-        
-        recomendacion(jComboenfermedad.getSelectedIndex()+1,jComboSuelo.getSelectedIndex()+1,
-                jComboPlanta.getSelectedIndex()+1,jComboespecie.getSelectedIndex()+1,jComboClima.getSelectedIndex());
+        if (codenf != 0 && codespecie != 0 && codplant != 0) {
+            recomendacion(codenf, jComboSuelo.getSelectedIndex() + 1, codplant, codespecie, jComboClima.getSelectedIndex());
+        } else {
+            if (codplant == 0) {
+                JOptionPane.showMessageDialog(null, "Debes buscar una Planta", "Recomendación", JOptionPane.ERROR_MESSAGE);
+            } else if (codespecie == 0) {
+                JOptionPane.showMessageDialog(null, "Debes buscar una especie", "Recomendación", JOptionPane.ERROR_MESSAGE);
+            } else if (codenf == 0) {
+                JOptionPane.showMessageDialog(null, "Debes buscar una enfermedad", "Recomendación", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         //clima si es 0 es normal y si es 1 lluvioso
     }//GEN-LAST:event_jbbuscarecetaActionPerformed
 
@@ -1117,18 +1164,39 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_btn_empleadoActionPerformed
-    private void recomendacion(int codenf,int codsuelo,int codplanta,int codespecie,int clima) {
+
+    private void bt_buscaplantaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscaplantaActionPerformed
+        buscar_planta obj = new buscar_planta();
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+
+
+    }//GEN-LAST:event_bt_buscaplantaActionPerformed
+
+    private void bt_buscaespecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscaespecieActionPerformed
+        buscar_especie obj = new buscar_especie(codplant);
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+
+    }//GEN-LAST:event_bt_buscaespecieActionPerformed
+
+    private void bt_buscaenfermedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscaenfermedadActionPerformed
+        buscar_enfermedad obj = new buscar_enfermedad(codespecie);
+        obj.setLocationRelativeTo(Menu.jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_bt_buscaenfermedadActionPerformed
+    private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
         String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pe.cantidad,u.descripcion as unidad,pe.coduni FROM productovsefermedad as pe "
-                    + "INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
-                    + "INNER JOIN producto as p on p.codproducto=pe.codprod "
-                    + "INNER JOIN unidad as u on u.coduni=pe.coduni "
-                    + "INNER JOIN productovsunidad as pu on pu.codproducto=pe.codprod WHERE pe.codenfer=" + codenf
-                    +" and pe.codsuelo="+codsuelo+" and pe.codplant="+codplanta+" and pe.codespecie="+codespecie
-                    +" and pe.clima="+clima;      
+                + "INNER JOIN enfermedad as enf on pe.codenfer=enf.codenfer "
+                + "INNER JOIN producto as p on p.codproducto=pe.codprod "
+                + "INNER JOIN unidad as u on u.coduni=pe.coduni "
+                + "INNER JOIN productovsunidad as pu on pu.codproducto=pe.codprod WHERE pe.codenfer=" + codenf
+                + " and pe.codsuelo=" + codsuelo + " and pe.codplant=" + codplanta + " and pe.codespecie=" + codespecie
+                + " and pe.clima=" + clima;
         try {
             ResultSet rs = Funciones.consulta(sql);
             while (rs.next()) {
@@ -1189,6 +1257,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel Recomendacion2;
     private javax.swing.JPanel Registrar;
     public static javax.swing.JPanel Ventas_ventana;
+    public static javax.swing.JButton bt_buscaenfermedad;
+    public static javax.swing.JButton bt_buscaespecie;
+    private javax.swing.JButton bt_buscaplanta;
     private javax.swing.JButton btn_cliente;
     private javax.swing.JButton btn_empleado;
     private javax.swing.JLabel consult_enfermedad;
@@ -1200,10 +1271,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboClima;
-    private javax.swing.JComboBox<String> jComboPlanta;
     private javax.swing.JComboBox<String> jComboSuelo;
-    private javax.swing.JComboBox<String> jComboenfermedad;
-    private javax.swing.JComboBox<String> jComboespecie;
     private javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1249,6 +1317,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel salir;
     private javax.swing.JButton seleccionar;
     private javax.swing.JTable tabla;
+    public static javax.swing.JTextField text_enfermedad;
+    public static javax.swing.JTextField text_especie;
+    public static javax.swing.JTextField text_planta;
     private javax.swing.JTextField txruta;
     public static javax.swing.JTextField txt_cliente;
     public static javax.swing.JTextField txt_codigo;

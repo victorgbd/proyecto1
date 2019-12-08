@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agroquimica.ventas;
+package agroquimica.consultas;
 
+import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import agroquimica.Menu;
-import static agroquimica.Menu.jTable1;
 import java.awt.Color;
 import java.awt.Frame;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -19,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Felix Artiles
  */
-public class buscar_empleado extends javax.swing.JFrame {
+public class buscar_productos extends javax.swing.JFrame {
 
     /**
      * Creates new form buscar_productos
      */
-    public buscar_empleado() {
+    public buscar_productos() {
         initComponents();
         llenarTabla("");
     }
@@ -32,18 +34,14 @@ public class buscar_empleado extends javax.swing.JFrame {
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "Cdigo", "Nombre", "Apellido","Puesto", "Correo","Telefono"
+            "codigo", "Descripcion", "precio de venta", "Cantidad existente","Unidad","Codigo de Unidad"
         });
         
-        String sql = "SELECT e.codemp as Codigo,p.nombre as Nombre,p.apellido as Apellido,tp.descripcion as puesto, e.correo as Email, t.numero as Telefono \n" +
-"from empleado e\n" +
-"INNER JOIN persona p on e.codper = p.codper\n" +
-"INNER JOIN tipo_de_empleado tp on e.codtipoemp = tp.codtipoemp\n" +
-"INNER JOIN telefono t on e.codtel = t.codtel  WHERE "
-                + "p.nombre LIKE  '%" + dato + "%'"
-                + "OR e.correo LIKE  '%" + dato + "%'"
-                 + "OR tp.descripcion LIKE  '%" + dato + "%'"
-                + "OR p.apellido LIKE  '%" + dato + "%'";
+        String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pu.cantext,u.descripcion as Unidad,pu.coduni from producto as p "
+                + "INNER JOIN productovsunidad as pu on pu.codproducto=p.codproducto "
+                + "INNER JOIN unidad as u on u.coduni=pu.coduni WHERE "
+                + "p.descripcion LIKE  '%" + dato + "%'"
+                + "OR p.codproducto LIKE  '%" + dato + "%'";
         if (jTextField1.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "No ha escrito", "busqueda", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -54,12 +52,12 @@ public class buscar_empleado extends javax.swing.JFrame {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
                 modelo.addRow(new Object[]{
-                    rs.getString("Codigo"),
-                    rs.getString("Nombre"),
-                    rs.getString("Apellido"),
-                    rs.getString("Puesto"),
-                    rs.getString("Email"),
-                    rs.getString("Telefono")
+                    rs.getString("codproducto"),
+                    rs.getString("descripcion"),
+                    rs.getString("precioventa"),
+                    rs.getString("cantext"),
+                    rs.getString("Unidad"),
+                    rs.getString("coduni")
                 });
             }
             tabla.setModel(modelo);
@@ -85,7 +83,9 @@ public class buscar_empleado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jtcantidad = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -134,7 +134,7 @@ public class buscar_empleado extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Buscar empleado");
+        jLabel1.setText("Buscar Productos");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -157,6 +157,7 @@ public class buscar_empleado extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabla);
 
         PanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 590, 171));
+        PanelPrincipal.add(jtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 126, -1));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +166,11 @@ public class buscar_empleado extends javax.swing.JFrame {
             }
         });
         PanelPrincipal.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Cantidad:");
+        PanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
         minimizar.setBackground(new java.awt.Color(255, 255, 255));
         minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -236,24 +242,50 @@ public class buscar_empleado extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
-        if (tabla.getSelectedRow()<0) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.", "Empleado", JOptionPane.ERROR_MESSAGE);
-           
+        if (jtcantidad.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
+            jtcantidad.requestFocus();
         } else {
-            String puesto = tabla.getValueAt(tabla.getSelectedRow(),3).toString();
-            
-            if(puesto.equals("Caja")){
-                Menu.codemp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
-             Menu.txt_empleado.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
-            dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Debe seleccionar un cajero para la venta.");
+            try {
+                boolean f = true;
+                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                    if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                        int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                        cant += Integer.parseInt(jtcantidad.getText());
+                        Menu.jTable1.setValueAt(cant, i, 3);
+                        f=false;
+                    }
+                }
+                if (f) {
+                    String[] dato = new String[6];
+                    DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+
+                    dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                    dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                    dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                    dato[3] = jtcantidad.getText();
+                    dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                    tabladet.addRow(dato);
+                    Menu.jTable1.setModel(tabladet);
+                }
+                double total = 0;
+                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                    int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                    double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+                    total += (cant*precio);
+                }
+                Menu.jlTotal.setText(total+"");
+                this.setVisible(false);
+                int posicion = Menu.jPanel3.getX();
+                if (posicion < -1) {
+                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                    Menu.jPanel3.setVisible(false);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, e);
             }
-                  
-            
-          
         }
-                
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
@@ -298,10 +330,12 @@ public class buscar_empleado extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jtcantidad;
     private javax.swing.JLabel minimizar;
     private javax.swing.JLabel salir;
     private javax.swing.JTable tabla;

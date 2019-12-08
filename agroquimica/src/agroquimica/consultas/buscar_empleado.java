@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agroquimica.ventas;
+package agroquimica.consultas;
 
 import agroquimica.Funciones;
 import agroquimica.Menu;
@@ -19,12 +19,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Felix Artiles
  */
-public class buscar_cliente extends javax.swing.JFrame {
+public class buscar_empleado extends javax.swing.JFrame {
 
     /**
      * Creates new form buscar_productos
      */
-    public buscar_cliente() {
+    public buscar_empleado() {
         initComponents();
         llenarTabla("");
     }
@@ -32,15 +32,17 @@ public class buscar_cliente extends javax.swing.JFrame {
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "codigo", "Nombre", "Apellido", "Correo","Telefono"
+            "Cdigo", "Nombre", "Apellido","Puesto", "Correo","Telefono"
         });
         
-        String sql = "SELECT c.codclie as Codigo,p.nombre as Nombre,p.apellido as Apellido, c.correo as Email, t.numero as Telefono \n" +
-            "from cliente c\n" +
-            "INNER JOIN persona p on c.codper = p.codper\n" +
-            "INNER JOIN telefono t on c.codtel = t.codtel WHERE "
+        String sql = "SELECT e.codemp as Codigo,p.nombre as Nombre,p.apellido as Apellido,tp.descripcion as puesto, e.correo as Email, t.numero as Telefono \n" +
+"from empleado e\n" +
+"INNER JOIN persona p on e.codper = p.codper\n" +
+"INNER JOIN tipo_de_empleado tp on e.codtipoemp = tp.codtipoemp\n" +
+"INNER JOIN telefono t on e.codtel = t.codtel  WHERE "
                 + "p.nombre LIKE  '%" + dato + "%'"
-                + "OR c.correo LIKE  '%" + dato + "%'"
+                + "OR e.correo LIKE  '%" + dato + "%'"
+                 + "OR tp.descripcion LIKE  '%" + dato + "%'"
                 + "OR p.apellido LIKE  '%" + dato + "%'";
         if (jTextField1.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "No ha escrito", "busqueda", JOptionPane.ERROR_MESSAGE);
@@ -55,6 +57,7 @@ public class buscar_cliente extends javax.swing.JFrame {
                     rs.getString("Codigo"),
                     rs.getString("Nombre"),
                     rs.getString("Apellido"),
+                    rs.getString("Puesto"),
                     rs.getString("Email"),
                     rs.getString("Telefono")
                 });
@@ -131,7 +134,7 @@ public class buscar_cliente extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Buscar cliente");
+        jLabel1.setText("Buscar empleado");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -234,13 +237,21 @@ public class buscar_cliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
         if (tabla.getSelectedRow()<0) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente.", "Cliente", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.", "Empleado", JOptionPane.ERROR_MESSAGE);
            
         } else {
-            Menu.txt_codigo.setText(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-             Menu.txt_cliente.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+            String puesto = tabla.getValueAt(tabla.getSelectedRow(),3).toString();
             
-          dispose();
+            if(puesto.equals("Caja")){
+                Menu.codemp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
+             Menu.txt_empleado.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+            dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un cajero para la venta.");
+            }
+                  
+            
+          
         }
                 
     }//GEN-LAST:event_jButton1ActionPerformed
