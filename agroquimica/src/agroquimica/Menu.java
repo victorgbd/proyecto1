@@ -725,6 +725,12 @@ public class Menu extends javax.swing.JFrame {
                     resultados += output;
                 }
                 resultados = resultados.replace("{", "");
+                resultados = resultados.replace("\\u00c1", "Á");
+                resultados = resultados.replace("\\u00e1", "á");
+                resultados = resultados.replace("\\u00ed", "í");
+                resultados = resultados.replace("\\u00f3", "ó");
+                resultados = resultados.replace("\\u00fa", "ú");
+                resultados = resultados.replace("\\u00e9", "é");
                 resultados = resultados.replace("}", "");
                 resultados = resultados.replace(":", "  porciento de acierto: ");
                 resultados = resultados.replace("\"", "");
