@@ -30,9 +30,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -894,7 +902,7 @@ public class Menu extends javax.swing.JFrame {
                         }
                     }
                     //si no encuentra nada no presenta el mensaje
-                    if (contador == this.jTable1.getRowCount()) {
+                    if (contador == jTable1.getRowCount()) {
                         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
 
                         while (modelo.getRowCount() > 0) {
@@ -903,6 +911,22 @@ public class Menu extends javax.swing.JFrame {
                         jlTotal.setText("");
                         jCombotipofactura.setSelectedIndex(-1);
                         JOptionPane.showMessageDialog(null, "transaccion realizada");
+                        //reporte de jasperreport
+                        JasperReport reporte = null;
+                        String ruta=getClass().getResource("/Reportes/Factura.jasper").toString();
+                        ruta=ruta.replace("file:", "");
+                        Map parametro = new HashMap();
+                        parametro.put("numerodefactura", numfac);
+                        try {
+                            reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+                            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+                            JasperViewer view = new JasperViewer(jprint, false);
+                            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                            view.setVisible(true);
+                        } catch (JRException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
