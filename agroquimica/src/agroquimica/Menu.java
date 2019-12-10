@@ -917,6 +917,10 @@ public class Menu extends javax.swing.JFrame {
                         ruta=ruta.replace("file:", "");
                         Map parametro = new HashMap();
                         parametro.put("numerodefactura", numfac);
+                        parametro.put("Totalfactura",total);
+                        parametro.put("TipoFactura",tipfact);
+                        parametro.put("cliente",txt_cliente.getText());
+                        parametro.put("vendedor",txt_empleado.getText());
                         try {
                             reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
                             JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
