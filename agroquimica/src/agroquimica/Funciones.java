@@ -113,7 +113,7 @@ public class Funciones {
         ResultSet rs = Funciones.consulta(sql);
         try {
             rs.next();
-            JOptionPane.showMessageDialog(null, rs.getInt(0));
+            
             return rs.getInt(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e, "", JOptionPane.ERROR_MESSAGE);

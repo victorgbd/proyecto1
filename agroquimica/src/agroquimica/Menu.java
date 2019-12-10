@@ -742,7 +742,9 @@ public class Menu extends javax.swing.JFrame {
                 resultados = resultados.replace("}", "");
                 resultados = resultados.replace(":", "  porciento de acierto: ");
                 resultados = resultados.replace("\"", "");
+
                 String[] resul = resultados.split(",");
+
                 this.jList1.setListData(resul);
                 conn.disconnect();
             }
@@ -758,40 +760,9 @@ public class Menu extends javax.swing.JFrame {
             String[] r2 = r[0].split(">");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
-                //setea el texto
-                text_planta.setText(r2[0]);
-                text_especie.setText(r2[1]);
-                text_enfermedad.setText(r2[2]);
-                //busca el codigo dada la descripcion
-                codplant = Funciones.traeindice("planta", r2[0]);
-                codespecie = Funciones.traeindice("especie", r2[1]);
-                codenf = Funciones.traeindice("enfermedad", r2[2]);
-                bt_buscaespecie.setEnabled(true);
-                bt_buscaenfermedad.setEnabled(true);
-                jPanel2.removeAll();
-                jPanel2.repaint();
-                jPanel2.revalidate();
-                jPanel2.add(Recomendacion2);
-                jPanel2.repaint();
-                jPanel2.revalidate();
-                int posicion = jPanel3.getX();
-                if (posicion < -1) {
-                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-                } else {
-                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-                }
-            }
-        }
-    }//GEN-LAST:event_jList1MouseClicked
-
-    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if (jList1.getSelectedValue() != null) {
-                String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
-                String[] r2 = r[0].split(">");
-                int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
-                if (opcion == JOptionPane.YES_OPTION) {
-                    ///setea el texto
+                
+                if (!r2[2].contains("Saludable")) {
+                    //setea el texto
                     text_planta.setText(r2[0]);
                     text_especie.setText(r2[1]);
                     text_enfermedad.setText(r2[2]);
@@ -812,6 +783,46 @@ public class Menu extends javax.swing.JFrame {
                         Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
                     } else {
                         Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Esta planta está saludable favor usar otra imagen", "Recomendación", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            if (jList1.getSelectedValue() != null) {
+                String[] r = jList1.getSelectedValue().split(" porciento de acierto: ");
+                String[] r2 = r[0].split(">");
+                int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
+                if (opcion == JOptionPane.YES_OPTION) {
+                    ///setea el texto
+                    if (!r2[2].contains("Saludable")) {
+                        text_planta.setText(r2[0]);
+                        text_especie.setText(r2[1]);
+                        text_enfermedad.setText(r2[2]);
+                        //busca el codigo dada la descripcion
+                        codplant = Funciones.traeindice("planta", r2[0]);
+                        codespecie = Funciones.traeindice("especie", r2[1]);
+                        codenf = Funciones.traeindice("enfermedad", r2[2]);
+                        bt_buscaespecie.setEnabled(true);
+                        bt_buscaenfermedad.setEnabled(true);
+                        jPanel2.removeAll();
+                        jPanel2.repaint();
+                        jPanel2.revalidate();
+                        jPanel2.add(Recomendacion2);
+                        jPanel2.repaint();
+                        jPanel2.revalidate();
+                        int posicion = jPanel3.getX();
+                        if (posicion < -1) {
+                            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                        } else {
+                            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Esta planta está saludable favor usar otra imagen", "Recomendación", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -837,17 +848,17 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (this.jTable1.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(null, "agregar una compra");
+            JOptionPane.showMessageDialog(null, "Agrega un Producto");
         } else {
             if (jCombotipofactura.getSelectedIndex() == -1) {
-                JOptionPane.showMessageDialog(null, "agregar un tipo de pago");
+                JOptionPane.showMessageDialog(null, "Agrega un Tipo de Pago");
             } else if (txt_codigo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "agregar un cliente.");
+                JOptionPane.showMessageDialog(null, "Agrega un Cliente.");
                 buscar_cliente obj = new buscar_cliente();
 
                 obj.setVisible(true);
             } else if (txt_empleado.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "agregar un empleado.");
+                JOptionPane.showMessageDialog(null, "Agrega un Empleado.");
                 buscar_empleado obj = new buscar_empleado();
 
                 obj.setVisible(true);
@@ -910,17 +921,17 @@ public class Menu extends javax.swing.JFrame {
                         }
                         jlTotal.setText("");
                         jCombotipofactura.setSelectedIndex(-1);
-                        JOptionPane.showMessageDialog(null, "transaccion realizada");
+                        JOptionPane.showMessageDialog(null, "Transaccion Realizada");
                         //reporte de jasperreport
                         JasperReport reporte = null;
-                        String ruta=getClass().getResource("/Reportes/Factura.jasper").toString();
-                        ruta=ruta.replace("file:", "");
+                        String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
+                        ruta = ruta.replace("file:", "");
                         Map parametro = new HashMap();
                         parametro.put("numerodefactura", numfac);
-                        parametro.put("Totalfactura",total);
-                        parametro.put("TipoFactura",tipfact);
-                        parametro.put("cliente",txt_cliente.getText());
-                        parametro.put("vendedor",txt_empleado.getText());
+                        parametro.put("Totalfactura", total);
+                        parametro.put("TipoFactura", tipfact);
+                        parametro.put("cliente", txt_cliente.getText());
+                        parametro.put("vendedor", txt_empleado.getText());
                         try {
                             reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
                             JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
@@ -930,7 +941,7 @@ public class Menu extends javax.swing.JFrame {
                         } catch (JRException ex) {
                             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
+
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
@@ -1069,7 +1080,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (tabla.getRowCount() <= 0) {
-            JOptionPane.showMessageDialog(null, "Debe buscar una receta", "Recomendación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Su Receta está vacía", "Recomendación", JOptionPane.ERROR_MESSAGE);
         } else {
             boolean f = true;
             for (int j = 0; j < tabla.getRowCount(); j++) {
@@ -1245,7 +1256,7 @@ public class Menu extends javax.swing.JFrame {
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e, "Error al llenar la tabla", JOptionPane.ERROR_MESSAGE);
         }
     }
 
