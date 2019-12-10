@@ -141,6 +141,7 @@ public class Menu extends javax.swing.JFrame {
         btn_empleado = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         txt_empleado = new javax.swing.JTextField();
+        bt_eliminarV = new javax.swing.JButton();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -469,7 +470,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
+        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -535,7 +536,7 @@ public class Menu extends javax.swing.JFrame {
                 btn_clienteActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, -1, -1));
+        Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 30, -1, -1));
 
         btn_empleado.setText("Buscar empleado");
         btn_empleado.addActionListener(new java.awt.event.ActionListener() {
@@ -543,7 +544,7 @@ public class Menu extends javax.swing.JFrame {
                 btn_empleadoActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
+        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Cliente:");
@@ -551,6 +552,14 @@ public class Menu extends javax.swing.JFrame {
 
         txt_empleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Ventas_ventana.add(txt_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 220, 30));
+
+        bt_eliminarV.setText("Eliminar");
+        bt_eliminarV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_eliminarVActionPerformed(evt);
+            }
+        });
+        Ventas_ventana.add(bt_eliminarV, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -847,20 +856,23 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbInicioMouseReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (this.jTable1.getRowCount() < 1) {
+        if (jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "Agrega un Producto");
+            buscar_productos obj = new buscar_productos();
+            obj.setLocationRelativeTo(jPanel2);
+            obj.setVisible(true);
         } else {
             if (jCombotipofactura.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "Agrega un Tipo de Pago");
             } else if (txt_codigo.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Agrega un Cliente.");
                 buscar_cliente obj = new buscar_cliente();
-
+                obj.setLocationRelativeTo(jPanel2);
                 obj.setVisible(true);
             } else if (txt_empleado.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Agrega un Empleado.");
                 buscar_empleado obj = new buscar_empleado();
-
+                obj.setLocationRelativeTo(jPanel2);
                 obj.setVisible(true);
             } else {
                 try {
@@ -1230,6 +1242,15 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_bt_buscaenfermedadActionPerformed
+
+    private void bt_eliminarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarVActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        if(jTable1.getSelectedRow()>=0){
+            modelo.removeRow(jTable1.getSelectedRow());
+        }else{
+            JOptionPane.showMessageDialog(null, "Debes Seleccionar una fila", "Ventas", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bt_eliminarVActionPerformed
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1305,6 +1326,7 @@ public class Menu extends javax.swing.JFrame {
     public static javax.swing.JButton bt_buscaenfermedad;
     public static javax.swing.JButton bt_buscaespecie;
     private javax.swing.JButton bt_buscaplanta;
+    private javax.swing.JButton bt_eliminarV;
     private javax.swing.JButton btn_cliente;
     private javax.swing.JButton btn_empleado;
     private javax.swing.JLabel consult_enfermedad;
