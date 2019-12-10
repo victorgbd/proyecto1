@@ -675,22 +675,22 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.repaint();
         jPanel2.revalidate();
         //mover el panel de menu con la animacion
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
         } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lbRecomendacionMouseReleased
 
     private void jlmenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlmenuMousePressed
         //mover el panel de menu con la animacion
         Menu.jPanel3.setVisible(true);
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
         } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_jlmenuMousePressed
 
@@ -834,15 +834,15 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.removeAll();
         jPanel2.repaint();
         jPanel2.revalidate();
-        jPanel2.add(this.inicio);
+        jPanel2.add(inicio);
         jPanel2.repaint();
         jPanel2.revalidate();
         //mover el panel de menu con la animacion
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
         } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lbInicioMouseReleased
 
@@ -893,15 +893,15 @@ public class Menu extends javax.swing.JFrame {
                     int contador = 0;
                     //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
                     //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
-                    for (int i = 0; i < this.jTable1.getRowCount(); i++) {
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
                         int opcion = 0;
                         try {
                             ps = cn.prepareStatement(sql);
                             ps.setInt(1, numfac);
-                            ps.setInt(2, Integer.parseInt(this.jTable1.getValueAt(i, 0).toString()));
-                            ps.setInt(3, Integer.parseInt(this.jTable1.getValueAt(i, 3).toString()));
-                            ps.setDouble(4, Double.parseDouble(this.jTable1.getValueAt(i, 2).toString()));
-                            ps.setInt(5, Integer.parseInt(this.jTable1.getValueAt(i, 5).toString()));
+                            ps.setInt(2, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
+                            ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 3).toString()));
+                            ps.setDouble(4, Double.parseDouble(jTable1.getValueAt(i, 2).toString()));
+                            ps.setInt(5, Integer.parseInt(jTable1.getValueAt(i, 5).toString()));
                             res = ps.executeQuery();
                             res.next();
                             opcion = res.getInt(1);
@@ -1030,11 +1030,11 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.add(this.Registrar);
         jPanel2.repaint();
         jPanel2.revalidate();
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
         } else {
-            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, this.jPanel3);
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lb_resigstrarMouseReleased
 
@@ -1140,7 +1140,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.add(Recomendacion);
         jPanel2.repaint();
         jPanel2.revalidate();
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion < -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
             Menu.jPanel3.setVisible(false);
@@ -1157,7 +1157,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.add(Recomendacion2);
         jPanel2.repaint();
         jPanel2.revalidate();
-        int posicion = this.jPanel3.getX();
+        int posicion = jPanel3.getX();
         if (posicion < -1) {
             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
             jPanel3.setVisible(false);
