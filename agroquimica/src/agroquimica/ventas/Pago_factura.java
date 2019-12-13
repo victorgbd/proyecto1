@@ -6,6 +6,7 @@
 package agroquimica.ventas;
 
 import agroquimica.ConexionBD;
+import agroquimica.Funciones;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ public class Pago_factura extends javax.swing.JFrame {
      */
     public Pago_factura() {
         initComponents();
+        lb_fecha.setText(Funciones.fecha());
     }
 
     private final ConexionBD cc = new ConexionBD();
@@ -47,18 +49,21 @@ public class Pago_factura extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         txt_cliente = new javax.swing.JTextField();
         txt_factura = new javax.swing.JTextField();
         txt_deuda = new javax.swing.JTextField();
         txt_balance = new javax.swing.JTextField();
-        txt_pago = new javax.swing.JTextField();
         btn_pagar = new javax.swing.JButton();
         radio_50 = new javax.swing.JRadioButton();
         radio_100 = new javax.swing.JRadioButton();
         check_pago_porcentaje = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lb_cuota_actual = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lb_cuota_total = new javax.swing.JLabel();
+        lb_fecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Cuentas por cobrar");
@@ -72,8 +77,6 @@ public class Pago_factura extends javax.swing.JFrame {
         jLabel4.setText("Total Deuda");
 
         jLabel5.setText("Balance pendiente");
-
-        jLabel6.setText("Total a pagar");
 
         txt_cliente.setEditable(false);
 
@@ -119,52 +122,76 @@ public class Pago_factura extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Cuota:");
+
+        lb_cuota_actual.setText("jLabel9");
+
+        jLabel9.setText("/");
+
+        lb_cuota_total.setText("jLabel10");
+
+        lb_fecha.setText("fecha");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel6)
-                        .addComponent(btn_pagar))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_factura, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                                .addComponent(txt_deuda)
+                                .addComponent(txt_balance)
+                                .addComponent(txt_cliente))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(jLabel1))
+                                .addComponent(lb_cuota_actual)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lb_cuota_total)))
+                        .addGap(0, 127, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(check_pago_porcentaje)
                                 .addGap(18, 18, 18)
                                 .addComponent(radio_50)
                                 .addGap(18, 18, 18)
-                                .addComponent(radio_100)))
-                        .addContainerGap(127, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_factura)
-                                .addComponent(txt_deuda)
-                                .addComponent(txt_balance)
-                                .addComponent(txt_pago, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                                .addComponent(txt_cliente))
-                            .addComponent(jButton1))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(radio_100))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(jLabel1)
+                                .addGap(32, 32, 32)
+                                .addComponent(lb_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(24, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(btn_pagar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lb_fecha))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -192,15 +219,17 @@ public class Pago_factura extends javax.swing.JFrame {
                                     .addComponent(radio_50)
                                     .addComponent(radio_100)))))
                     .addComponent(check_pago_porcentaje))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8)
+                    .addComponent(lb_cuota_actual)
+                    .addComponent(jLabel9)
+                    .addComponent(lb_cuota_total))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_pagar)
                     .addComponent(jButton1))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -214,22 +243,18 @@ public class Pago_factura extends javax.swing.JFrame {
     }
     private void btn_pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagarActionPerformed
         // TODO add your handling code here:
-        if(txt_factura.getText().isEmpty() || txt_pago.getText().isEmpty()){
+        if(txt_factura.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe llenar los campos habilitados.");
             
         }else{
-            if(Double.parseDouble(txt_pago.getText()) > Double.parseDouble(txt_balance.getText()) || Double.parseDouble(txt_pago.getText())<=0){
-                JOptionPane.showMessageDialog(null, "El pago debe ser menor a "+txt_balance.getText()+"$RD y mayor a 0.00$RD", "Error de pago", JOptionPane.ERROR_MESSAGE);
-                txt_pago.requestFocus();
-                txt_pago.setText("");
-            }else{
+            
                 String sql ="call sp_cobro_credito(?,?,?)";
                 try {
                     ps = cn.prepareStatement(sql);
                     
                      ps.setInt(1, Integer.parseInt(txt_factura.getText()));
                     ps.setDouble(2, Double.parseDouble(df.format(Double.parseDouble(txt_balance.getText()))));
-                    ps.setDouble(3, Double.parseDouble(df.format(Double.parseDouble(txt_pago.getText()))));
+                   // ps.setDouble(3, Double.parseDouble(df.format(Double.parseDouble(txt_pago.getText()))));
                     ResultSet rs = ps.executeQuery();
                     JOptionPane.showMessageDialog(null, "Pago realizado correctamente","Pago de factura",JOptionPane.INFORMATION_MESSAGE);
                     cuentas_pagar obj = new cuentas_pagar();
@@ -241,42 +266,21 @@ public class Pago_factura extends javax.swing.JFrame {
                     Logger.getLogger(Pago_factura.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }
+        
     }//GEN-LAST:event_btn_pagarActionPerformed
 
     private void radio_50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radio_50MouseClicked
-        // TODO add your handling code here:
-        if(radio_50.isSelected() && check_pago_porcentaje.isSelected()){
-            
-        txt_pago.setText(String.valueOf(String.format("%.2f", Double.parseDouble(txt_balance.getText()) * 0.50)));
-          txt_pago.setEditable(false);
-        }else{
-            txt_pago.setEditable(true);
-            
-        }
+       
     }//GEN-LAST:event_radio_50MouseClicked
 
     private void check_pago_porcentajeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_check_pago_porcentajeMouseClicked
         // TODO add your handling code here:
-        if(!check_pago_porcentaje.isSelected()){
-            radio_50.setSelected(false);
-            radio_100.setSelected(false);
-            txt_pago.setEditable(true);
-            txt_pago.setText(null);
-            txt_pago.requestFocus();
-        }
+      
     }//GEN-LAST:event_check_pago_porcentajeMouseClicked
 
     private void radio_100MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radio_100MouseClicked
         // TODO add your handling code here:
-        if(radio_100.isSelected() && check_pago_porcentaje.isSelected()){
-            
-        txt_pago.setText(txt_balance.getText());
-          txt_pago.setEditable(false);
-        }else{
-            txt_pago.setEditable(true);
-            
-        }
+       
     }//GEN-LAST:event_radio_100MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -328,8 +332,12 @@ public class Pago_factura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lb_cuota_actual;
+    private javax.swing.JLabel lb_cuota_total;
+    private javax.swing.JLabel lb_fecha;
     private javax.swing.ButtonGroup porciento;
     private javax.swing.JRadioButton radio_100;
     private javax.swing.JRadioButton radio_50;
@@ -337,6 +345,5 @@ public class Pago_factura extends javax.swing.JFrame {
     public static javax.swing.JTextField txt_cliente;
     public static javax.swing.JTextField txt_deuda;
     public static javax.swing.JTextField txt_factura;
-    public static javax.swing.JTextField txt_pago;
     // End of variables declaration//GEN-END:variables
 }

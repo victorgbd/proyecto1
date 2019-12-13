@@ -34,11 +34,11 @@ public class cuentas_pagar extends javax.swing.JFrame {
 public void llenarTabla(String dato) {
         modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "Numero factura", "Cliente", "Estado", "Deuda total","Total pagado","pendiente"
+            "Numero factura", "Cliente",  "Deuda total","Total pagado","pendiente","Fecha","Vence"
         });
         //
         String sql = "SELECT  f.numfact as factura, CONCAT(p.nombre,\" \",p.apellido) as cliente, \n" +
-        "total,total-balance as totalpagado,balance\n" +
+        "total,DATE_FORMAT(f.fecha,'%d/%m/%Y') as fecha,DATE_FORMAT(DATE(DATE_ADD(fecha,INTERVAL 1 MONTH)),'%d/%m/%Y')as vence,total-balance as totalpagado,balance\n" +
         "        FROM cliente c \n" +
         "        inner JOIN persona p ON c.codper = p.codper \n" +
         "        inner JOIN factura f ON c.codclie = f.codcli\n" +
@@ -55,10 +55,12 @@ public void llenarTabla(String dato) {
                     rs.getString("factura"),
                     rs.getString("cliente"),
                     
-                    "credito",
+                    
                     rs.getString("total"),
                     rs.getString("totalpagado"),
-                    rs.getString("balance")
+                    rs.getString("balance"),
+                    rs.getString("fecha"),
+                    rs.getString("vence")
                    });
             }
             jTable1.setModel(modelo);
@@ -183,7 +185,7 @@ public void llenarTabla(String dato) {
             Pago_factura.txt_factura.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             Pago_factura.txt_deuda.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
             Pago_factura.txt_balance.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString());
-            Pago_factura.txt_pago.requestFocus();
+            
           obj.setVisible(true);
           dispose();
         }else{

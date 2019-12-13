@@ -236,7 +236,7 @@ public class buscar_cliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente.", "Cliente", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            Menu.txt_codigo.setText(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            Menu.codclie =Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
             Menu.txt_cliente.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
 
             dispose();

@@ -12,6 +12,7 @@ import agroquimica.consultas.buscar_especie;
 import agroquimica.consultas.buscar_planta;
 import agroquimica.consultas.buscar_productos;
 import agroquimica.ventas.cuentas_pagar;
+import agroquimica.ventas.factura_credito;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Image;
@@ -30,17 +31,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -56,7 +50,8 @@ public class Menu extends javax.swing.JFrame {
         lb_fecha.setText(Funciones.fecha());
     }
     public static int codemp = 0;
-
+public static int codclie = 0;
+ DecimalFormat df = new DecimalFormat("###,###.##");
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
         ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(), Image.SCALE_DEFAULT));
@@ -131,17 +126,14 @@ public class Menu extends javax.swing.JFrame {
         jlTotal = new javax.swing.JLabel();
         jCombotipofactura = new javax.swing.JComboBox<>();
         lbtipofact = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         lb_fecha = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        txt_codigo = new javax.swing.JTextField();
         txt_cliente = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         btn_cliente = new javax.swing.JButton();
         btn_empleado = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         txt_empleado = new javax.swing.JTextField();
-        bt_eliminarV = new javax.swing.JButton();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -470,7 +462,7 @@ public class Menu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
+        Ventas_ventana.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -508,27 +500,20 @@ public class Menu extends javax.swing.JFrame {
         lbtipofact.setText("Tipo de Factura:");
         Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 120, -1, 20));
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Codigo:");
-        Ventas_ventana.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, -1, -1));
-
         lb_fecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lb_fecha.setText("00/00/00");
-        Ventas_ventana.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 100, -1));
+        Ventas_ventana.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 100, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Empleado:");
-        Ventas_ventana.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
-
-        txt_codigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Ventas_ventana.add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 230, -1));
+        Ventas_ventana.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, -1, -1));
 
         txt_cliente.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Ventas_ventana.add(txt_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 220, -1));
+        Ventas_ventana.add(txt_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 220, -1));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Fecha:");
-        Ventas_ventana.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, -1));
+        Ventas_ventana.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, -1, -1));
 
         btn_cliente.setText("Buscar cliente");
         btn_cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -536,7 +521,7 @@ public class Menu extends javax.swing.JFrame {
                 btn_clienteActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 30, -1, -1));
+        Ventas_ventana.add(btn_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, -1, -1));
 
         btn_empleado.setText("Buscar empleado");
         btn_empleado.addActionListener(new java.awt.event.ActionListener() {
@@ -544,22 +529,14 @@ public class Menu extends javax.swing.JFrame {
                 btn_empleadoActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, -1, -1));
+        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Cliente:");
-        Ventas_ventana.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
+        Ventas_ventana.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, -1));
 
         txt_empleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Ventas_ventana.add(txt_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 220, 30));
-
-        bt_eliminarV.setText("Eliminar");
-        bt_eliminarV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_eliminarVActionPerformed(evt);
-            }
-        });
-        Ventas_ventana.add(bt_eliminarV, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
+        Ventas_ventana.add(txt_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 77, 220, -1));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -855,29 +832,11 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbInicioMouseReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (jTable1.getRowCount() < 1) {
-            JOptionPane.showMessageDialog(null, "Agrega un Producto");
-            buscar_productos obj = new buscar_productos();
-            obj.setLocationRelativeTo(jPanel2);
-            obj.setVisible(true);
-        } else {
-            if (jCombotipofactura.getSelectedIndex() == -1) {
-                JOptionPane.showMessageDialog(null, "Agrega un Tipo de Pago");
-            } else if (txt_codigo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Agrega un Cliente.");
-                buscar_cliente obj = new buscar_cliente();
-                obj.setLocationRelativeTo(jPanel2);
-                obj.setVisible(true);
-            } else if (txt_empleado.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Agrega un Empleado.");
-                buscar_empleado obj = new buscar_empleado();
-                obj.setLocationRelativeTo(jPanel2);
-                obj.setVisible(true);
-            } else {
+    void crear_factura(){
+                factura_credito obj2 = new factura_credito();
                 try {
                     //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
-                    int codcli = Integer.parseInt(txt_codigo.getText());
+                    
 
                     boolean estado = true;
                     int tipfact = jCombotipofactura.getSelectedIndex();
@@ -887,12 +846,16 @@ public class Menu extends javax.swing.JFrame {
 
                     double balance = 0;
                     if (tipfact == 1) {
-                        balance = Double.parseDouble(jlTotal.getText());
+                        balance = Double.parseDouble(jlTotal.getText().replace(",", ""));
+                        
                     }
-                    double total = Double.parseDouble(jlTotal.getText());
+                   
+                    double total = Double.parseDouble(jlTotal.getText().replace(",", ""));
+                    
+                    
                     String sql = "call sp_factura(?,?,?,?,?,?)";
                     ps = cn.prepareStatement(sql);
-                    ps.setInt(1, codcli);
+                    ps.setInt(1, codclie);
                     ps.setBoolean(2, estado);
                     ps.setInt(3, tipfact);
                     ps.setInt(4, codemp);
@@ -921,9 +884,18 @@ public class Menu extends javax.swing.JFrame {
                         }
 
                         if (opcion != 0) {
+                            
                             contador++;
                         }
                     }
+                    if(tipfact==1){
+                        factura_credito.txt_cliente.setText(Menu.txt_cliente.getText());
+                        factura_credito.txt_factura.setText(String.valueOf(numfac));
+                        factura_credito.txt_monto_total.setText(String.valueOf(df.format(balance)));
+                        
+                        obj2.setVisible(true);
+                        obj2.setLocationRelativeTo(null);
+                        }
                     //si no encuentra nada no presenta el mensaje
                     if (contador == jTable1.getRowCount()) {
                         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
@@ -934,30 +906,52 @@ public class Menu extends javax.swing.JFrame {
                         jlTotal.setText("");
                         jCombotipofactura.setSelectedIndex(-1);
                         JOptionPane.showMessageDialog(null, "Transaccion Realizada");
+                        
                         //reporte de jasperreport
-                        JasperReport reporte = null;
-                        String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
-                        ruta = ruta.replace("file:", "");
-                        Map parametro = new HashMap();
-                        parametro.put("numerodefactura", numfac);
-                        parametro.put("Totalfactura", total);
-                        parametro.put("TipoFactura", tipfact);
-                        parametro.put("cliente", txt_cliente.getText());
-                        parametro.put("vendedor", txt_empleado.getText());
-                        try {
-                            reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
-                            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
-                            JasperViewer view = new JasperViewer(jprint, false);
-                            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                            view.setVisible(true);
-                        } catch (JRException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+//                        JasperReport reporte = null;
+//                        String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
+//                        ruta = ruta.replace("file:", "");
+//                        Map parametro = new HashMap();
+//                        parametro.put("numerodefactura", numfac);
+//                        parametro.put("Totalfactura", total);
+//                        parametro.put("TipoFactura", tipfact);
+//                        parametro.put("cliente", txt_cliente.getText());
+//                        parametro.put("vendedor", txt_empleado.getText());
+//                        try {
+//                            reporte = (JasperReport) JRLoader.loadObjectFromLocation(ruta);
+//                            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+//                            JasperViewer view = new JasperViewer(jprint, false);
+//                            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//                            view.setVisible(true);
+//                        } catch (JRException ex) {
+//                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
 
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            
+        
+    }
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (this.jTable1.getRowCount() < 1) {
+            JOptionPane.showMessageDialog(null, "Agrega un Producto");
+        } else {
+            if (jCombotipofactura.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Agrega un Tipo de Pago");
+            } else if (txt_cliente.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Agrega un Cliente.");
+                buscar_cliente obj = new buscar_cliente();
+
+                obj.setVisible(true);
+            } else if (txt_empleado.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Agrega un Empleado.");
+                buscar_empleado obj = new buscar_empleado();
+
+                obj.setVisible(true);
+            } else {
+                crear_factura();
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1242,15 +1236,6 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(Menu.jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_bt_buscaenfermedadActionPerformed
-
-    private void bt_eliminarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarVActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        if(jTable1.getSelectedRow()>=0){
-            modelo.removeRow(jTable1.getSelectedRow());
-        }else{
-            JOptionPane.showMessageDialog(null, "Debes Seleccionar una fila", "Ventas", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_bt_eliminarVActionPerformed
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1326,7 +1311,6 @@ public class Menu extends javax.swing.JFrame {
     public static javax.swing.JButton bt_buscaenfermedad;
     public static javax.swing.JButton bt_buscaespecie;
     private javax.swing.JButton bt_buscaplanta;
-    private javax.swing.JButton bt_eliminarV;
     private javax.swing.JButton btn_cliente;
     private javax.swing.JButton btn_empleado;
     private javax.swing.JLabel consult_enfermedad;
@@ -1344,7 +1328,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1389,7 +1372,6 @@ public class Menu extends javax.swing.JFrame {
     public static javax.swing.JTextField text_planta;
     private javax.swing.JTextField txruta;
     public static javax.swing.JTextField txt_cliente;
-    public static javax.swing.JTextField txt_codigo;
     public static javax.swing.JTextField txt_empleado;
     // End of variables declaration//GEN-END:variables
 }
