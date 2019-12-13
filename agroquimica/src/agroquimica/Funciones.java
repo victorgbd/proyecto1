@@ -94,7 +94,7 @@ public class Funciones {
     }
     public static boolean buscar_usuario(String usuario) {
         boolean encontrado = false;
-        sql = "select nickname from usuario where nickname = " + usuario;
+        sql = "select nickname from usuario where nickname ='"+ usuario+"'";
         ResultSet dato = consulta(sql);
 
         try {

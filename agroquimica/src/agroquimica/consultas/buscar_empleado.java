@@ -40,7 +40,7 @@ public class buscar_empleado extends javax.swing.JFrame {
 "INNER JOIN persona p on e.codper = p.codper\n" +
 "INNER JOIN tipo_de_empleado tp on e.codtipoemp = tp.codtipoemp\n" +
 "INNER JOIN telefono t on e.codtel = t.codtel  WHERE "
-                + "p.nombre LIKE  '%" + dato + "%'"
+                + " p.nombre LIKE  '%" + dato + "%'"
                 + "OR e.correo LIKE  '%" + dato + "%'"
                  + "OR tp.descripcion LIKE  '%" + dato + "%'"
                 + "OR p.apellido LIKE  '%" + dato + "%'";
@@ -53,14 +53,17 @@ public class buscar_empleado extends javax.swing.JFrame {
         try {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
-                modelo.addRow(new Object[]{
+                if(rs.getString("Puesto").equals("Caja")){
+                   modelo.addRow(new Object[]{
                     rs.getString("Codigo"),
                     rs.getString("Nombre"),
                     rs.getString("Apellido"),
                     rs.getString("Puesto"),
                     rs.getString("Email"),
                     rs.getString("Telefono")
-                });
+                }); 
+                }
+                
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {

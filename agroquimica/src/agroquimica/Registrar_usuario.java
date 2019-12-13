@@ -5,8 +5,11 @@
  */
 package agroquimica;
 
+import static agroquimica.Funciones.cn;
 import java.awt.Color;
 import java.awt.Frame;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -25,6 +28,7 @@ public class Registrar_usuario extends javax.swing.JFrame {
     }
 
     private int x,y;
+    private PreparedStatement ps;
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -164,9 +168,9 @@ public class Registrar_usuario extends javax.swing.JFrame {
             txt_usuario.requestFocus();
         } else {
             try {
-                ConexionBD bd = new ConexionBD();
-                bd.conexion();
-                Statement st = bd.conexion().createStatement();
+                
+                ConexionBD.conexion();
+                Statement st = ConexionBD.conexion().createStatement();
                 if (combo_tipo_acceso.getSelectedItem() == "Administrador") {
                     acceso = 1;
                 } else {
@@ -174,11 +178,17 @@ public class Registrar_usuario extends javax.swing.JFrame {
                 }
                 String sql = "Insert into usuario(nickname,contrasena,tipoacceso) Values('" + usuario + "','" + contra + "','" + acceso + "')";
                st.executeUpdate(sql);
-
+               //buscar codigo usuario
+               sql = "select max(codusuario) from usuario";
+               ps = cn.prepareStatement(sql);
+                ResultSet rs =ps.executeQuery();
+                    rs.next();
+               Empleados.cod_usu = rs.getInt(1);
                 JOptionPane.showMessageDialog(null, "El usuario: " + usuario + " ha sido creado correctamente.", "Registro", JOptionPane.INFORMATION_MESSAGE);
                 limpiar();
                 if(Empleados.reg_emple){
                  Empleados.txt_usuario.setText(usuario);
+                 Empleados.reg_emple = false;
                     dispose();
                 }
             } catch (SQLException e) {
