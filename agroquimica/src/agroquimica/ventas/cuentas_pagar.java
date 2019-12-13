@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,7 @@ public class cuentas_pagar extends javax.swing.JFrame {
         llenarTabla("");
         this.setLocationRelativeTo(null);
     }
+    DecimalFormat df = new DecimalFormat("###,###.##");
     TableRowSorter trs;
     DefaultTableModel modelo;
 public void llenarTabla(String dato) {
@@ -38,27 +40,29 @@ public void llenarTabla(String dato) {
         });
         //
         String sql = "SELECT  f.numfact as factura, CONCAT(p.nombre,\" \",p.apellido) as cliente, \n" +
-        "total,DATE_FORMAT(f.fecha,'%d/%m/%Y') as fecha,DATE_FORMAT(DATE(DATE_ADD(fecha,INTERVAL 1 MONTH)),'%d/%m/%Y')as vence,total-balance as totalpagado,balance\n" +
+        "total,DATE_FORMAT(f.fecha,'%d/%m/%Y') as fecha,DATE_FORMAT(cu.fecha_vencimiento,'%d/%m/%Y') as vence,total-balance as totalpagado,balance\n" +
         "        FROM cliente c \n" +
         "        inner JOIN persona p ON c.codper = p.codper \n" +
-        "        inner JOIN factura f ON c.codclie = f.codcli\n" +
+        "        inner JOIN factura f ON c.codclie = f.codcli\n"
+                + "inner join cuota cu on f.numfact = cu.numfact" +
         "        WHERE p.nombre LIKE  '%"+ dato +"%' AND balance > 0";
                
-                
+               
         ResultSet rs = Funciones.consulta(sql);
         try {
             
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
-                
+             
+              
                 modelo.addRow(new Object[]{
                     rs.getString("factura"),
                     rs.getString("cliente"),
                     
                     
-                    rs.getString("total"),
-                    rs.getString("totalpagado"),
-                    rs.getString("balance"),
+                     df.format(Double.parseDouble(rs.getString("total"))),
+                    df.format(Double.parseDouble(rs.getString("totalpagado"))),
+                    df.format(Double.parseDouble(rs.getString("balance"))),
                     rs.getString("fecha"),
                     rs.getString("vence")
                    });
@@ -183,8 +187,8 @@ public void llenarTabla(String dato) {
         if(jTable1.getSelectedRow()>=0){
             Pago_factura.txt_cliente.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             Pago_factura.txt_factura.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            Pago_factura.txt_deuda.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
-            Pago_factura.txt_balance.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString());
+            Pago_factura.txt_deuda.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+            obj.buscar_cuota(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
             
           obj.setVisible(true);
           dispose();
