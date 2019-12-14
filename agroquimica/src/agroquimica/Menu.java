@@ -843,7 +843,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbInicioMouseReleased
 
     void crear_factura() {
-        
+
         try {
             //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
 
@@ -900,21 +900,21 @@ public class Menu extends javax.swing.JFrame {
             //si no encuentra nada no presenta el mensaje
             if (contador == jTable1.getRowCount()) {
                 if (tipfact == 1) {
-                    factura_credito obj2 = new factura_credito(numfac,balance);
-                    
+                    factura_credito obj2 = new factura_credito(numfac, balance);
+
                     obj2.numfac = numfac;
                     obj2.tipfact = jCombotipofactura.getSelectedItem().toString();
                     obj2.total = total;
                     obj2.setVisible(true);
                     obj2.setLocationRelativeTo(null);
-                    
+
                 } else {
                     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
 
                     while (modelo.getRowCount() > 0) {
                         modelo.removeRow(0);
                     }
-                    
+
                     JOptionPane.showMessageDialog(null, "Transaccion realizada correctamente");
 
                     //reporte de jasperreport
@@ -948,20 +948,23 @@ public class Menu extends javax.swing.JFrame {
 
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (this.jTable1.getRowCount() < 1) {
+        if (jTable1.getRowCount() < 1) {
             JOptionPane.showMessageDialog(null, "Agrega un Producto");
+            buscar_productos obj = new buscar_productos();
+            obj.setLocationRelativeTo(jPanel2);
+            obj.setVisible(true);
         } else {
             if (jCombotipofactura.getSelectedIndex() == -1) {
-                JOptionPane.showMessageDialog(null, "Agrega un Tipo de Pago");
+                JOptionPane.showMessageDialog(null, "Agrega un Tipo de Factura");
             } else if (txt_cliente.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Agrega un Cliente.");
                 buscar_cliente obj = new buscar_cliente();
-
+                obj.setLocationRelativeTo(jPanel2);
                 obj.setVisible(true);
             } else if (txt_empleado.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Agrega un Empleado.");
                 buscar_empleado obj = new buscar_empleado();
-
+                obj.setLocationRelativeTo(jPanel2);
                 obj.setVisible(true);
             } else {
                 crear_factura();
