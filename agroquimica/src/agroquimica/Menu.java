@@ -32,9 +32,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -50,8 +58,9 @@ public class Menu extends javax.swing.JFrame {
         lb_fecha.setText(Funciones.fecha());
     }
     public static int codemp = 0;
-public static int codclie = 0;
- DecimalFormat df = new DecimalFormat("###,###.##");
+    public static int codclie = 0;
+    DecimalFormat df = new DecimalFormat("###,###.##");
+
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
         ImageIcon usuarioico1 = new ImageIcon(usuariosico.getImage().getScaledInstance(lbregistrar_usuarios.getWidth(), lbregistrar_usuarios.getHeight(), Image.SCALE_DEFAULT));
@@ -392,7 +401,7 @@ public static int codclie = 0;
         jLabel10.setText("Planta:");
         Recomendacion2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, -1));
 
-        Recomendacion2.add(jComboSuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 140, -1));
+        Recomendacion2.add(jComboSuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 150, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -495,6 +504,7 @@ public static int codclie = 0;
 
         jCombotipofactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Credito" }));
         jCombotipofactura.setSelectedIndex(-1);
+        jCombotipofactura.setAutoscrolls(true);
         Ventas_ventana.add(jCombotipofactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, 80, -1));
 
         lbtipofact.setText("Tipo de Factura:");
@@ -746,7 +756,7 @@ public static int codclie = 0;
             String[] r2 = r[0].split(">");
             int opcion = JOptionPane.showConfirmDialog(null, "usted selecciono: " + r[0]);
             if (opcion == JOptionPane.YES_OPTION) {
-                
+
                 if (!r2[2].contains("Saludable")) {
                     //setea el texto
                     text_planta.setText(r2[0]);
@@ -832,107 +842,110 @@ public static int codclie = 0;
         }
     }//GEN-LAST:event_lbInicioMouseReleased
 
-    void crear_factura(){
-                factura_credito obj2 = new factura_credito();
-                try {
-                    //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
-                    
-
-                    boolean estado = true;
-                    int tipfact = jCombotipofactura.getSelectedIndex();
-                    if (tipfact == 1) {
-                        estado = false;
-                    }
-
-                    double balance = 0;
-                    if (tipfact == 1) {
-                        balance = Double.parseDouble(jlTotal.getText().replace(",", ""));
-                        
-                    }
-                   
-                    double total = Double.parseDouble(jlTotal.getText().replace(",", ""));
-                    
-                    
-                    String sql = "call sp_factura(?,?,?,?,?,?)";
-                    ps = cn.prepareStatement(sql);
-                    ps.setInt(1, codclie);
-                    ps.setBoolean(2, estado);
-                    ps.setInt(3, tipfact);
-                    ps.setInt(4, codemp);
-                    ps.setDouble(5, balance);
-                    ps.setDouble(6, total);
-                    ResultSet res = ps.executeQuery();
-                    res.next();
-                    int numfac = res.getInt(1);
-                    sql = "call sp_detallefactura(?,?,?,?,?)";
-                    int contador = 0;
-                    //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
-                    //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
-                    for (int i = 0; i < jTable1.getRowCount(); i++) {
-                        int opcion = 0;
-                        try {
-                            ps = cn.prepareStatement(sql);
-                            ps.setInt(1, numfac);
-                            ps.setInt(2, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
-                            ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 3).toString()));
-                            ps.setDouble(4, Double.parseDouble(jTable1.getValueAt(i, 2).toString()));
-                            ps.setInt(5, Integer.parseInt(jTable1.getValueAt(i, 5).toString()));
-                            res = ps.executeQuery();
-                            res.next();
-                            opcion = res.getInt(1);
-                        } catch (SQLException ex) {
-                        }
-
-                        if (opcion != 0) {
-                            
-                            contador++;
-                        }
-                    }
-                    if(tipfact==1){
-                        factura_credito.txt_cliente.setText(Menu.txt_cliente.getText());
-                        factura_credito.txt_factura.setText(String.valueOf(numfac));
-                        factura_credito.txt_monto_total.setText(String.valueOf(df.format(balance)));
-                        
-                        obj2.setVisible(true);
-                        obj2.setLocationRelativeTo(null);
-                        }
-                    //si no encuentra nada no presenta el mensaje
-                    if (contador == jTable1.getRowCount()) {
-                        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-
-                        while (modelo.getRowCount() > 0) {
-                            modelo.removeRow(0);
-                        }
-                        jlTotal.setText("");
-                        jCombotipofactura.setSelectedIndex(-1);
-                        JOptionPane.showMessageDialog(null, "Transaccion Realizada");
-                        
-                        //reporte de jasperreport
-//                        JasperReport reporte = null;
-//                        String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
-//                        ruta = ruta.replace("file:", "");
-//                        Map parametro = new HashMap();
-//                        parametro.put("numerodefactura", numfac);
-//                        parametro.put("Totalfactura", total);
-//                        parametro.put("TipoFactura", tipfact);
-//                        parametro.put("cliente", txt_cliente.getText());
-//                        parametro.put("vendedor", txt_empleado.getText());
-//                        try {
-//                            reporte = (JasperReport) JRLoader.loadObjectFromLocation(ruta);
-//                            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
-//                            JasperViewer view = new JasperViewer(jprint, false);
-//                            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//                            view.setVisible(true);
-//                        } catch (JRException ex) {
-//                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
+    void crear_factura() {
         
+        try {
+            //ejecuto el procedimento almacenado de factura que retorna el numero de la factura
+
+            boolean estado = true;
+            int tipfact = jCombotipofactura.getSelectedIndex();
+            if (tipfact == 1) {
+                estado = false;
+            }
+
+            double balance = 0;
+            if (tipfact == 1) {
+                balance = Double.parseDouble(jlTotal.getText().replace(",", ""));
+
+            }
+
+            double total = Double.parseDouble(jlTotal.getText().replace(",", ""));
+
+            String sql = "call sp_factura(?,?,?,?,?,?)";
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, codclie);
+            ps.setBoolean(2, estado);
+            ps.setInt(3, tipfact);
+            ps.setInt(4, codemp);
+            ps.setDouble(5, balance);
+            ps.setDouble(6, total);
+            ResultSet res = ps.executeQuery();
+            res.next();
+            int numfac = res.getInt(1);
+            sql = "call sp_detallefactura(?,?,?,?,?)";
+            int contador = 0;
+            //JOptionPane.showMessageDialog(null, ""+jTable1.getRowCount());
+            //recorre cada uno de los productos de jtable y lo agrega a la tabla detalle factura
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                int opcion = 0;
+                try {
+                    ps = cn.prepareStatement(sql);
+                    ps.setInt(1, numfac);
+                    ps.setInt(2, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
+                    ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 3).toString()));
+                    ps.setDouble(4, Double.parseDouble(jTable1.getValueAt(i, 2).toString()));
+                    ps.setInt(5, Integer.parseInt(jTable1.getValueAt(i, 5).toString()));
+                    res = ps.executeQuery();
+                    res.next();
+                    opcion = res.getInt(1);
+                } catch (SQLException ex) {
+                }
+
+                if (opcion != 0) {
+
+                    contador++;
+                }
+            }
+
+            //si no encuentra nada no presenta el mensaje
+            if (contador == jTable1.getRowCount()) {
+                if (tipfact == 1) {
+                    factura_credito obj2 = new factura_credito(numfac,balance);
+                    
+                    obj2.numfac = numfac;
+                    obj2.tipfact = jCombotipofactura.getSelectedItem().toString();
+                    obj2.total = total;
+                    obj2.setVisible(true);
+                    obj2.setLocationRelativeTo(null);
+                    
+                } else {
+                    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+                    while (modelo.getRowCount() > 0) {
+                        modelo.removeRow(0);
+                    }
+                    
+                    JOptionPane.showMessageDialog(null, "Transaccion realizada correctamente");
+
+                    //reporte de jasperreport
+                    JasperReport reporte = null;
+                    String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
+                    ruta = ruta.replace("file:", "");
+                    Map parametro = new HashMap();
+                    parametro.put("numerodefactura", numfac);
+                    parametro.put("Totalfactura", total);
+                    parametro.put("TipoFactura", jCombotipofactura.getSelectedItem().toString());
+                    parametro.put("cliente", txt_cliente.getText());
+                    parametro.put("vendedor", txt_empleado.getText());
+                    try {
+                        reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+                        JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+                        JasperViewer view = new JasperViewer(jprint, false);
+                        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        view.setVisible(true);
+                    } catch (JRException ex) {
+                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    jlTotal.setText("");
+                    jCombotipofactura.setSelectedIndex(-1);
+                    txt_empleado.setText("");
+                    txt_cliente.setText("");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (this.jTable1.getRowCount() < 1) {
@@ -1323,7 +1336,7 @@ public static int codclie = 0;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboClima;
     private javax.swing.JComboBox<String> jComboSuelo;
-    private javax.swing.JComboBox<String> jCombotipofactura;
+    public static javax.swing.JComboBox<String> jCombotipofactura;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
