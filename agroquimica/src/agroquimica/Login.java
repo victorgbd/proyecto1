@@ -161,6 +161,7 @@ public class Login extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(null, "Bienvenido "+usuario+"!!", "Login", JOptionPane.INFORMATION_MESSAGE);
                    agroquimica.Menu menu = new Menu();
                    menu.setVisible(true);
+                   menu.tipousuario=Integer.parseInt(acceso);
                    dispose();
                }else{
                    JOptionPane.showMessageDialog(null, "Usuario y/o contraseña incorrecto.", "error", JOptionPane.ERROR_MESSAGE);
