@@ -246,8 +246,8 @@ public class buscar_productos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTextField1KeyReleased
 
-    public static void llenar_producto(){
-        
+    public static void llenar_producto() {
+
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
@@ -255,63 +255,67 @@ public class buscar_productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
             jtcantidad.requestFocus();
         } else {
-            try {
-                if (Funciones.nombre_formulario.equals("produccion")) {
+            if (tabla.getSelectedRow() != -1) {
+                try {
+                    if (Funciones.nombre_formulario.equals("produccion")) {
 
-                    DefaultTableModel tabladet = (DefaultTableModel) produccion_1.Tabla.getModel();
-                    //codigo
-                    Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                    //producto
-                    Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                    //
-                    Funciones.dato[2] = jtcantidad.getText();
-                    Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                    //
-                    Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                        DefaultTableModel tabladet = (DefaultTableModel) produccion_1.Tabla.getModel();
+                        //codigo
+                        Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                        //producto
+                        Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                        //
+                        Funciones.dato[2] = jtcantidad.getText();
+                        Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                        //
+                        Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
 
-                    tabladet.addRow(Funciones.dato);
-                    produccion_1.Tabla.setModel(tabladet);
-                    dispose();
-                } else {
-                    boolean f = true;
-                    for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-                        if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                        tabladet.addRow(Funciones.dato);
+                        produccion_1.Tabla.setModel(tabladet);
+                        dispose();
+                    } else {
+                        boolean f = true;
+                        for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                            if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                                int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                                cant += Integer.parseInt(jtcantidad.getText());
+                                Menu.jTable1.setValueAt(cant, i, 3);
+                                f = false;
+                            }
+                        }
+                        if (f) {
+                            String[] dato = new String[6];
+                            DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+
+                            dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                            dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                            dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                            dato[3] = jtcantidad.getText();
+                            dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                            dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                            tabladet.addRow(dato);
+                            Menu.jTable1.setModel(tabladet);
+                        }
+                        double total = 0;
+                        for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
                             int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-                            cant += Integer.parseInt(jtcantidad.getText());
-                            Menu.jTable1.setValueAt(cant, i, 3);
-                            f = false;
+                            double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+                            total += (cant * precio);
+                        }
+                        Menu.jlTotal.setText(total + "");
+                        this.setVisible(false);
+                        int posicion = Menu.jPanel3.getX();
+                        if (posicion < -1) {
+                            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                            Menu.jPanel3.setVisible(false);
                         }
                     }
-                    if (f) {
-                        String[] dato = new String[6];
-                        DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
 
-                        dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                        dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                        dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
-                        dato[3] = jtcantidad.getText();
-                        dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                        dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
-                        tabladet.addRow(dato);
-                        Menu.jTable1.setModel(tabladet);
-                    }
-                    double total = 0;
-                    for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-                        int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-                        double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
-                        total += (cant * precio);
-                    }
-                    Menu.jlTotal.setText(total + "");
-                    this.setVisible(false);
-                    int posicion = Menu.jPanel3.getX();
-                    if (posicion < -1) {
-                        Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-                        Menu.jPanel3.setVisible(false);
-                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, e);
                 }
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(rootPane, e);
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un Producto", "Producto", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

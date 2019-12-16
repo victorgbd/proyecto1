@@ -252,25 +252,29 @@ public class buscar_materiaprima extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
             jtcantidad.requestFocus();
         } else {
-            try {
+            if (tabla.getSelectedRow() != -1) {
+                try {
 
-                DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.jTable1.getModel();
-                //codigo
-                Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                //producto
-                Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                //
-                Funciones.dato[2] = jtcantidad.getText();
-                Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                //
-                Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                    DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.jTable1.getModel();
+                    //codigo
+                    Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                    //producto
+                    Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                    //
+                    Funciones.dato[2] = jtcantidad.getText();
+                    Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    //
+                    Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
 
-                tabladet.addRow(Funciones.dato);
-                Composicion_producto.jTable1.setModel(tabladet);
-                dispose();
+                    tabladet.addRow(Funciones.dato);
+                    Composicion_producto.jTable1.setModel(tabladet);
+                    dispose();
 
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(rootPane, e);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(rootPane, e);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una materia prima", "Materia Prima", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
