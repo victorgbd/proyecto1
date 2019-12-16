@@ -8,6 +8,7 @@ package agroquimica.consultas;
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import agroquimica.Menu;
+import agroquimica.produccion.produccion_1;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.Connection;
@@ -30,13 +31,14 @@ public class buscar_productos extends javax.swing.JFrame {
         initComponents();
         llenarTabla("");
     }
-    private int x,y;
+    private int x, y;
+
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "codigo", "Descripcion", "precio de venta", "Cantidad existente","Unidad","Codigo de Unidad"
+            "codigo", "Descripcion", "precio de venta", "Cantidad existente", "Unidad", "Codigo de Unidad"
         });
-        
+
         String sql = "SELECT p.codproducto,p.descripcion,pu.precioventa,pu.cantext,u.descripcion as Unidad,pu.coduni from producto as p "
                 + "INNER JOIN productovsunidad as pu on pu.codproducto=p.codproducto "
                 + "INNER JOIN unidad as u on u.coduni=pu.coduni WHERE "
@@ -65,7 +67,6 @@ public class buscar_productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,6 +241,9 @@ public class buscar_productos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTextField1KeyReleased
 
+    public static void llenar_producto(){
+        
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
         if (jtcantidad.getText().isEmpty()) {
@@ -247,53 +251,72 @@ public class buscar_productos extends javax.swing.JFrame {
             jtcantidad.requestFocus();
         } else {
             try {
-                boolean f = true;
-                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-                    if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                if (Funciones.nombre_formulario.equals("produccion")) {
+
+                    DefaultTableModel tabladet = (DefaultTableModel) produccion_1.Tabla.getModel();
+                    //codigo
+                    Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                    //producto
+                    Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                    //
+                    Funciones.dato[2] = jtcantidad.getText();
+                    Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    //
+                    Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+
+                    tabladet.addRow(Funciones.dato);
+                    produccion_1.Tabla.setModel(tabladet);
+                    dispose();
+                } else {
+                    boolean f = true;
+                    for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
+                        if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                            int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
+                            cant += Integer.parseInt(jtcantidad.getText());
+                            Menu.jTable1.setValueAt(cant, i, 3);
+                            f = false;
+                        }
+                    }
+                    if (f) {
+                        String[] dato = new String[6];
+                        DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
+
+                        dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                        dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                        dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                        dato[3] = jtcantidad.getText();
+                        dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                        dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                        tabladet.addRow(dato);
+                        Menu.jTable1.setModel(tabladet);
+                    }
+                    double total = 0;
+                    for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
                         int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-                        cant += Integer.parseInt(jtcantidad.getText());
-                        Menu.jTable1.setValueAt(cant, i, 3);
-                        f=false;
+                        double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
+                        total += (cant * precio);
+                    }
+                    Menu.jlTotal.setText(total + "");
+                    this.setVisible(false);
+                    int posicion = Menu.jPanel3.getX();
+                    if (posicion < -1) {
+                        Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+                        Menu.jPanel3.setVisible(false);
                     }
                 }
-                if (f) {
-                    String[] dato = new String[6];
-                    DefaultTableModel tabladet = (DefaultTableModel) Menu.jTable1.getModel();
 
-                    dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                    dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                    dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
-                    dato[3] = jtcantidad.getText();
-                    dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                    dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
-                    tabladet.addRow(dato);
-                    Menu.jTable1.setModel(tabladet);
-                }
-                double total = 0;
-                for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
-                    int cant = Integer.parseInt(Menu.jTable1.getValueAt(i, 3).toString());
-                    double precio = Double.parseDouble(Menu.jTable1.getValueAt(i, 2).toString());
-                    total += (cant*precio);
-                }
-                Menu.jlTotal.setText(total+"");
-                this.setVisible(false);
-                int posicion = Menu.jPanel3.getX();
-                if (posicion < -1) {
-                    Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
-                    Menu.jPanel3.setVisible(false);
-                }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(rootPane, e);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
-        minimizar.setBackground(new Color(229,229,229));
+        minimizar.setBackground(new Color(229, 229, 229));
     }//GEN-LAST:event_minimizarMouseEntered
 
     private void minimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseExited
-        minimizar.setBackground(new Color(255,255,255));
+        minimizar.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_minimizarMouseExited
 
     private void minimizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMousePressed
@@ -301,11 +324,11 @@ public class buscar_productos extends javax.swing.JFrame {
     }//GEN-LAST:event_minimizarMousePressed
 
     private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
-        salir.setBackground(new Color(232,17,35));
+        salir.setBackground(new Color(232, 17, 35));
     }//GEN-LAST:event_salirMouseEntered
 
     private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
-        salir.setBackground(new Color(255,255,255));
+        salir.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_salirMouseExited
 
     private void salirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMousePressed
@@ -313,12 +336,12 @@ public class buscar_productos extends javax.swing.JFrame {
     }//GEN-LAST:event_salirMousePressed
 
     private void jLabel6MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseDragged
-        this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
+        this.setLocation(evt.getXOnScreen() - x, evt.getYOnScreen() - y);
     }//GEN-LAST:event_jLabel6MouseDragged
 
     private void jLabel6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MousePressed
-        x=evt.getX();
-        y=evt.getY();
+        x = evt.getX();
+        y = evt.getY();
     }//GEN-LAST:event_jLabel6MousePressed
 
     /**

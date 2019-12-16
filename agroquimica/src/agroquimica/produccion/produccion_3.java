@@ -5,6 +5,12 @@
  */
 package agroquimica.produccion;
 
+import agroquimica.Funciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author victor
@@ -16,6 +22,41 @@ public class produccion_3 extends javax.swing.JFrame {
      */
     public produccion_3() {
         initComponents();
+        llenar_tabla();
+
+    }
+
+    DefaultTableModel modelo;
+    String sql = "";
+
+    private void llenar_tabla() {
+        modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{
+            "Seleccionar", "Empleado", "Actividad"
+        });
+        try {
+
+            sql = "SELECT CONCAT(p.nombre,\" \",p.apellido) as Empleado, a.descripcion as Actividad\n"
+                    + "from actividadvsproduccionvsempleado vs\n"
+                    + "INNER JOIN actividad a on vs.codactiv = a.codactiv\n"
+                    + "\n"
+                    + "INNER JOIN empleado e on vs.codemp = e.codemp\n"
+                    + "INNER JOIN persona p on e.codper = p.codper";
+            ResultSet rs = Funciones.consulta(sql);
+            while (rs.next()) {
+
+                modelo.addRow(new Object[]{
+                    false,
+                    rs.getString("Empleado"),
+                    rs.getString("Actividad"),
+                   
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        Tabla.setModel(modelo);
     }
 
     /**
@@ -30,7 +71,7 @@ public class produccion_3 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tabla = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -38,7 +79,7 @@ public class produccion_3 extends javax.swing.JFrame {
 
         jButton1.setText("Finalizar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -54,7 +95,7 @@ public class produccion_3 extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabla);
 
         jButton2.setText("Buscar Empleado");
 
@@ -65,11 +106,7 @@ public class produccion_3 extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(278, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -79,6 +116,7 @@ public class produccion_3 extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addComponent(jButton2)
                         .addGap(113, 113, 113))))
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,11 +186,11 @@ public class produccion_3 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tabla;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

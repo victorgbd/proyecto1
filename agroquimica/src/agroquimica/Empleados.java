@@ -9,7 +9,6 @@ package agroquimica;
  *
  * @author Felix Artiles
  */
-import static agroquimica.Funciones.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,16 +26,18 @@ public class Empleados extends javax.swing.JFrame {
     /**
      * Creates new form Empleados
      */
+    
     public Empleados() {
       
         initComponents();
-        Funciones.solo_numeros(txtcedula);
+       
         Funciones.llenar_combo(combo_puesto,"tipo_de_empleado","descripcion");
          Funciones.llenar_combo(combo_dias,"tipo_horario","descripcion");
         Funciones.llenar_combo(combo_horario_entrada,"horario","entrada");
          Funciones.llenar_combo(combo_horario_salida,"horario","salida");
          Funciones.llenar_combo(combo_telefono,"tipo_telefono","descripcion");
          
+        
     }
     String sql = null;
     
@@ -85,6 +86,12 @@ public class Empleados extends javax.swing.JFrame {
 
         jLabel2.setText("Documento");
 
+        txtcedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcedulaKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Correo");
 
         jLabel5.setText("Usuario");
@@ -94,6 +101,12 @@ public class Empleados extends javax.swing.JFrame {
         jLabel8.setText("Horario");
 
         jLabel9.setText("Telefono");
+
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyTyped(evt);
+            }
+        });
 
         combo_puesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -314,6 +327,9 @@ public class Empleados extends javax.swing.JFrame {
                        rs =ps.executeQuery();
                     rs.next();
                     cod_per = rs.getInt(1);
+                    //tabla horario
+                    
+                    
                     //llenar tabla empleado
                      sql = "SELECT codusuario from usuario WHERE nickname ='"+txt_usuario.getText()+"'";
         
@@ -345,6 +361,32 @@ public class Empleados extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void txt_telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if(txt_telefono.getText().length()==3 ||txt_telefono.getText().length()==7){
+            txt_telefono.setText(txt_telefono.getText()+"-");
+        }
+        if(!Character.isDigit(c) || txt_telefono.getText().length() > 11){
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txt_telefonoKeyTyped
+
+    private void txtcedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcedulaKeyTyped
+        // TODO add your handling code here:
+         char c = evt.getKeyChar();
+        
+        if(txtcedula.getText().length()==3 ||txtcedula.getText().length()==11){
+            txtcedula.setText(txtcedula.getText()+"-");
+        }
+        if(!Character.isDigit(c) || txtcedula.getText().length() > 12){
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtcedulaKeyTyped
     void limpiar(){
         txt_correo.setText("");
         txt_direccion.setText("");

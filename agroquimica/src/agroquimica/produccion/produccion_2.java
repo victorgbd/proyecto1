@@ -5,6 +5,9 @@
  */
 package agroquimica.produccion;
 
+import static agroquimica.Menu.jPanel2;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author victor
@@ -62,6 +65,11 @@ public class produccion_2 extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 580, 181));
 
         jButton1.setText("Atrás");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, -1));
 
         jButton2.setText("Siguiente");
@@ -75,6 +83,16 @@ public class produccion_2 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         produccion_1 obj = new produccion_1();
+         DefaultTableModel tabladet = (DefaultTableModel) produccion_1.Tabla.getModel();
+         produccion_1.Tabla.setModel(tabladet);
+        obj.setLocationRelativeTo(jPanel2);
+        obj.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

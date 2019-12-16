@@ -30,8 +30,10 @@ public class Funciones {
     static final ConexionBD cc = new ConexionBD();
     static final Connection cn = cc.conexion();
     public static String sql = null;
-
+    public static String nombre_formulario = "";
     public boolean empleado_usuario = false;
+    public static String fecha_i, fecha_f;
+    public static String[] dato = new String[5];
 
     public static ResultSet consulta(String consulta) {
         Statement st;
@@ -74,27 +76,40 @@ public class Funciones {
         }
     }
 
-    public static void solo_numeros(JTextField campo) {
+    public void solo_numeros(JTextField campo) {
         campo.addKeyListener(new KeyAdapter() {
-            public void keytyped(KeyEvent e) {
+            public void KeyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (Character.isLetter(c)) {
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+        });
+    }
+
+    public static void limitar_caracteres(JTextField campo, int total) {
+        campo.addKeyListener(new KeyAdapter() {
+            public void KeyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                int cant = campo.getText().length();
+                if (cant >= total) {
                     e.consume();
                 }
             }
 
         });
     }
-    public static String fecha(){
+
+    public static String fecha() {
         Date fecha = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-        
-        
+
         return sdf.format(fecha);
     }
+
     public static boolean buscar_usuario(String usuario) {
         boolean encontrado = false;
-        sql = "select nickname from usuario where nickname ='"+ usuario+"'";
+        sql = "select nickname from usuario where nickname ='" + usuario + "'";
         ResultSet dato = consulta(sql);
 
         try {
@@ -106,14 +121,15 @@ public class Funciones {
         }
         return encontrado;
     }
-    public static int traeindice(String tabla, String descripcion){
-        
-        sql = "SELECT * from " +tabla+" WHERE descripcion='"+descripcion+"'";
-        
+
+    public static int traeindice(String tabla, String descripcion) {
+
+        sql = "SELECT * from " + tabla + " WHERE descripcion='" + descripcion + "'";
+
         ResultSet rs = Funciones.consulta(sql);
         try {
             rs.next();
-            
+
             return rs.getInt(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e, "", JOptionPane.ERROR_MESSAGE);

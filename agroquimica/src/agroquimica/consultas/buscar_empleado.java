@@ -5,9 +5,9 @@
  */
 package agroquimica.consultas;
 
+import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.Funciones;
 import agroquimica.Menu;
-import static agroquimica.Menu.jTable1;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -29,6 +29,7 @@ public class buscar_empleado extends javax.swing.JFrame {
         llenarTabla("");
     }
     private int x,y;
+    String puesto,nombre_completo;
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
@@ -53,7 +54,17 @@ public class buscar_empleado extends javax.swing.JFrame {
         try {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
-                if(rs.getString("Puesto").equals("Caja")){
+                if(Funciones.nombre_formulario.equals("asignar trabajo")){
+                     modelo.addRow(new Object[]{
+                    rs.getString("Codigo"),
+                    rs.getString("Nombre"),
+                    rs.getString("Apellido"),
+                    rs.getString("Puesto"),
+                    rs.getString("Email"),
+                    rs.getString("Telefono")
+                }); 
+                }
+                else if(rs.getString("Puesto").equals("Caja")){
                    modelo.addRow(new Object[]{
                     rs.getString("Codigo"),
                     rs.getString("Nombre"),
@@ -239,18 +250,22 @@ public class buscar_empleado extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
+        
         if (tabla.getSelectedRow()<0) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.", "Empleado", JOptionPane.ERROR_MESSAGE);
            
         } else {
-            String puesto = tabla.getValueAt(tabla.getSelectedRow(),3).toString();
-            
+             nombre_completo = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+             puesto = tabla.getValueAt(tabla.getSelectedRow(),3).toString();
+            if(Funciones.nombre_formulario.equals("asignar trabajo")){
+                Asignar_trabajos.txt_empleado.setText(nombre_completo);
+                Asignar_trabajos.cod_emp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
+                dispose();
+            }
             if(puesto.equals("Caja")){
                 Menu.codemp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
-             Menu.txt_empleado.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+             Menu.txt_empleado.setText(nombre_completo);
             dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Debe seleccionar un cajero para la venta.");
             }
                   
             
