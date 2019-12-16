@@ -156,13 +156,13 @@ public class produccion_1 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         pasa = true;
-        Funciones.fecha_i = ((JTextField) fecha_inicio.getDateEditor().getUiComponent()).getText();
-        Funciones.fecha_f = ((JTextField) fecha_fin.getDateEditor().getUiComponent()).getText();
+        produccion_3.fecha_i = ((JTextField) fecha_inicio.getDateEditor().getUiComponent()).getText();
+        produccion_3.fecha_f = ((JTextField) fecha_fin.getDateEditor().getUiComponent()).getText();
         Funciones.nombre_formulario = "";
         produccion_2 obj = new produccion_2();
         obj.setLocationRelativeTo(jPanel2);
         obj.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

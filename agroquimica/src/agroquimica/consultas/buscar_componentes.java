@@ -6,24 +6,21 @@
 package agroquimica.consultas;
 
 import agroquimica.Funciones;
-import agroquimica.Menu;
-import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.produccion.Composicion_producto;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Felix Artiles
  */
-public class buscar_produccion extends javax.swing.JFrame {
+public class buscar_componentes extends javax.swing.JFrame {
 
-    public buscar_produccion() {
+    public buscar_componentes() {
         initComponents();
 
         llenarTabla("");
@@ -31,33 +28,28 @@ public class buscar_produccion extends javax.swing.JFrame {
     private int x, y;
 
     private void llenarTabla(String dato) {
-        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
-        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
+        DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "Codigo", "Producto", "Cantidad", "Unidad", "Inicia", "termina"
+            "Materia Prima", "Unidad", "Precio de compra", "cantidad", "Proveedor"
         });
-        String sql = "select codproduccion as codigo, p.descripcion as producto, pr.cantidad_prod as cantidad,\n"
-                + "u.descripcion as Unidad, pr.fecha_inicio as inicio, pr.fecha_fin as termina \n"
-                + "from produccion pr\n"
-                + "INNER JOIN producto p on pr.codprod = p.codproducto\n"
-                + "INNER JOIN unidad u on pr.cod_uni = u.coduni WHERE "
-                + "p.descripcion LIKE  '%" + dato + "%'"
-                + "OR u.descripcion LIKE  '%" + dato + "%'"
-                + "OR codproduccion LIKE  '%" + dato + "%'";
+        String sql = "select mp.descripcion as Materia_prima,u.descripcion as Unidad,vs.preciocomp as precio_compra,\n"
+                + "mp.cantext as cantidad, p.nombre_empresa as Proveedor\n"
+                + "from materiaprimavsunidad vs\n"
+                + "INNER JOIN materia_prima mp ON vs.codmateria = mp.codmateriap\n"
+                + "INNER JOIN unidad u ON vs.coduni = u.coduni\n"
+                + "INNER JOIN proveedor p on mp.codprov = p.codproveedor WHERE "
+                + "mp.descripcion LIKE  '%" + dato + "%'"
+                + "OR u.descripcion LIKE  '%" + dato + "%'";
         ResultSet rs = Funciones.consulta(sql);
         try {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
                 modelo.addRow(new Object[]{
-                    rs.getString("codigo"),
-                    rs.getString("producto"),
-                    rs.getString("cantidad"),
+                    rs.getString("Materia_prima"),
                     rs.getString("Unidad"),
-                    rs.getString("inicio"),
-                    rs.getString("termina"),});
+                    rs.getString("precio_compra"),
+                    rs.getString("cantidad"),
+                    rs.getString("Proveedor"),});
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {
@@ -85,6 +77,8 @@ public class buscar_produccion extends javax.swing.JFrame {
         minimizar = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jtcantidad = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar productos");
@@ -130,7 +124,7 @@ public class buscar_produccion extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Produccion");
+        jLabel1.setText("Componentes de productos");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -218,6 +212,12 @@ public class buscar_produccion extends javax.swing.JFrame {
             }
         });
         PanelPrincipal.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
+        PanelPrincipal.add(jtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 126, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Cantidad:");
+        PanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
 
         getContentPane().add(PanelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 390));
 
@@ -236,17 +236,41 @@ public class buscar_produccion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una produccion.", "Produccion", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            if (Funciones.nombre_formulario.equals("asignar trabajo")) {
-                Asignar_trabajos.codigo_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-                Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+
+            if (Funciones.nombre_formulario.equals("composicion")) {
+                boolean f = true;
+                    for (int i = 0; i < Composicion_producto.tabla_composicion.getRowCount(); i++) {
+                        
+                        if (Composicion_producto.tabla_composicion.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                            JOptionPane.showMessageDialog(null, "entro");
+                            int cant = Integer.parseInt(Composicion_producto.tabla_composicion.getValueAt(i, 3).toString());
+                            cant += Integer.parseInt(jtcantidad.getText());
+                            Composicion_producto.tabla_composicion.setValueAt(cant, i, 3);
+                            f = false;
+                        }
+                    }
+                    if (f) {
+                        String[] dato = new String[5];
+                        DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.tabla_composicion.getModel();
+
+                        dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                        dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                        dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                        dato[3] = jtcantidad.getText();
+                        dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                        
+                        tabladet.addRow(dato);
+                        Composicion_producto.tabla_composicion.setModel(tabladet);
+                    }
+                    double total = 0;
+                    for (int i = 0; i < Composicion_producto.tabla_composicion.getRowCount(); i++) {
+                        int cant = Integer.parseInt(Composicion_producto.tabla_composicion.getValueAt(i, 3).toString());
+                        double precio = 3.47;
+                        total += (cant * precio);
+                    }
+                    Composicion_producto.lb_venta.setText(total + "");
             }
-            if (Funciones.nombre_formulario.equals("composicion")){
-                Composicion_producto.cod_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-                 Composicion_producto.txt_producto.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                Composicion_producto.txt_unidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
-            }
-            dispose();
+
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -293,10 +317,12 @@ public class buscar_produccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jtcantidad;
     private javax.swing.JLabel minimizar;
     private javax.swing.JLabel salir;
     private javax.swing.JTable tabla;

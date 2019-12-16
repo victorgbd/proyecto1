@@ -28,7 +28,10 @@ public class produccion_3 extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     String sql = "";
-
+    //variables para la produccion
+    public static String fecha_i,fecha_f;
+    public static int cantidad=0,codigo_uni,codigo_producto;
+    
     private void llenar_tabla() {
         modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
