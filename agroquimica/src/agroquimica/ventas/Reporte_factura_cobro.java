@@ -6,6 +6,7 @@
 package agroquimica.ventas;
 
 import agroquimica.Funciones;
+import com.sun.imageio.plugins.jpeg.JPEG;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;

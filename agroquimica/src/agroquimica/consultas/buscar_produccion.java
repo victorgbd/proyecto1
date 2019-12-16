@@ -8,7 +8,6 @@ package agroquimica.consultas;
 import agroquimica.Funciones;
 import agroquimica.Menu;
 import agroquimica.produccion.Asignar_trabajos;
-import agroquimica.produccion.Composicion_producto;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -55,9 +54,10 @@ public class buscar_produccion extends javax.swing.JFrame {
                     rs.getString("codigo"),
                     rs.getString("producto"),
                     rs.getString("cantidad"),
-                    rs.getString("Unidad"),
+                     rs.getString("Unidad"),
                     rs.getString("inicio"),
-                    rs.getString("termina"),});
+                    rs.getString("termina"),
+                });
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {
@@ -236,16 +236,10 @@ public class buscar_produccion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una produccion.", "Produccion", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            if (Funciones.nombre_formulario.equals("asignar trabajo")) {
-                Asignar_trabajos.codigo_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-                Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
-            }
-            if (Funciones.nombre_formulario.equals("composicion")){
-                Composicion_producto.cod_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-                 Composicion_producto.txt_producto.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                Composicion_producto.txt_unidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
-            }
+            
+            Asignar_trabajos.codigo_produccion=Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());;
+            Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+            Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             dispose();
         }
 
