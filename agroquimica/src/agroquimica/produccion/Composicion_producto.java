@@ -6,6 +6,7 @@
 package agroquimica.produccion;
 
 import agroquimica.Funciones;
+import agroquimica.consultas.buscar_materiaprima;
 import agroquimica.consultas.buscar_produccion;
 
 /**
@@ -54,18 +55,20 @@ public class Composicion_producto extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         btn_buscar.setText("Buscar componentes");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
+            }
+        });
 
         btn_ver_empleados.setText("Ver empleados asignados");
 
@@ -73,7 +76,7 @@ public class Composicion_producto extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_buscar)
@@ -157,6 +160,12 @@ public class Composicion_producto extends javax.swing.JFrame {
         obj.setVisible(true);
         obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_btn_buscar_produccionActionPerformed
+
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+        buscar_materiaprima obj = new buscar_materiaprima();
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btn_buscarActionPerformed
 
     /**
      * @param args the command line arguments
