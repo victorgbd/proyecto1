@@ -5,9 +5,9 @@
  */
 package agroquimica.consultas;
 
-import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.Funciones;
 import agroquimica.Menu;
+import agroquimica.produccion.Asignar_trabajos;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -19,65 +19,40 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Felix Artiles
  */
-public class buscar_empleado extends javax.swing.JFrame {
+public class buscar_produccion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form buscar_productos
-     */
-    public buscar_empleado() {
+    public buscar_produccion() {
         initComponents();
+
         llenarTabla("");
     }
     private int x, y;
-    String puesto, nombre_completo;
 
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new Object[]{
-            "Cdigo", "Nombre", "Apellido", "Puesto", "Correo", "Telefono"
+            "Codigo", "Producto", "Cantidad", "Unidad", "Inicia", "termina"
         });
-
-        String sql = "SELECT e.codemp as Codigo,p.nombre as Nombre,p.apellido as Apellido,tp.descripcion as puesto, "
-                + "e.correo as Email, t.numero as Telefono \n"
-                + "from empleado e\n"
-                + "INNER JOIN persona p on e.codper = p.codper\n"
-                + "INNER JOIN tipo_de_empleado tp on e.codtipoemp = tp.codtipoemp\n"
-                + "INNER JOIN telefono t on e.codtel = t.codtel  WHERE "
-                + " p.nombre LIKE  '%" + dato + "%'"
-                + "OR e.correo LIKE  '%" + dato + "%'"
-                + "OR tp.descripcion LIKE  '%" + dato + "%'"
-                + "OR p.apellido LIKE  '%" + dato + "%'";
-        if (jTextField1.getText().isEmpty()) {
-            //JOptionPane.showMessageDialog(null, "No ha escrito", "busqueda", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-        }
+        String sql = "select codproduccion as codigo, p.descripcion as producto, pr.cantidad_prod as cantidad,\n"
+                + "u.descripcion as Unidad, pr.fecha_inicio as inicio, pr.fecha_fin as termina \n"
+                + "from produccion pr\n"
+                + "INNER JOIN producto p on pr.codprod = p.codproducto\n"
+                + "INNER JOIN unidad u on pr.cod_uni = u.coduni WHERE "
+                + "p.descripcion LIKE  '%" + dato + "%'"
+                + "OR u.descripcion LIKE  '%" + dato + "%'"
+                + "OR codproduccion LIKE  '%" + dato + "%'";
         ResultSet rs = Funciones.consulta(sql);
         try {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
-                if (Funciones.nombre_formulario.equals("asignar trabajo")
-                        && rs.getString("puesto").equals("Operario")) {
-                    modelo.addRow(new Object[]{
-                        rs.getString("Codigo"),
-                        rs.getString("Nombre"),
-                        rs.getString("Apellido"),
-                        rs.getString("Puesto"),
-                        rs.getString("Email"),
-                        rs.getString("Telefono")
-                    });
-                } else if (Funciones.nombre_formulario.isEmpty()
-                        && rs.getString("puesto").equals("Caja")) {
-                    modelo.addRow(new Object[]{
-                        rs.getString("Codigo"),
-                        rs.getString("Nombre"),
-                        rs.getString("Apellido"),
-                        rs.getString("Puesto"),
-                        rs.getString("Email"),
-                        rs.getString("Telefono")
-                    });
-                }
-
+                modelo.addRow(new Object[]{
+                    rs.getString("codigo"),
+                    rs.getString("producto"),
+                    rs.getString("cantidad"),
+                     rs.getString("Unidad"),
+                    rs.getString("inicio"),
+                    rs.getString("termina"),
+                });
             }
             tabla.setModel(modelo);
         } catch (SQLException e) {
@@ -150,7 +125,7 @@ public class buscar_empleado extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Buscar empleado");
+        jLabel1.setText("Produccion");
         PanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -158,11 +133,11 @@ public class buscar_empleado extends javax.swing.JFrame {
 
             },
             new String [] {
-                "codpro", "nombre", "precio", "cantidad", "Unidad", "Codigo Uni"
+                "Codigo Planta", "Nombre"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -252,24 +227,15 @@ public class buscar_empleado extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
-
         if (tabla.getSelectedRow() < 0) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.", "Empleado", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una produccion.", "Produccion", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            nombre_completo = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
-            puesto = tabla.getValueAt(tabla.getSelectedRow(), 3).toString();
-            if (Funciones.nombre_formulario.equals("asignar trabajo")) {
-                Asignar_trabajos.txt_empleado.setText(nombre_completo);
-                Asignar_trabajos.cod_emp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
-                dispose();
-            }
-            if (puesto.equals("Caja")) {
-                Menu.codemp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
-                Menu.txt_empleado.setText(nombre_completo);
-                dispose();
-            }
-
+            
+            Asignar_trabajos.codigo_produccion=Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());;
+            Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+            Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+            dispose();
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

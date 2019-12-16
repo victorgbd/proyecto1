@@ -9,6 +9,7 @@ import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import static agroquimica.Funciones.sql;
 import agroquimica.consultas.buscar_empleado;
+import agroquimica.consultas.buscar_produccion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import javax.swing.JTextField;
@@ -32,16 +34,19 @@ public class Asignar_trabajos extends javax.swing.JFrame {
     public Asignar_trabajos() {
         initComponents();
         this.setLocationRelativeTo(null);
-        Funciones.llenar_combo(combo_tarea_1, "actividad", "descripcion");
-        Funciones.llenar_combo(combo_tarea_2, "actividad", "descripcion");
+        Funciones.llenar_combo(combo_tarea_1, "ver_puesto_actividad", "Actividad");
+        Funciones.llenar_combo(combo_tarea_2, "ver_puesto_actividad", "Actividad");
         Funciones.llenar_combo(combo_unidad, "unidad", "descripcion");
         Funciones.llenar_combo(combo_produccion, "producto", "descripcion");
     }
-    public static int cod_emp = 0;
+    public static int cod_emp = 0, codigo_produccion;
+    public static String fecha_i = "", fecha_f = "";
+    
     private final ConexionBD cc = new ConexionBD();
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,11 +75,12 @@ public class Asignar_trabajos extends javax.swing.JFrame {
         fecha_inicio = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         fecha_fin = new com.toedter.calendar.JDateChooser();
+        btn_empleado1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Asignacion de trabajos");
+        jLabel1.setText("Asignacion de produccion");
 
         jLabel2.setText("Empleado");
 
@@ -131,6 +137,13 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
         fecha_fin.setDateFormatString("YYYY-MM-dd hh:mm:ss");
 
+        btn_empleado1.setText("Asignar produccion");
+        btn_empleado1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_empleado1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,8 +173,10 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                                         .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(combo_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)))
-                                .addComponent(btn_empleado))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_empleado)
+                                    .addComponent(btn_empleado1)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,8 +185,8 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                                             .addComponent(jLabel4)
                                             .addComponent(jLabel3))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(combo_tarea_1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(combo_tarea_1, 0, 249, Short.MAX_VALUE)
                                             .addComponent(combo_tarea_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
@@ -180,8 +195,8 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fecha_fin, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                                        .addComponent(fecha_fin, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
@@ -203,7 +218,8 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(combo_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combo_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_empleado1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -220,7 +236,7 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(combo_tarea_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(combo_tarea_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -236,7 +252,7 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String fecha_i = "", fecha_f = "";
+        
         int cod_produ, cod_acti;
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
         if (txt_empleado.getText().isEmpty()) {
@@ -245,7 +261,11 @@ public class Asignar_trabajos extends javax.swing.JFrame {
             obj.setVisible(true);
             obj.setLocationRelativeTo(null);
 
-        } else {
+        }else if(txt_cantidad.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Inserte la cantidad a producir");
+            txt_cantidad.requestFocus();
+        } 
+        else {
             cod_produ = Funciones.traeindice("producto", combo_produccion.getSelectedItem().toString());
             fecha_i = ((JTextField) fecha_inicio.getDateEditor().getUiComponent()).getText();
             fecha_f = ((JTextField) fecha_fin.getDateEditor().getUiComponent()).getText();
@@ -263,7 +283,7 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 ResultSet rs = ps.executeQuery();
 
                 rs.next();
-                int codigo_produccion = rs.getInt(1);
+                 codigo_produccion = rs.getInt(1);
 
                 //llenar actividadvsproduccionvsempleado
                 cod_acti = Funciones.traeindice("actividad", combo_tarea_1.getSelectedItem().toString());
@@ -319,6 +339,14 @@ public class Asignar_trabajos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_cantidadKeyTyped
 
+    private void btn_empleado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_empleado1ActionPerformed
+        // TODO add your handling code here:
+         Funciones.nombre_formulario = "asignar trabajo";
+        buscar_produccion obj = new buscar_produccion();
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btn_empleado1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -356,11 +384,12 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_empleado;
+    private javax.swing.JButton btn_empleado1;
     private javax.swing.JButton btn_salir;
-    private javax.swing.JComboBox<String> combo_produccion;
+    public static javax.swing.JComboBox<String> combo_produccion;
     private javax.swing.JComboBox<String> combo_tarea_1;
     private javax.swing.JComboBox<String> combo_tarea_2;
-    private javax.swing.JComboBox<String> combo_unidad;
+    public static javax.swing.JComboBox<String> combo_unidad;
     private com.toedter.calendar.JDateChooser fecha_fin;
     private com.toedter.calendar.JDateChooser fecha_inicio;
     private javax.swing.JButton jButton1;
