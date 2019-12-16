@@ -56,7 +56,7 @@ public class Menu extends javax.swing.JFrame {
         cargarIconos();
         Funciones.llenar_combo(jComboSuelo, "tipo_de_suelo", "descripcion");
         lb_fecha.setText(Funciones.fecha());
-        
+
     }
     public int tipousuario = 1;
     public static int codemp = 0;
@@ -79,6 +79,10 @@ public class Menu extends javax.swing.JFrame {
         ImageIcon regempleico = new ImageIcon(getClass().getResource("/iconos/empleados.png"));
         ImageIcon regempleico1 = new ImageIcon(regempleico.getImage().getScaledInstance(lbregistrar_empleados.getWidth(), lbregistrar_empleados.getHeight(), Image.SCALE_DEFAULT));
         lbregistrar_empleados.setIcon(regempleico1);
+        ImageIcon atrasico = new ImageIcon(getClass().getResource("/iconos/back.jpg"));
+        ImageIcon atrasico1 = new ImageIcon(atrasico.getImage().getScaledInstance(lbatras1.getWidth(), lbatras1.getHeight(), Image.SCALE_DEFAULT));
+        lbatras1.setIcon(atrasico1);
+        lbatras2.setIcon(atrasico1);
     }
 
     private File es = null;
@@ -101,6 +105,7 @@ public class Menu extends javax.swing.JFrame {
         lb_resigstrar = new javax.swing.JLabel();
         lbcerrarsesion = new javax.swing.JLabel();
         lb_cuentas = new javax.swing.JLabel();
+        lbproduccionp3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         inicio = new javax.swing.JPanel();
         recomendacionprincipal = new javax.swing.JPanel();
@@ -116,6 +121,7 @@ public class Menu extends javax.swing.JFrame {
         imagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        lbatras1 = new javax.swing.JLabel();
         Recomendacion2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -135,6 +141,7 @@ public class Menu extends javax.swing.JFrame {
         text_planta = new javax.swing.JTextField();
         text_especie = new javax.swing.JTextField();
         text_enfermedad = new javax.swing.JTextField();
+        lbatras2 = new javax.swing.JLabel();
         Ventas_ventana = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -160,6 +167,7 @@ public class Menu extends javax.swing.JFrame {
         Cuentas = new javax.swing.JPanel();
         lbcuenta_por_cobrar = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        Produccion = new javax.swing.JPanel();
         jlmenu = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
@@ -271,7 +279,7 @@ public class Menu extends javax.swing.JFrame {
                 lbcerrarsesionMouseReleased(evt);
             }
         });
-        jPanel3.add(lbcerrarsesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 190, 42));
+        jPanel3.add(lbcerrarsesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 190, 42));
 
         lb_cuentas.setBackground(new java.awt.Color(102, 102, 102));
         lb_cuentas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -291,6 +299,25 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jPanel3.add(lb_cuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 190, 42));
+
+        lbproduccionp3.setBackground(new java.awt.Color(102, 102, 102));
+        lbproduccionp3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbproduccionp3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbproduccionp3.setText("Producción");
+        lbproduccionp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbproduccionp3.setOpaque(true);
+        lbproduccionp3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbproduccionp3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbproduccionp3MouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbproduccionp3MouseReleased(evt);
+            }
+        });
+        jPanel3.add(lbproduccionp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 190, 42));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 89, -1, 510));
 
@@ -330,7 +357,7 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel2.add(recomendacionprincipal, "card7");
 
-        Recomendacion.setBackground(new java.awt.Color(0, 0, 51));
+        Recomendacion.setBackground(new java.awt.Color(19, 19, 123));
         Recomendacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
@@ -378,6 +405,14 @@ public class Menu extends javax.swing.JFrame {
 
         Recomendacion.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 439, 89));
 
+        lbatras1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbatras1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbatras1MouseReleased(evt);
+            }
+        });
+        Recomendacion.add(lbatras1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
         jPanel2.add(Recomendacion, "card2");
 
         Recomendacion2.setBackground(new java.awt.Color(0, 0, 102));
@@ -386,7 +421,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Productos Recomendados");
-        Recomendacion2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 194, 30));
+        Recomendacion2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 194, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -484,8 +519,17 @@ public class Menu extends javax.swing.JFrame {
         Recomendacion2.add(text_especie, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 140, -1));
         Recomendacion2.add(text_enfermedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 110, -1));
 
+        lbatras2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbatras2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbatras2MouseReleased(evt);
+            }
+        });
+        Recomendacion2.add(lbatras2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
         jPanel2.add(Recomendacion2, "card8");
 
+        Ventas_ventana.setBackground(new java.awt.Color(19, 19, 123));
         Ventas_ventana.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setText("Realizar Venta");
@@ -526,11 +570,14 @@ public class Menu extends javax.swing.JFrame {
         Ventas_ventana.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 710, 251));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Total:");
         Ventas_ventana.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 410, -1, -1));
 
+        jlTotal.setBackground(new java.awt.Color(204, 204, 204));
         jlTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jlTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jlTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        jlTotal.setOpaque(true);
         Ventas_ventana.add(jlTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 410, 120, 30));
 
         jCombotipofactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Contado", "Credito" }));
@@ -538,14 +585,17 @@ public class Menu extends javax.swing.JFrame {
         jCombotipofactura.setAutoscrolls(true);
         Ventas_ventana.add(jCombotipofactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, 80, -1));
 
+        lbtipofact.setForeground(new java.awt.Color(255, 255, 255));
         lbtipofact.setText("Tipo de Factura:");
         Ventas_ventana.add(lbtipofact, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 120, -1, 20));
 
         lb_fecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_fecha.setForeground(new java.awt.Color(255, 255, 255));
         lb_fecha.setText("00/00/00");
         Ventas_ventana.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 100, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Empleado:");
         Ventas_ventana.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, -1, -1));
 
@@ -553,6 +603,7 @@ public class Menu extends javax.swing.JFrame {
         Ventas_ventana.add(txt_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 220, -1));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Fecha:");
         Ventas_ventana.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, -1, -1));
 
@@ -573,6 +624,7 @@ public class Menu extends javax.swing.JFrame {
         Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Cliente:");
         Ventas_ventana.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, -1));
 
@@ -624,6 +676,10 @@ public class Menu extends javax.swing.JFrame {
         Cuentas.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
 
         jPanel2.add(Cuentas, "card8");
+
+        Produccion.setBackground(new java.awt.Color(255, 255, 255));
+        Produccion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(Produccion, "card9");
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 920, 510));
 
@@ -1081,9 +1137,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_resigstrarMouseExited
 
     private void lb_resigstrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_resigstrarMouseReleased
-        if(this.tipousuario==0){
+        if (this.tipousuario == 0) {
             JOptionPane.showMessageDialog(null, "No dispones de acceso a esta función", "Menú", JOptionPane.ERROR_MESSAGE);
-        } else{
+        } else {
             jPanel2.removeAll();
             jPanel2.repaint();
             jPanel2.revalidate();
@@ -1316,6 +1372,63 @@ public class Menu extends javax.swing.JFrame {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lb_cuentasMouseReleased
+
+    private void lbproduccionp3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbproduccionp3MouseEntered
+        lbproduccionp3.setBackground(new Color(153, 153, 153));
+    }//GEN-LAST:event_lbproduccionp3MouseEntered
+
+    private void lbproduccionp3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbproduccionp3MouseExited
+        lbproduccionp3.setBackground(new Color(102, 102, 102));
+    }//GEN-LAST:event_lbproduccionp3MouseExited
+
+    private void lbproduccionp3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbproduccionp3MouseReleased
+        //pasar de un panel a otro
+        jPanel2.removeAll();
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        jPanel2.add(this.Produccion);
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        //mover el panel de menu con la animacion
+        int posicion = jPanel3.getX();
+        if (posicion > -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, jPanel3);
+        } else {
+            Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
+        }
+    }//GEN-LAST:event_lbproduccionp3MouseReleased
+
+    private void lbatras1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbatras1MouseReleased
+        //pasar de un panel a otro
+        jPanel2.removeAll();
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        jPanel2.add(this.recomendacionprincipal);
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        //mueve el panel de menu a la izquierda si este se encuentra en a la derecha
+        int posicion = Menu.jPanel3.getX();
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            Menu.jPanel3.setVisible(false);
+        }
+    }//GEN-LAST:event_lbatras1MouseReleased
+
+    private void lbatras2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbatras2MouseReleased
+        //pasar de un panel a otro
+        jPanel2.removeAll();
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        jPanel2.add(this.recomendacionprincipal);
+        jPanel2.repaint();
+        jPanel2.revalidate();
+        //mueve el panel de menu a la izquierda si este se encuentra en a la derecha
+        int posicion = Menu.jPanel3.getX();
+        if (posicion < -1) {
+            Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
+            Menu.jPanel3.setVisible(false);
+        }
+    }//GEN-LAST:event_lbatras2MouseReleased
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1385,6 +1498,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Cuentas;
+    private javax.swing.JPanel Produccion;
     public static javax.swing.JPanel Recomendacion;
     private javax.swing.JPanel Recomendacion2;
     private javax.swing.JPanel Registrar;
@@ -1438,8 +1552,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lb_cuentas;
     private javax.swing.JLabel lb_fecha;
     private javax.swing.JLabel lb_resigstrar;
+    private javax.swing.JLabel lbatras1;
+    private javax.swing.JLabel lbatras2;
     private javax.swing.JLabel lbcerrarsesion;
     private javax.swing.JLabel lbcuenta_por_cobrar;
+    private javax.swing.JLabel lbproduccionp3;
     private javax.swing.JLabel lbregistrar_empleados;
     private javax.swing.JLabel lbregistrar_usuarios;
     private javax.swing.JLabel lbsubirimg;

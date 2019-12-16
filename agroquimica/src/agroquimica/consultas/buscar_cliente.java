@@ -12,6 +12,7 @@ import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,9 +21,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class buscar_cliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form buscar_productos
-     */
     public buscar_cliente() {
         initComponents();
         llenarTabla("");
@@ -30,7 +28,12 @@ public class buscar_cliente extends javax.swing.JFrame {
     private int x, y;
 
     private void llenarTabla(String dato) {
-        DefaultTableModel modelo = new DefaultTableModel();
+
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         modelo.setColumnIdentifiers(new Object[]{
             "codigo", "Nombre", "Apellido", "Correo", "Telefono"
         });
@@ -42,11 +45,7 @@ public class buscar_cliente extends javax.swing.JFrame {
                 + "p.nombre LIKE  '%" + dato + "%'"
                 + "OR c.correo LIKE  '%" + dato + "%'"
                 + "OR p.apellido LIKE  '%" + dato + "%'";
-        if (jTextField1.getText().isEmpty()) {
-            //JOptionPane.showMessageDialog(null, "No ha escrito", "busqueda", JOptionPane.ERROR_MESSAGE);
-        } else {
 
-        }
         ResultSet rs = Funciones.consulta(sql);
         try {
             while (rs.next()) {
@@ -87,7 +86,7 @@ public class buscar_cliente extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Buscar productos");
+        setTitle("Buscar Clientes");
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -236,7 +235,7 @@ public class buscar_cliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente.", "Cliente", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            Menu.codclie =Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
+            Menu.codclie = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
             Menu.txt_cliente.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
 
             dispose();

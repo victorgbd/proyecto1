@@ -13,6 +13,7 @@ import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,7 +33,11 @@ public class buscar_empleado extends javax.swing.JFrame {
     String puesto, nombre_completo;
 
     private void llenarTabla(String dato) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         modelo.setColumnIdentifiers(new Object[]{
             "Cdigo", "Nombre", "Apellido", "Puesto", "Correo", "Telefono"
         });

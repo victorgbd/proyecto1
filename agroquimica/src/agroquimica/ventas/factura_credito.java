@@ -10,6 +10,8 @@ import agroquimica.Funciones;
 import agroquimica.Menu;
 import static agroquimica.Menu.txt_cliente;
 import static agroquimica.Menu.txt_empleado;
+import java.awt.Color;
+import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +46,7 @@ public class factura_credito extends javax.swing.JFrame {
     private final ConexionBD cc = new ConexionBD();
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
+    private int x,y;
     double cuota = 0;
     float interes = (float) 0.1;
     DecimalFormat df = new DecimalFormat("###,###.##");
@@ -56,42 +59,64 @@ public class factura_credito extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        combo_cuota = new javax.swing.JComboBox<>();
-        txt_pagos = new javax.swing.JTextField();
-        txt_monto_total = new javax.swing.JTextField();
-        txt_factura = new javax.swing.JTextField();
-        txt_cliente = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        txt_pagos = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        combo_cuota = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txt_monto_total = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txt_cliente = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         lb_fecha = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txt_factura = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        minimizar = new javax.swing.JLabel();
+        salir = new javax.swing.JLabel();
+        whitelb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Factura a credito");
+        jPanel1.setBackground(new java.awt.Color(19, 19, 123));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Cliente:");
+        jButton2.setText("salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Monto Total:");
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Cuotas:");
+        txt_pagos.setEditable(false);
+        jPanel1.add(txt_pagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 267, 88, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Pagos:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 267, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Factura:");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Cuotas:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 229, -1, -1));
 
         combo_cuota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "12", "18", "24" }));
         combo_cuota.addItemListener(new java.awt.event.ItemListener() {
@@ -99,8 +124,12 @@ public class factura_credito extends javax.swing.JFrame {
                 combo_cuotaItemStateChanged(evt);
             }
         });
+        jPanel1.add(combo_cuota, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 229, -1, -1));
 
-        txt_pagos.setEditable(false);
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("meses");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(187, 229, -1, -1));
 
         txt_monto_total.setEditable(false);
         txt_monto_total.setText("18,452.25");
@@ -109,110 +138,102 @@ public class factura_credito extends javax.swing.JFrame {
                 txt_monto_totalActionPerformed(evt);
             }
         });
+        jPanel1.add(txt_monto_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 191, 88, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Monto Total:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 191, -1, -1));
+
+        txt_cliente.setEditable(false);
+        jPanel1.add(txt_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 153, 244, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Cliente:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 153, -1, -1));
+
+        lb_fecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_fecha.setForeground(new java.awt.Color(255, 255, 255));
+        lb_fecha.setText("Fecha");
+        jPanel1.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 118, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Fecha:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 118, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Factura:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 67, -1, -1));
 
         txt_factura.setEditable(false);
         txt_factura.setText("5");
+        jPanel1.add(txt_factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 67, 88, -1));
 
-        txt_cliente.setEditable(false);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Factura a credito");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 34, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("meses");
-
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        minimizar.setBackground(new java.awt.Color(255, 255, 255));
+        minimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        minimizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimizar.setText("_");
+        minimizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
+        minimizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        minimizar.setMaximumSize(new java.awt.Dimension(12, 22));
+        minimizar.setMinimumSize(new java.awt.Dimension(12, 22));
+        minimizar.setOpaque(true);
+        minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                minimizarMousePressed(evt);
             }
         });
+        jPanel1.add(minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 30, 30));
 
-        jButton2.setText("salir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        salir.setBackground(new java.awt.Color(255, 255, 255));
+        salir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        salir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        salir.setText("X");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
+        salir.setOpaque(true);
+        salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                salirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                salirMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                salirMousePressed(evt);
             }
         });
+        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 30, 30));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Fecha");
+        whitelb.setBackground(new java.awt.Color(255, 255, 255));
+        whitelb.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(55, 140, 187)));
+        whitelb.setOpaque(true);
+        whitelb.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                whitelbMouseDragged(evt);
+            }
+        });
+        whitelb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                whitelbMousePressed(evt);
+            }
+        });
+        jPanel1.add(whitelb, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 30));
 
-        lb_fecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lb_fecha.setText("Fecha");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(142, 142, 142)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_cliente)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txt_pagos)
-                                        .addComponent(txt_factura)
-                                        .addComponent(txt_monto_total, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(combo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton2))
-                                    .addComponent(lb_fecha))
-                                .addGap(0, 41, Short.MAX_VALUE)))))
-                .addContainerGap(73, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(lb_fecha))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_monto_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(combo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 346));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -230,7 +251,7 @@ public class factura_credito extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_monto_totalActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
         String sql = "call sp_cuota(?,?,?)";
 
         try {
@@ -242,7 +263,7 @@ public class factura_credito extends javax.swing.JFrame {
             ps.setInt(3, Integer.parseInt(combo_cuota.getSelectedItem().toString()));
             ResultSet rs = ps.executeQuery();
             JOptionPane.showMessageDialog(null, "Transaccion realizada correctamente", "Cuota", JOptionPane.INFORMATION_MESSAGE);
-
+            this.dispose();
             //reporte de jasperreport
             JasperReport reporte = null;
             String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
@@ -277,6 +298,39 @@ public class factura_credito extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void whitelbMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_whitelbMouseDragged
+        this.setLocation(evt.getXOnScreen()-x, evt.getYOnScreen()-y);
+    }//GEN-LAST:event_whitelbMouseDragged
+
+    private void whitelbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_whitelbMousePressed
+        x=evt.getX();
+        y=evt.getY();
+    }//GEN-LAST:event_whitelbMousePressed
+
+    private void minimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseEntered
+        minimizar.setBackground(new Color(229,229,229));
+    }//GEN-LAST:event_minimizarMouseEntered
+
+    private void minimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMouseExited
+        minimizar.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_minimizarMouseExited
+
+    private void minimizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizarMousePressed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizarMousePressed
+
+    private void salirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseEntered
+        salir.setBackground(new Color(232,17,35));
+    }//GEN-LAST:event_salirMouseEntered
+
+    private void salirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseExited
+        salir.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_salirMouseExited
+
+    private void salirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMousePressed
+        this.setVisible(false);
+    }//GEN-LAST:event_salirMousePressed
     public void cuota(){
         double deuda = Double.parseDouble(txt_monto_total.getText().replace(",", ""));
         int meses = Integer.parseInt(combo_cuota.getSelectedItem().toString());
@@ -308,10 +362,14 @@ public class factura_credito extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lb_fecha;
+    private javax.swing.JLabel minimizar;
+    private javax.swing.JLabel salir;
     public static javax.swing.JTextField txt_cliente;
     public static javax.swing.JTextField txt_factura;
     public static javax.swing.JTextField txt_monto_total;
     public javax.swing.JTextField txt_pagos;
+    private javax.swing.JLabel whitelb;
     // End of variables declaration//GEN-END:variables
 }

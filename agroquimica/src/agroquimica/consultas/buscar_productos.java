@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,7 +35,11 @@ public class buscar_productos extends javax.swing.JFrame {
     private int x, y;
 
     private void llenarTabla(String dato) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         modelo.setColumnIdentifiers(new Object[]{
             "codigo", "Descripcion", "precio de venta", "Cantidad existente", "Unidad", "Codigo de Unidad"
         });

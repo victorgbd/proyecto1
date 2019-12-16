@@ -14,6 +14,7 @@ import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,7 +33,11 @@ public class buscar_especie extends javax.swing.JFrame {
     private int x, y, codplant=0;
 
     private void llenarTabla(String dato) {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         modelo.setColumnIdentifiers(new Object[]{
             "Codigo de Especie", "Nombre"
         });
