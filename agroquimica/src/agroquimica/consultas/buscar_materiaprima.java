@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,7 @@ public class buscar_materiaprima extends javax.swing.JFrame {
         llenarTabla("");
     }
     private int x, y;
+    DecimalFormat df = new DecimalFormat("###,###.##");
 
     private void llenarTabla(String dato) {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
@@ -37,11 +39,11 @@ public class buscar_materiaprima extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         modelo.setColumnIdentifiers(new Object[]{
-            "codigo", "Descripcion", "Costo", "Cantidad existente", "Unidad", "Codigo de Unidad"
+            "codigo", "Descripcion", "Costo", "Cantidad existente", "Unidad", "Codigo de Unidad","Proveedor"
         });
 
         String sql = "SELECT mp.codmateriap,mp.descripcion,mp.preciocomp,mp.cantext,\n"
-                + "u.descripcion as Unidad,vs.coduni\n"
+                + "u.descripcion as Unidad,vs.coduni,p.nombre_empresa\n"
                 + "from materiaprimavsunidad vs\n"
                 + "INNER JOIN materia_prima mp ON vs.codmateria = mp.codmateriap\n"
                 + "INNER JOIN unidad u ON vs.coduni = u.coduni\n"
@@ -59,7 +61,8 @@ public class buscar_materiaprima extends javax.swing.JFrame {
                     rs.getString("preciocomp"),
                     rs.getString("cantext"),
                     rs.getString("Unidad"),
-                    rs.getString("coduni")
+                    rs.getString("coduni"),
+                     rs.getString("nombre_empresa")
                 });
             }
             tabla.setModel(modelo);
@@ -252,6 +255,8 @@ public class buscar_materiaprima extends javax.swing.JFrame {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
+        double total = 0;
+
         int cantidad = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
         if (tabla.getSelectedRow() < 0) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.", "Materia prima", JOptionPane.ERROR_MESSAGE);
@@ -263,22 +268,46 @@ public class buscar_materiaprima extends javax.swing.JFrame {
         } else {
             if (tabla.getSelectedRow() != -1) {
                 try {
-                    String[] dato = new String[6];
-                    DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.jTable1.getModel();
-                    //codigo
-                    dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                    //producto
-                    dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                    //
-                    dato[3] = jtcantidad.getText();
-                    dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
-                    //
-                    dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                    dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
-                    tabladet.addRow(dato);
-                    Composicion_producto.jTable1.setModel(tabladet);
-                    dispose();
 
+                    boolean f = true;
+                    int filas_tabla = Composicion_producto.jTable1.getRowCount();
+
+                    for (int i = 0; i < Composicion_producto.jTable1.getRowCount(); i++) {
+
+                        if (Composicion_producto.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
+                            int cant = Integer.parseInt(Composicion_producto.jTable1.getValueAt(i, 3).toString());
+                            cant += Integer.parseInt(jtcantidad.getText());
+
+                            Composicion_producto.jTable1.setValueAt(cant, i, 3);
+                            f = false;
+                        }
+                    }
+                    if (f) {
+                        String[] dato = new String[6];
+                        DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.jTable1.getModel();
+                        //codigo
+                        dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                        //producto
+                        dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                        //
+                        dato[3] = jtcantidad.getText();
+                        dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                        //
+                        dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                        dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                        tabladet.addRow(dato);
+                        Composicion_producto.jTable1.setModel(tabladet);
+
+                    }
+                    for (int i = 0; i < Composicion_producto.jTable1.getRowCount(); i++) {
+                        int cant = Integer.parseInt(Composicion_producto.jTable1.getValueAt(i, 3).toString());
+                        double precio = Double.parseDouble(Composicion_producto.jTable1.getValueAt(i, 2).toString());
+                        total += (cant * precio);
+                    }
+                    Composicion_producto.lb_costo_materia.setText(df.format(total) + "");
+                    total*=2.18;
+                    Composicion_producto.lb_precio_venta.setText(df.format(total) + "");
+                    dispose();
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, e);
                 }

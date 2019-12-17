@@ -241,6 +241,8 @@ public class buscar_produccion extends javax.swing.JFrame {
                     Composicion_producto.txt_produccion.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
                     Composicion_producto.txt_unidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
                     Composicion_producto.cod_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+                    Composicion_producto.cant_exi = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+                    
                     dispose();
                 } else {
                     Asignar_trabajos.codigo_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());

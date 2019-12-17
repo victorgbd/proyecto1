@@ -7,7 +7,6 @@ package agroquimica.produccion;
 
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
-import static agroquimica.Menu.jTable1;
 import agroquimica.consultas.buscar_materiaprima;
 import agroquimica.consultas.buscar_produccion;
 import java.sql.Connection;
@@ -35,7 +34,7 @@ public class Composicion_producto extends javax.swing.JFrame {
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
     DecimalFormat df = new DecimalFormat("###,###.##");
-    public static int cod_produccion = 0, cod_producto, cod_unidad;
+    public static int cod_produccion = 0, cod_producto, cod_unidad,cant_exi;
     public static String nombre_produccion;
 
     /**
@@ -247,6 +246,8 @@ public class Composicion_producto extends javax.swing.JFrame {
             obj.setVisible(true);
             obj.setLocationRelativeTo(null);
         } else {
+            
+            
             String sql = "", info = "", aux = "", empleado, tarea = null;
             sql = "select CONCAT(per.nombre,\" \",per.apellido) as Empleado, a.descripcion as Tarea\n"
                     + " \n"
@@ -279,20 +280,25 @@ public class Composicion_producto extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String sql = "call sp_composicio_producto(?,?,?,?)";
+        cod_producto = Funciones.traeindice("producto", txt_produccion.getText());
+        String sql = "call sp_composicio_producto(?,?,?,?,?,?)";
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             try {
+                
                 ps = cn.prepareStatement(sql);
                 ps.setInt(1, cod_produccion);
                 ps.setInt(2, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
                 ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 3).toString()));
                 ps.setInt(4, Integer.parseInt(jTable1.getValueAt(i, 5).toString()));
+                ps.setInt(5, cod_producto);
+                ps.setInt(6, cant_exi);
                 ResultSet re = ps.executeQuery();
                 JOptionPane.showMessageDialog(null, "Composicion creada correctamente", "Composicion", JOptionPane.INFORMATION_MESSAGE);
-                limpiar();
+
             } catch (Exception e) {
             }
         }
+        limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
     void limpiar() {
         txt_produccion.setText("");
@@ -354,8 +360,8 @@ public class Composicion_producto extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
-    private javax.swing.JLabel lb_costo_materia;
-    private javax.swing.JLabel lb_precio_venta;
+    public static javax.swing.JLabel lb_costo_materia;
+    public static javax.swing.JLabel lb_precio_venta;
     public static javax.swing.JTextField txt_produccion;
     public static javax.swing.JTextField txt_unidad;
     // End of variables declaration//GEN-END:variables
