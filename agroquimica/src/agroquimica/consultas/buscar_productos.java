@@ -5,14 +5,11 @@
  */
 package agroquimica.consultas;
 
-import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import agroquimica.Menu;
 import agroquimica.produccion.produccion_1;
 import java.awt.Color;
 import java.awt.Frame;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
