@@ -42,7 +42,7 @@ public class buscar_materiaprima extends javax.swing.JFrame {
             "codigo", "Descripcion", "Costo", "Cantidad existente", "Unidad", "Codigo de Unidad","Proveedor"
         });
 
-        String sql = "SELECT mp.codmateriap,mp.descripcion,vs.preciocomp,mp.cantext,\n"
+        String sql = "SELECT mp.codmateriap,mp.descripcion,vs.preciocomp,vs.cantext,\n"
                 + "u.descripcion as Unidad,vs.coduni,p.nombre_empresa\n"
                 + "from materiaprimavsunidad vs\n"
                 + "INNER JOIN materia_prima mp ON vs.codmateria = mp.codmateriap\n"
