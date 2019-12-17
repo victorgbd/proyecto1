@@ -11,6 +11,8 @@ import agroquimica.consultas.buscar_enfermedad;
 import agroquimica.consultas.buscar_especie;
 import agroquimica.consultas.buscar_planta;
 import agroquimica.consultas.buscar_productos;
+import agroquimica.produccion.Asignar_trabajos;
+import agroquimica.produccion.Composicion_producto;
 import agroquimica.ventas.cuentas_pagar;
 import agroquimica.ventas.factura_credito;
 import java.awt.Color;
@@ -168,6 +170,12 @@ public class Menu extends javax.swing.JFrame {
         lbcuenta_por_cobrar = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         Produccion = new javax.swing.JPanel();
+        lbcomposicionprod = new javax.swing.JLabel();
+        lbasignartrabajos = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        lbcrearproduccion = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jlmenu = new javax.swing.JLabel();
         salir = new javax.swing.JLabel();
         minimizar = new javax.swing.JLabel();
@@ -679,6 +687,43 @@ public class Menu extends javax.swing.JFrame {
 
         Produccion.setBackground(new java.awt.Color(255, 255, 255));
         Produccion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbcomposicionprod.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbcomposicionprod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbcomposicionprod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbcomposicionprodMouseReleased(evt);
+            }
+        });
+        Produccion.add(lbcomposicionprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 150, 110));
+
+        lbasignartrabajos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbasignartrabajos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbasignartrabajos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbasignartrabajosMouseReleased(evt);
+            }
+        });
+        Produccion.add(lbasignartrabajos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 150, 110));
+
+        jLabel13.setText("Asignar Trabajos");
+        Produccion.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
+
+        jLabel14.setText("Crear Composición");
+        Produccion.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 180, -1, -1));
+
+        lbcrearproduccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbcrearproduccion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbcrearproduccion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbcrearproduccionMouseReleased(evt);
+            }
+        });
+        Produccion.add(lbcrearproduccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 150, 110));
+
+        jLabel18.setText("Crear Producción");
+        Produccion.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
+
         jPanel2.add(Produccion, "card9");
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 920, 510));
@@ -1429,6 +1474,22 @@ public class Menu extends javax.swing.JFrame {
             Menu.jPanel3.setVisible(false);
         }
     }//GEN-LAST:event_lbatras2MouseReleased
+
+    private void lbcomposicionprodMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcomposicionprodMouseReleased
+        Composicion_producto obj = new Composicion_producto();
+        obj.setLocationRelativeTo(jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_lbcomposicionprodMouseReleased
+
+    private void lbasignartrabajosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbasignartrabajosMouseReleased
+        Asignar_trabajos obj = new Asignar_trabajos();
+        obj.setLocationRelativeTo(jPanel2);
+        obj.setVisible(true);
+    }//GEN-LAST:event_lbasignartrabajosMouseReleased
+
+    private void lbcrearproduccionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcrearproduccionMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbcrearproduccionMouseReleased
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1523,9 +1584,12 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1552,9 +1616,12 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel lb_cuentas;
     private javax.swing.JLabel lb_fecha;
     private javax.swing.JLabel lb_resigstrar;
+    private javax.swing.JLabel lbasignartrabajos;
     private javax.swing.JLabel lbatras1;
     private javax.swing.JLabel lbatras2;
     private javax.swing.JLabel lbcerrarsesion;
+    private javax.swing.JLabel lbcomposicionprod;
+    private javax.swing.JLabel lbcrearproduccion;
     private javax.swing.JLabel lbcuenta_por_cobrar;
     private javax.swing.JLabel lbproduccionp3;
     private javax.swing.JLabel lbregistrar_empleados;

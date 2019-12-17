@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3e1c647-f482-4532-8ce3-04778e077e9a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codprod" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     composicion_producto.`cantidad` AS composicion_producto_cantidad,
+     materia_prima.`descripcion` AS materia_prima_descripcion,
+     unidad.`descripcion` AS unidad_descripcion
+FROM
+     `materia_prima` materia_prima INNER JOIN `composicion_producto` composicion_producto ON materia_prima.`codmateriap` = composicion_producto.`codmateriap`
+     INNER JOIN `unidad` unidad ON composicion_producto.`coduni` = unidad.`coduni` where composicion_producto.codproduccion = $P!{codprod}]]>
+	</queryString>
+	<field name="composicion_producto_cantidad" class="java.lang.Integer"/>
+	<field name="materia_prima_descripcion" class="java.lang.String"/>
+	<field name="unidad_descripcion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="79" width="555" height="1" uuid="d3dd58d1-10de-4d87-9918-6cbc604f4a6e"/>
+			</line>
+			<staticText>
+				<reportElement x="111" y="19" width="320" height="40" uuid="271ec0c6-5dad-4cad-b61b-a35e85f9ae78"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Reporte de Composición ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="378" y="6" width="100" height="20" uuid="c4ccf4f4-1913-4af7-a52b-f0bcd6d488f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="6" width="100" height="20" uuid="f6413362-d788-4163-b6ec-04259477e6f0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Materia Prima]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="6" width="100" height="20" uuid="aa1e3610-0616-40f8-98eb-ebde9fa853bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Unidad]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="25" width="555" height="1" uuid="b97e4f9a-7493-4b01-bf1c-e0d7ed225f66"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="378" y="6" width="100" height="20" uuid="7679cd91-df34-4da7-91c1-24fe8851880b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{composicion_producto_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="6" width="100" height="20" uuid="aa3cca85-1dc4-4a44-b135-818fc3b65a03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{materia_prima_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="6" width="100" height="20" uuid="199e3175-0f32-4363-a8eb-e1854ef66544"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad_descripcion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="206" y="25" width="80" height="20" uuid="48476d53-97c6-4e36-a8aa-c92cf31bd820"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página"+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="286" y="25" width="40" height="20" uuid="2a126487-53c8-4274-9f8b-ce8ff8f1cb48"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="5f0effeb-1873-47f2-9eed-8687128025e7"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

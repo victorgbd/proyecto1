@@ -201,7 +201,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_buscar_produccion">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Buscar produccion"/>
+        <Property name="text" type="java.lang.String" value="Buscar producci&#xf3;n"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscar_produccionActionPerformed"/>
@@ -209,7 +209,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Asignar"/>
+        <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>

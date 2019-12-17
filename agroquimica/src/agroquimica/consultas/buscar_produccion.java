@@ -37,7 +37,7 @@ public class buscar_produccion extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         modelo.setColumnIdentifiers(new Object[]{
-            "Codigo", "Producto", "Cantidad", "Unidad", "Inicia", "termina"
+            "Codigo", "Producto", "Cantidad", "Unidad", "Inicia", "Termina"
         });
         String sql = "select codproduccion as codigo, p.descripcion as producto, pr.cantidad_prod as cantidad,\n"
                 + "u.descripcion as Unidad, pr.fecha_inicio as inicio, pr.fecha_fin as termina \n"
@@ -138,11 +138,11 @@ public class buscar_produccion extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo Planta", "Nombre"
+                "Codigo Planta", "Nombre", "Title 3", "Title 4", "Title 5", "Title 6"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

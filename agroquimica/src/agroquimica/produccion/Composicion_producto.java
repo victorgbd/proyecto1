@@ -7,6 +7,10 @@ package agroquimica.produccion;
 
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
+import agroquimica.Menu;
+import static agroquimica.Menu.jCombotipofactura;
+import static agroquimica.Menu.txt_cliente;
+import static agroquimica.Menu.txt_empleado;
 import agroquimica.consultas.buscar_materiaprima;
 import agroquimica.consultas.buscar_produccion;
 import java.sql.Connection;
@@ -14,8 +18,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -129,14 +144,14 @@ public class Composicion_producto extends javax.swing.JFrame {
 
         txt_unidad.setEditable(false);
 
-        btn_buscar_produccion.setText("Buscar produccion");
+        btn_buscar_produccion.setText("Buscar producción");
         btn_buscar_produccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_buscar_produccionActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Asignar");
+        jButton1.setText("Guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -293,10 +308,29 @@ public class Composicion_producto extends javax.swing.JFrame {
                 ps.setInt(5, cod_producto);
                 ps.setInt(6, cant_exi);
                 ResultSet re = ps.executeQuery();
-                JOptionPane.showMessageDialog(null, "Composicion creada correctamente", "Composicion", JOptionPane.INFORMATION_MESSAGE);
-
+                
             } catch (Exception e) {
             }
+        }
+        int opcion = JOptionPane.showConfirmDialog(null, "Desea crear un reporte?","Confirmación",JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Composicion creada correctamente", "Composicion", JOptionPane.INFORMATION_MESSAGE);
+            JasperReport reporte = null;
+            String ruta = getClass().getResource("/Reportes/Composicion_Producto.jasper").toString();
+            ruta = ruta.replace("file:", "");
+            Map parametro = new HashMap();
+            parametro.put("codprod", cod_produccion);
+            try {
+                reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+                JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+                JasperViewer view = new JasperViewer(jprint, false);
+                view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                view.setVisible(true);
+            } catch (JRException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Composicion creada correctamente", "Composicion", JOptionPane.INFORMATION_MESSAGE);
         }
         limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
