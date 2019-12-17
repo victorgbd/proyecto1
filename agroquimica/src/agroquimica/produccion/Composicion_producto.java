@@ -286,7 +286,15 @@ public class Composicion_producto extends javax.swing.JFrame {
                         aux = empleado;
                     }
                 }
-                JOptionPane.showMessageDialog(null, info, "Empleados", JOptionPane.INFORMATION_MESSAGE);
+                if (info.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe asignarle tarea a los operarios.", "Empleados", JOptionPane.ERROR_MESSAGE);
+                    Asignar_trabajos obj = new Asignar_trabajos();
+                    obj.setVisible(true);
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, info, "Empleados", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
             }

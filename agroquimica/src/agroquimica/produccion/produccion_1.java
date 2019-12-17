@@ -193,7 +193,7 @@ public class produccion_1 extends javax.swing.JFrame {
 
                 }
                 JOptionPane.showMessageDialog(null, "Produccion creada", "Crear produccion", JOptionPane.INFORMATION_MESSAGE);
-                Composicion_producto obj = new Composicion_producto();
+                Asignar_trabajos obj = new Asignar_trabajos();
                 obj.setLocationRelativeTo(null);
                 obj.setVisible(true);
 

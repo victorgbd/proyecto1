@@ -10,6 +10,7 @@ import agroquimica.Funciones;
 import static agroquimica.Funciones.sql;
 import agroquimica.consultas.buscar_empleado;
 import agroquimica.consultas.buscar_produccion;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -136,24 +137,23 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(combo_tarea_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(combo_tarea_1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_empleado))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_empleado1))
-                            .addComponent(btn_empleado)))
+                                .addComponent(btn_empleado1))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(jLabel1))
@@ -196,7 +196,6 @@ public class Asignar_trabajos extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        int cod_produ = 0, cod_acti;
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
         if (codigo_produccion <= 0) {
             JOptionPane.showMessageDialog(null, "debe debe buscar una produccion para asignar a un empleado.");
@@ -212,12 +211,14 @@ public class Asignar_trabajos extends javax.swing.JFrame {
             obj.setLocationRelativeTo(null);
         } else {
             try {
-
+                int cod_acti = 0;
                 //llenar actividadvsproduccionvsempleado
-                codigo_produccion = Funciones.traeindice("produccion", txt_produccion.getText());
+                
 
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    cod_acti = Funciones.traeindice("actividad", combo_tarea_1.getSelectedItem().toString());
+
+                    cod_acti = Funciones.traeindice("actividad", jTable1.getValueAt(i, 2).toString());
+                    
                     sql = "call sp_triple_versus(?,?,?)";
                     ps = cn.prepareStatement(sql);
                     ps.setInt(1, cod_acti);
@@ -229,10 +230,10 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 //si selecciona una actividad diferente a ninguna
                 JOptionPane.showMessageDialog(null, "Trabajo asignado correctamente.");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, ">>" + ex);
             }
         }
-
+        
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
