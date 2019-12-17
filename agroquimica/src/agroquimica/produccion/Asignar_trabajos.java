@@ -35,18 +35,15 @@ public class Asignar_trabajos extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         Funciones.llenar_combo(combo_tarea_1, "ver_puesto_actividad", "Actividad");
-        Funciones.llenar_combo(combo_tarea_2, "ver_puesto_actividad", "Actividad");
-        Funciones.llenar_combo(combo_unidad, "unidad", "descripcion");
-        Funciones.llenar_combo(combo_produccion, "producto", "descripcion");
+
     }
     public static int cod_emp = 0, codigo_produccion;
     public static String fecha_i = "", fecha_f = "";
-    
+
     private final ConexionBD cc = new ConexionBD();
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,40 +54,27 @@ public class Asignar_trabajos extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txt_empleado = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         btn_salir = new javax.swing.JButton();
         btn_empleado = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        combo_produccion = new javax.swing.JComboBox<>();
         combo_tarea_1 = new javax.swing.JComboBox<>();
-        combo_tarea_2 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        txt_cantidad = new javax.swing.JTextField();
-        combo_unidad = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        fecha_inicio = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        fecha_fin = new com.toedter.calendar.JDateChooser();
         btn_empleado1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txt_unidad = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txt_produccion = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Asignacion de produccion");
 
-        jLabel2.setText("Empleado");
-
         jLabel3.setText("Tarea");
 
-        jLabel4.setText("Tarea 2");
-
-        txt_empleado.setEditable(false);
-
-        jButton1.setText("Asignar");
+        jButton1.setText("guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -99,43 +83,14 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
         btn_salir.setText("Salir");
 
-        btn_empleado.setText("Buscar empleado");
+        btn_empleado.setText("Asignar tarea");
         btn_empleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_empleadoActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Produccion");
-
-        combo_produccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         combo_tarea_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        combo_tarea_2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Cantidad");
-
-        txt_cantidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_cantidadActionPerformed(evt);
-            }
-        });
-        txt_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_cantidadKeyTyped(evt);
-            }
-        });
-
-        combo_unidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel7.setText("Inicia");
-
-        fecha_inicio.setDateFormatString("YYYY-MM-dd hh:mm:ss");
-
-        jLabel8.setText("Termina");
-
-        fecha_fin.setDateFormatString("YYYY-MM-dd hh:mm:ss");
 
         btn_empleado1.setText("Asignar produccion");
         btn_empleado1.addActionListener(new java.awt.event.ActionListener() {
@@ -144,66 +99,70 @@ public class Asignar_trabajos extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Produccion de:");
+
+        txt_unidad.setEditable(false);
+
+        jLabel6.setText("de");
+
+        txt_produccion.setEditable(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Empleado", "Tarea"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(116, 116, 116))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(combo_tarea_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel2))
+                                .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txt_empleado, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(combo_produccion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(combo_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_empleado)
-                                    .addComponent(btn_empleado1)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(combo_tarea_1, 0, 249, Short.MAX_VALUE)
-                                            .addComponent(combo_tarea_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fecha_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fecha_fin, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_empleado1))
+                            .addComponent(btn_empleado)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_salir)
-                        .addGap(142, 142, 142)))
-                .addGap(42, 42, 42))
+                        .addGap(65, 65, 65)
+                        .addComponent(btn_salir)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,34 +172,18 @@ public class Asignar_trabajos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txt_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_empleado))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(combo_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_empleado1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(fecha_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(fecha_fin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_empleado)
                     .addComponent(jLabel3)
                     .addComponent(combo_tarea_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(combo_tarea_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btn_salir))
@@ -252,68 +195,45 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        int cod_produ, cod_acti;
+
+        int cod_produ = 0, cod_acti;
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
-        if (txt_empleado.getText().isEmpty()) {
+        if (codigo_produccion <= 0) {
+            JOptionPane.showMessageDialog(null, "debe debe buscar una produccion para asignar a un empleado.");
+            Funciones.nombre_formulario = "asignar trabajo";
+            buscar_produccion obj = new buscar_produccion();
+            obj.setVisible(true);
+            obj.setLocationRelativeTo(null);
+        } else if (jTable1.getRowCount() < 0) {
+            JOptionPane.showMessageDialog(null, "debe asignar una tarea a un empleado.");
             Funciones.nombre_formulario = "asignar trabajo";
             buscar_empleado obj = new buscar_empleado();
             obj.setVisible(true);
             obj.setLocationRelativeTo(null);
-
-        }else if(txt_cantidad.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Inserte la cantidad a producir");
-            txt_cantidad.requestFocus();
-        } 
-        else {
-            cod_produ = Funciones.traeindice("producto", combo_produccion.getSelectedItem().toString());
-            fecha_i = ((JTextField) fecha_inicio.getDateEditor().getUiComponent()).getText();
-            fecha_f = ((JTextField) fecha_fin.getDateEditor().getUiComponent()).getText();
-            int uni = Funciones.traeindice("unidad", combo_unidad.getSelectedItem().toString());
-            sql = "call sp_produccion(?,?,?,?,?)";
+        } else {
             try {
 
-                ps = cn.prepareStatement(sql);
-                ps.setString(1, fecha_i);
-                ps.setInt(2, cod_produ);
-                ps.setInt(3, Integer.parseInt(txt_cantidad.getText()));
-                ps.setString(4, fecha_f);
-                ps.setInt(5, uni);
-
-                ResultSet rs = ps.executeQuery();
-
-                rs.next();
-                 codigo_produccion = rs.getInt(1);
-
                 //llenar actividadvsproduccionvsempleado
-                cod_acti = Funciones.traeindice("actividad", combo_tarea_1.getSelectedItem().toString());
-               
-                sql = "call sp_triple_versus(?,?,?)";
-                ps = cn.prepareStatement(sql);
-                ps.setInt(1, cod_acti);
-                ps.setInt(2, codigo_produccion);
-                ps.setInt(3, cod_emp);
-                rs = ps.executeQuery();
-                JOptionPane.showMessageDialog(null, "Bien ");
-                //si selecciona una actividad diferente a ninguna
+                codigo_produccion = Funciones.traeindice("produccion", txt_produccion.getText());
 
-                if (!combo_tarea_2.getSelectedItem().toString().equals("Ninguna")) {
-                    //se asigna la nueva actividad con la misma produccion y empleado
-                    cod_acti = Funciones.traeindice("actividad", combo_tarea_2.getSelectedItem().toString());
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    cod_acti = Funciones.traeindice("actividad", combo_tarea_1.getSelectedItem().toString());
                     sql = "call sp_triple_versus(?,?,?)";
                     ps = cn.prepareStatement(sql);
                     ps.setInt(1, cod_acti);
                     ps.setInt(2, codigo_produccion);
-                    ps.setInt(3, cod_emp);
-                    rs = ps.executeQuery();
-                    JOptionPane.showMessageDialog(null, "Bien 2");
+                    ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
+                    ResultSet rs = ps.executeQuery();
                 }
+
+                //si selecciona una actividad diferente a ninguna
                 JOptionPane.showMessageDialog(null, "Trabajo asignado correctamente.");
             } catch (SQLException ex) {
-                Logger.getLogger(Asignar_trabajos.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex);
             }
-
         }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_empleadoActionPerformed
@@ -325,23 +245,9 @@ public class Asignar_trabajos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_empleadoActionPerformed
 
-    private void txt_cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cantidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_cantidadActionPerformed
-
-    private void txt_cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-
-        if (!Character.isDigit(c) || txt_cantidad.getText().length() > 5) {
-            evt.consume();
-            getToolkit().beep();
-        }
-    }//GEN-LAST:event_txt_cantidadKeyTyped
-
     private void btn_empleado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_empleado1ActionPerformed
         // TODO add your handling code here:
-         Funciones.nombre_formulario = "asignar trabajo";
+        Funciones.nombre_formulario = "asignar trabajo";
         buscar_produccion obj = new buscar_produccion();
         obj.setVisible(true);
         obj.setLocationRelativeTo(null);
@@ -386,22 +292,15 @@ public class Asignar_trabajos extends javax.swing.JFrame {
     private javax.swing.JButton btn_empleado;
     private javax.swing.JButton btn_empleado1;
     private javax.swing.JButton btn_salir;
-    public static javax.swing.JComboBox<String> combo_produccion;
-    private javax.swing.JComboBox<String> combo_tarea_1;
-    private javax.swing.JComboBox<String> combo_tarea_2;
-    public static javax.swing.JComboBox<String> combo_unidad;
-    private com.toedter.calendar.JDateChooser fecha_fin;
-    private com.toedter.calendar.JDateChooser fecha_inicio;
+    public static javax.swing.JComboBox<String> combo_tarea_1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField txt_cantidad;
-    public static javax.swing.JTextField txt_empleado;
+    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JTable jTable1;
+    public static javax.swing.JTextField txt_produccion;
+    public static javax.swing.JTextField txt_unidad;
     // End of variables declaration//GEN-END:variables
 }

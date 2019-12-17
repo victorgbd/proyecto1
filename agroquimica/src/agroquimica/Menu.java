@@ -1025,6 +1025,7 @@ public class Menu extends javax.swing.JFrame {
                     res.next();
                     opcion = res.getInt(1);
                 } catch (SQLException ex) {
+                    
                 }
 
                 if (opcion != 0) {

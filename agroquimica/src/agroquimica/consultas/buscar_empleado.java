@@ -265,7 +265,15 @@ public class buscar_empleado extends javax.swing.JFrame {
             nombre_completo = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
             puesto = tabla.getValueAt(tabla.getSelectedRow(), 3).toString();
             if (Funciones.nombre_formulario.equals("asignar trabajo")) {
-                Asignar_trabajos.txt_empleado.setText(nombre_completo);
+                String[] dato = new String[3];
+                DefaultTableModel tabladet = (DefaultTableModel) Asignar_trabajos.jTable1.getModel();
+                //codigo
+                dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                //producto
+                dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                dato[2] = Asignar_trabajos.combo_tarea_1.getSelectedItem().toString();
+                tabladet.addRow(dato);
+                Asignar_trabajos.jTable1.setModel(tabladet);
                 Asignar_trabajos.cod_emp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
                 dispose();
             }

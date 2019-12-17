@@ -6,7 +6,6 @@
 package agroquimica.consultas;
 
 import agroquimica.Funciones;
-import agroquimica.Menu;
 import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.produccion.Composicion_producto;
 import java.awt.Color;
@@ -242,12 +241,12 @@ public class buscar_produccion extends javax.swing.JFrame {
                     Composicion_producto.txt_unidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
                     Composicion_producto.cod_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
                     Composicion_producto.cant_exi = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
-                    
+
                     dispose();
                 } else {
                     Asignar_trabajos.codigo_produccion = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-                    Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                    Asignar_trabajos.combo_produccion.setSelectedItem(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+                    Asignar_trabajos.txt_produccion.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                    Asignar_trabajos.txt_unidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
                     dispose();
                 }
             } catch (NumberFormatException e) {
