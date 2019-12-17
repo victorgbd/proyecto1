@@ -5,15 +5,10 @@
  */
 package agroquimica.consultas;
 
-import agroquimica.ConexionBD;
 import agroquimica.Funciones;
-import agroquimica.Menu;
 import agroquimica.produccion.Composicion_producto;
-import agroquimica.produccion.produccion_1;
 import java.awt.Color;
 import java.awt.Frame;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -45,9 +40,12 @@ public class buscar_materiaprima extends javax.swing.JFrame {
             "codigo", "Descripcion", "Costo", "Cantidad existente", "Unidad", "Codigo de Unidad"
         });
 
-        String sql = "SELECT mp.codmateriap,mp.descripcion,mp.preciocomp,mpu.cantext,u.descripcion as Unidad,mpu.coduni from materia_prima as mp "
-                + "INNER JOIN materiaprimavsunidad as mpu on mpu.codmateria=mp.codmateriap "
-                + "INNER JOIN unidad as u on u.coduni=mpu.coduni WHERE "
+        String sql = "SELECT mp.codmateriap,mp.descripcion,mp.preciocomp,mp.cantext,\n"
+                + "u.descripcion as Unidad,vs.coduni\n"
+                + "from materiaprimavsunidad vs\n"
+                + "INNER JOIN materia_prima mp ON vs.codmateria = mp.codmateriap\n"
+                + "INNER JOIN unidad u ON vs.coduni = u.coduni\n"
+                + "INNER JOIN proveedor p on mp.codprov = p.codproveedor WHERE "
                 + "mp.descripcion LIKE  '%" + dato + "%'"
                 + "OR mp.codmateriap LIKE  '%" + dato + "%'";
 
@@ -160,6 +158,12 @@ public class buscar_materiaprima extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabla);
 
         PanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 590, 171));
+
+        jtcantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtcantidadActionPerformed(evt);
+            }
+        });
         PanelPrincipal.add(jtcantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 126, -1));
 
         jButton1.setText("Agregar");
@@ -248,25 +252,30 @@ public class buscar_materiaprima extends javax.swing.JFrame {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //se agregan los datos de la fila seleccionada a la tabla principal
-        if (jtcantidad.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe insertar la cantidad", "Producto", JOptionPane.ERROR_MESSAGE);
+        int cantidad = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+        if (tabla.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.", "Materia prima", JOptionPane.ERROR_MESSAGE);
+
+        } else if (jtcantidad.getText().isEmpty() || Integer.parseInt(jtcantidad.getText()) > cantidad) {
+            JOptionPane.showMessageDialog(null, "Debe insertar la cantidad y/o "
+                    + "\nla cantidad insertadatiene que ser menor a " + cantidad, "Producto", JOptionPane.ERROR_MESSAGE);
             jtcantidad.requestFocus();
         } else {
             if (tabla.getSelectedRow() != -1) {
                 try {
-
+                    String[] dato = new String[6];
                     DefaultTableModel tabladet = (DefaultTableModel) Composicion_producto.jTable1.getModel();
                     //codigo
-                    Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
+                    dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                     //producto
-                    Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
+                    dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
                     //
-                    Funciones.dato[2] = jtcantidad.getText();
-                    Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    dato[3] = jtcantidad.getText();
+                    dato[2] = tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
                     //
-                    Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
-
-                    tabladet.addRow(Funciones.dato);
+                    dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
+                    dato[5] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
+                    tabladet.addRow(dato);
                     Composicion_producto.jTable1.setModel(tabladet);
                     dispose();
 
@@ -311,6 +320,10 @@ public class buscar_materiaprima extends javax.swing.JFrame {
         x = evt.getX();
         y = evt.getY();
     }//GEN-LAST:event_jLabel6MousePressed
+
+    private void jtcantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtcantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtcantidadActionPerformed
 
     /**
      * @param args the command line arguments

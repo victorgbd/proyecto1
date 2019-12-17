@@ -5,9 +5,18 @@
  */
 package agroquimica.produccion;
 
+import agroquimica.ConexionBD;
 import agroquimica.Funciones;
+import static agroquimica.Menu.jTable1;
 import agroquimica.consultas.buscar_materiaprima;
 import agroquimica.consultas.buscar_produccion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,9 +29,15 @@ public class Composicion_producto extends javax.swing.JFrame {
      */
     public Composicion_producto() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
-    public static int cod_produccion,cod_producto,cod_unidad;
+    private final ConexionBD cc = new ConexionBD();
+    private final Connection cn = cc.conexion();
+    private PreparedStatement ps;
+    DecimalFormat df = new DecimalFormat("###,###.##");
+    public static int cod_produccion = 0, cod_producto, cod_unidad;
     public static String nombre_produccion;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,10 +54,15 @@ public class Composicion_producto extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         btn_buscar = new javax.swing.JButton();
         btn_ver_empleados = new javax.swing.JButton();
-        txt_produccion = new javax.swing.JTextField();
+        txt_unidad = new javax.swing.JTextField();
         btn_buscar_produccion = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        txt_produccion = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lb_costo_materia = new javax.swing.JLabel();
+        lb_precio_venta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,9 +78,17 @@ public class Composicion_producto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+                "Codigo", "Descripcion", "Costo", "Cantidad", "Unidad", "Codigo Unidad"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         btn_buscar.setText("Buscar componentes");
@@ -71,6 +99,11 @@ public class Composicion_producto extends javax.swing.JFrame {
         });
 
         btn_ver_empleados.setText("Ver empleados asignados");
+        btn_ver_empleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ver_empleadosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -95,7 +128,7 @@ public class Composicion_producto extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        txt_produccion.setEditable(false);
+        txt_unidad.setEditable(false);
 
         btn_buscar_produccion.setText("Buscar produccion");
         btn_buscar_produccion.addActionListener(new java.awt.event.ActionListener() {
@@ -104,33 +137,62 @@ public class Composicion_producto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Crear");
+        jButton1.setText("Asignar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("de");
+
+        txt_produccion.setEditable(false);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Costo materia prima:");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Precio de venta:");
+
+        lb_costo_materia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_costo_materia.setText("0.00");
+
+        lb_precio_venta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_precio_venta.setText("0.00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(85, 85, 85))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(209, 209, 209)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_buscar_produccion))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_costo_materia)
+                            .addComponent(lb_precio_venta))
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_buscar_produccion)
-                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,14 +202,24 @@ public class Composicion_producto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_unidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_produccion)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(txt_produccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(lb_costo_materia))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(lb_precio_venta)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,6 +238,73 @@ public class Composicion_producto extends javax.swing.JFrame {
         obj.setVisible(true);
         obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void btn_ver_empleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_empleadosActionPerformed
+        // TODO add your handling code here:
+        if (cod_produccion <= 0) {
+            Funciones.nombre_formulario = "composicion";
+            buscar_produccion obj = new buscar_produccion();
+            obj.setVisible(true);
+            obj.setLocationRelativeTo(null);
+        } else {
+            String sql = "", info = "", aux = "", empleado, tarea = null;
+            sql = "select CONCAT(per.nombre,\" \",per.apellido) as Empleado, a.descripcion as Tarea\n"
+                    + " \n"
+                    + "from actividadvsproduccionvsempleado vs\n"
+                    + "INNER JOIN actividad a on vs.codactiv = a.codactiv\n"
+                    + "INNER JOIN produccion pr on vs.codproduccion = pr.codproduccion\n"
+                    + "INNER JOIN empleado e on vs.codemp = e.codemp\n"
+                    + "INNER JOIN producto p on pr.codprod = p.codproducto\n"
+                    + "INNER JOIN persona per on e.codper = per.codper\n"
+                    + "Where vs.codproduccion = '" + cod_produccion + "'";
+            ResultSet rs = Funciones.consulta(sql);
+            try {
+                while (rs.next()) {
+                    empleado = rs.getString(1);
+                    tarea = rs.getString(2);
+                    if (aux.equals(empleado)) {
+                        info += "\n>>> " + tarea + "\n";
+                    } else {
+                        info += "El empleado: " + empleado + " Tiene las siguientes tareas:\n"
+                                + ">>> " + tarea;
+                        aux = empleado;
+                    }
+                }
+                JOptionPane.showMessageDialog(null, info, "Empleados", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e, "llenar tabla", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btn_ver_empleadosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String sql = "call sp_composicio_producto(?,?,?,?)";
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            try {
+                ps = cn.prepareStatement(sql);
+                ps.setInt(1, cod_produccion);
+                ps.setInt(2, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
+                ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 3).toString()));
+                ps.setInt(4, Integer.parseInt(jTable1.getValueAt(i, 5).toString()));
+                ResultSet re = ps.executeQuery();
+                JOptionPane.showMessageDialog(null, "Composicion creada correctamente", "Composicion", JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    void limpiar() {
+        txt_produccion.setText("");
+        txt_unidad.setText("");
+        lb_costo_materia.setText("0.00");
+        lb_precio_venta.setText("0.00");
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -210,9 +349,14 @@ public class Composicion_producto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;
+    private javax.swing.JLabel lb_costo_materia;
+    private javax.swing.JLabel lb_precio_venta;
     public static javax.swing.JTextField txt_produccion;
+    public static javax.swing.JTextField txt_unidad;
     // End of variables declaration//GEN-END:variables
 }
