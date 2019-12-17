@@ -7,7 +7,7 @@ package agroquimica.consultas;
 
 import agroquimica.Funciones;
 import agroquimica.Menu;
-import agroquimica.produccion.produccion_1;
+
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -254,23 +254,7 @@ public class buscar_productos extends javax.swing.JFrame {
         } else {
             if (tabla.getSelectedRow() != -1) {
                 try {
-                    if (Funciones.nombre_formulario.equals("produccion")) {
-
-                        DefaultTableModel tabladet = (DefaultTableModel) produccion_1.Tabla.getModel();
-                        //codigo
-                        Funciones.dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
-                        //producto
-                        Funciones.dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString();
-                        //
-                        Funciones.dato[2] = jtcantidad.getText();
-                        Funciones.dato[3] = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-                        //
-                        Funciones.dato[4] = tabla.getValueAt(tabla.getSelectedRow(), 5).toString();
-
-                        tabladet.addRow(Funciones.dato);
-                        produccion_1.Tabla.setModel(tabladet);
-                        dispose();
-                    } else {
+                    
                         boolean f = true;
                         for (int i = 0; i < Menu.jTable1.getRowCount(); i++) {
                             if (Menu.jTable1.getValueAt(i, 0).toString().equals(tabla.getValueAt(tabla.getSelectedRow(), 0))) {
@@ -306,7 +290,7 @@ public class buscar_productos extends javax.swing.JFrame {
                             Animacion.Animacion.mover_izquierda(0, -190, 2, 2, Menu.jPanel3);
                             Menu.jPanel3.setVisible(false);
                         }
-                    }
+                    
 
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(rootPane, e);
