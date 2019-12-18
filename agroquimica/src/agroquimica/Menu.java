@@ -14,6 +14,7 @@ import agroquimica.consultas.buscar_productos;
 import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.produccion.Composicion_producto;
 import agroquimica.produccion.produccion_1;
+import agroquimica.ventas.Pedido;
 import agroquimica.ventas.cuentas_pagar;
 import agroquimica.ventas.factura_credito;
 import java.awt.Color;
@@ -989,7 +990,27 @@ public class Menu extends javax.swing.JFrame {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lbInicioMouseReleased
-
+    void reporte(int numfac,double total){
+        //reporte de jasperreport
+                    JasperReport reporte = null;
+                    String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
+                    ruta = ruta.replace("file:", "");
+                    Map parametro = new HashMap();
+                    parametro.put("numerodefactura", numfac);
+                    parametro.put("Totalfactura", total);
+                    parametro.put("TipoFactura", jCombotipofactura.getSelectedItem().toString());
+                    parametro.put("cliente", txt_cliente.getText());
+                    parametro.put("vendedor", txt_empleado.getText());
+                    try {
+                        reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+                        JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+                        JasperViewer view = new JasperViewer(jprint, false);
+                        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        view.setVisible(true);
+                    } catch (JRException ex) {
+                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+    }
     void crear_factura() {
 
         try {
@@ -1063,28 +1084,16 @@ public class Menu extends javax.swing.JFrame {
                     while (modelo.getRowCount() > 0) {
                         modelo.removeRow(0);
                     }
-
+                    
                     JOptionPane.showMessageDialog(null, "Transaccion realizada correctamente");
-
-                    //reporte de jasperreport
-                    JasperReport reporte = null;
-                    String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
-                    ruta = ruta.replace("file:", "");
-                    Map parametro = new HashMap();
-                    parametro.put("numerodefactura", numfac);
-                    parametro.put("Totalfactura", total);
-                    parametro.put("TipoFactura", jCombotipofactura.getSelectedItem().toString());
-                    parametro.put("cliente", txt_cliente.getText());
-                    parametro.put("vendedor", txt_empleado.getText());
-                    try {
-                        reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
-                        JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
-                        JasperViewer view = new JasperViewer(jprint, false);
-                        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                        view.setVisible(true);
-                    } catch (JRException ex) {
-                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                    if(check_pedido.isSelected()){
+                        Pedido obj = new Pedido();
+                        obj.setVisible(true);
+                        obj.setLocationRelativeTo(null);
+                        Pedido.txt_factura.setText(String.valueOf(numfac)); 
                     }
+                  //  reporte(numfac, total);
+                    
                     jlTotal.setText("");
                     jCombotipofactura.setSelectedIndex(-1);
                     txt_empleado.setText("");

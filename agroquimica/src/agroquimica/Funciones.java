@@ -42,7 +42,7 @@ public class Funciones {
             st = cn.createStatement();
             datos = st.executeQuery(consulta);
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
         return datos;
@@ -125,7 +125,7 @@ public class Funciones {
     public static int traeindice(String tabla, String descripcion) {
 
         sql = "SELECT * from " + tabla + " WHERE descripcion ='" + descripcion + "'";
-
+     
         ResultSet rs = Funciones.consulta(sql);
         try {
             rs.next();

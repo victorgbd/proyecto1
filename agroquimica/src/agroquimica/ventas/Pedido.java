@@ -8,6 +8,8 @@ package agroquimica.ventas;
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import static agroquimica.Funciones.sql;
+import agroquimica.consultas.buscar_empleado;
+import agroquimica.consultas.buscar_vehiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,6 +48,7 @@ public class Pedido extends javax.swing.JFrame {
         txt_vehiculo_entrega.setText("");
         txt_factura.setText("");
         txt_empleado.setText("");
+
     }
 
     void llenar_d(JComboBox combo, String tabla, int codigo, String relacion) {
@@ -102,6 +105,7 @@ public class Pedido extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         txt_vehiculo_entrega = new javax.swing.JTextField();
         btn_guardar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -255,6 +259,11 @@ public class Pedido extends javax.swing.JFrame {
         });
 
         jButton10.setText("Buscar Empleado");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("Empleado:");
 
@@ -317,6 +326,13 @@ public class Pedido extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("prueba");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -326,15 +342,21 @@ public class Pedido extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_guardar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_guardar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(123, 123, 123)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(195, 195, 195)
                         .addComponent(jLabel1)
@@ -355,7 +377,9 @@ public class Pedido extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                             .addComponent(btn_salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_limpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btn_limpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(38, 38, 38)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -394,6 +418,8 @@ public class Pedido extends javax.swing.JFrame {
             int codigo = Funciones.traeindice("municipio", combo_municipio.getSelectedItem().toString());
             llenar_d(combo_sector, "Sector", codigo, "codmuni");
             f = false;
+        } else {
+            f = true;
         }
 
     }//GEN-LAST:event_combo_municipioItemStateChanged
@@ -404,11 +430,17 @@ public class Pedido extends javax.swing.JFrame {
             int codigo = Funciones.traeindice("sector", combo_sector.getSelectedItem().toString());
             llenar_d(combo_calle, "calle", codigo, "codsec");
             f = true;
+        } else {
+            f = false;
         }
     }//GEN-LAST:event_combo_sectorItemStateChanged
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        Funciones.nombre_formulario = "pedido";
+        buscar_vehiculo obj = new buscar_vehiculo();
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
@@ -423,6 +455,7 @@ public class Pedido extends javax.swing.JFrame {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
+        int region, provincia, municipio, sector, calle;
         if (txt_empleado.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado", "Pedidos", JOptionPane.ERROR_MESSAGE);
         } else if (txt_factura.getText().isEmpty()) {
@@ -432,33 +465,57 @@ public class Pedido extends javax.swing.JFrame {
         } else if (txt_vehiculo_entrega.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un vehiculo", "Pedidos", JOptionPane.ERROR_MESSAGE);
         } else {
-            sql = "call sp_direccion_pedido (?,?,?,?,?)";
 
             try {
                 //llenar la direccion
+                region = Funciones.traeindice("region", combo_region.getSelectedItem().toString());
+                provincia = Funciones.traeindice("provincia", combo_provincia.getSelectedItem().toString());
+                municipio = Funciones.traeindice("municipio", combo_municipio.getSelectedItem().toString());
+                sector = Funciones.traeindice("sector", combo_sector.getSelectedItem().toString());
+                calle = Funciones.traeindice("calle", combo_calle.getSelectedItem().toString());
+                sql = "call sp_direccion_pedido(?,?,?,?,?,?)";
                 ps = cn.prepareStatement(sql);
-                ps.setInt(1, Funciones.traeindice("region", combo_region.getSelectedItem().toString()));
-                ps.setInt(2, Funciones.traeindice("provincia", combo_provincia.getSelectedItem().toString()));
-                ps.setInt(3, Funciones.traeindice("municipio", combo_municipio.getSelectedItem().toString()));
-                ps.setInt(4, Funciones.traeindice("sector", combo_sector.getSelectedItem().toString()));
-                ps.setInt(5, Funciones.traeindice("calle", combo_sector.getSelectedItem().toString()));
+                ps.setString(1, txt_referencia.getText());
+                ps.setInt(2, region);
+                ps.setInt(3, provincia);
+                ps.setInt(4, municipio);
+                ps.setInt(5, sector);
+                ps.setInt(6, calle);
+
                 ResultSet rs = ps.executeQuery();
                 rs.next();
                 int coddir = rs.getInt(1);
                 //llenar el pedido
+
                 sql = "call sp_pedido(?,?,?,?)";
                 ps = cn.prepareStatement(sql);
-                ps.setInt(1, numfact);
+                ps.setInt(1, Integer.parseInt(txt_factura.getText()));
                 ps.setInt(2, cod_empleado);
                 ps.setInt(3, codvehiculo);
                 ps.setInt(4, coddir);
-                JOptionPane.showMessageDialog(null, "", "Pedidos", JOptionPane.INFORMATION_MESSAGE);
+                rs = ps.executeQuery();
+                JOptionPane.showMessageDialog(null, "Pedido asignado", "Pedidos", JOptionPane.INFORMATION_MESSAGE);
+                limpiar();
             } catch (SQLException ex) {
                 Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        Funciones.nombre_formulario = "pedido";
+        buscar_empleado obj = new buscar_empleado();
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -504,6 +561,7 @@ public class Pedido extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combo_provincia;
     private javax.swing.JComboBox<String> combo_region;
     private javax.swing.JComboBox<String> combo_sector;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;

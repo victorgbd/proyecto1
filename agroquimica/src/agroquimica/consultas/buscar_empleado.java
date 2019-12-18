@@ -8,6 +8,7 @@ package agroquimica.consultas;
 import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.Funciones;
 import agroquimica.Menu;
+import agroquimica.ventas.Pedido;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -82,6 +83,19 @@ public class buscar_empleado extends javax.swing.JFrame {
                         rs.getString("Email"),
                         rs.getString("Telefono")
                     });
+
+                } else if (Funciones.nombre_formulario.equals("pedido")
+                        && rs.getString("puesto").equals("Chofer")
+                        && rs.getString("disponibilidad").equals("0")) {
+                    modelo.addRow(new Object[]{
+                        rs.getString("Codigo"),
+                        rs.getString("Nombre"),
+                        rs.getString("Apellido"),
+                        rs.getString("Puesto"),
+                        rs.getString("Email"),
+                        rs.getString("Telefono")
+                    });
+
                 }
 
             }
@@ -271,7 +285,7 @@ public class buscar_empleado extends javax.swing.JFrame {
                 //codigo
                 dato[0] = tabla.getValueAt(tabla.getSelectedRow(), 0).toString();
                 //producto
-                dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() +" "+ tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
+                dato[1] = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
                 dato[2] = Asignar_trabajos.combo_tarea_1.getSelectedItem().toString();
                 tabladet.addRow(dato);
                 Asignar_trabajos.jTable1.setModel(tabladet);
@@ -283,7 +297,13 @@ public class buscar_empleado extends javax.swing.JFrame {
                 Menu.txt_empleado.setText(nombre_completo);
                 dispose();
             }
-
+            if (Funciones.nombre_formulario.equals("pedido") && puesto.equals("Chofer")) {
+                Pedido.txt_empleado.setText(nombre_completo);
+                Pedido.cod_empleado = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un chofer para el envio", "Pedido", JOptionPane.WARNING_MESSAGE);
+            }
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
