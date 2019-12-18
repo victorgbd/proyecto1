@@ -162,6 +162,7 @@ public class Menu extends javax.swing.JFrame {
         btn_empleado = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         txt_empleado = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -639,6 +640,15 @@ public class Menu extends javax.swing.JFrame {
 
         txt_empleado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Ventas_ventana.add(txt_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 77, 220, -1));
+
+        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
+        jCheckBox1.setText("Pedido");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+        Ventas_ventana.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 80, -1));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -1494,6 +1504,10 @@ public class Menu extends javax.swing.JFrame {
         obj.setLocationRelativeTo(jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_lbcrearproduccionMouseReleased
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        //aumentar total con el costo del pedido
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1581,6 +1595,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboClima;
     private javax.swing.JComboBox<String> jComboSuelo;
     public static javax.swing.JComboBox<String> jCombotipofactura;
