@@ -6,8 +6,7 @@
 package agroquimica.consultas;
 
 import agroquimica.Funciones;
-import agroquimica.Menu;
-import agroquimica.Pedido;
+import agroquimica.ventas.Pedido;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.ResultSet;
@@ -228,7 +227,7 @@ public class buscar_vehiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una planta.", "Planta", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            Pedido.txt_vehiculo.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+            Pedido.txt_vehiculo_entrega.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
             Pedido.codvehiculo = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
             dispose();
         }

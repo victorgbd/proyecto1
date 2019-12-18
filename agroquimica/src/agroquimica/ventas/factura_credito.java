@@ -8,8 +8,6 @@ package agroquimica.ventas;
 import agroquimica.ConexionBD;
 import agroquimica.Funciones;
 import agroquimica.Menu;
-import static agroquimica.Menu.txt_cliente;
-import static agroquimica.Menu.txt_empleado;
 import java.awt.Color;
 import java.awt.Frame;
 import java.sql.Connection;
