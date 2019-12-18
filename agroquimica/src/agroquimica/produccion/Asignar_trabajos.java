@@ -68,7 +68,7 @@ public class Asignar_trabajos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Asignacion de produccion");
@@ -213,27 +213,30 @@ public class Asignar_trabajos extends javax.swing.JFrame {
             try {
                 int cod_acti = 0;
                 //llenar actividadvsproduccionvsempleado
-                
 
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
 
                     cod_acti = Funciones.traeindice("actividad", jTable1.getValueAt(i, 2).toString());
-                    
+
                     sql = "call sp_triple_versus(?,?,?)";
                     ps = cn.prepareStatement(sql);
                     ps.setInt(1, cod_acti);
                     ps.setInt(2, codigo_produccion);
                     ps.setInt(3, Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
                     ResultSet rs = ps.executeQuery();
+                    
                 }
 
                 //si selecciona una actividad diferente a ninguna
                 JOptionPane.showMessageDialog(null, "Trabajo asignado correctamente.");
+                Composicion_producto obj = new Composicion_producto();
+                obj.setLocationRelativeTo(null);
+                obj.setVisible(true);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ">>" + ex);
             }
         }
-        
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -5,9 +5,13 @@
  */
 package agroquimica.produccion;
 
+import agroquimica.ConexionBD;
 import agroquimica.Funciones;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,9 +25,15 @@ public class cambiar_disponible extends javax.swing.JFrame {
     public cambiar_disponible() {
         initComponents();
     }
-   static String tarea,sql;
+    private final ConexionBD cc = new ConexionBD();
+    private final Connection cn = cc.conexion();
+    private PreparedStatement ps;
+    static String tarea, sql;
+    static int cantidad_tareas = 1,cod_emp;
+
     public static String tareas(int cod_emp) {
-         sql = "SELECT \n"
+        cambiar_disponible.cod_emp = cod_emp;
+        sql = "SELECT \n"
                 + "a.descripcion as tarea\n"
                 + "FROM actividadvsproduccionvsempleado vs\n"
                 + "INNER JOIN actividad a ON vs.codactiv = a.codactiv\n"
@@ -31,14 +41,14 @@ public class cambiar_disponible extends javax.swing.JFrame {
                 + "INNER JOIN producto pr on p.codprod = pr.codproducto\n"
                 + "INNER JOIN empleado e on vs.codemp = e.codemp\n"
                 + "INNER JOIN persona p2 on e.codper = p2.codper\n"
-                + "WHERE e.codemp = '"+cod_emp+"'";
+                + "WHERE e.codemp = '" + cod_emp + "'";
         ResultSet rs = Funciones.consulta(sql);
-        int contador = 1;
+
         try {
-            tarea="Tareas asignadas:\n";
-            while (rs.next()) {                
-             tarea+= contador+"- "+rs.getString(1)+"\n";
-             contador++;
+            tarea = "Tareas asignadas:\n";
+            while (rs.next()) {
+                tarea += cantidad_tareas + "- " + rs.getString(1) + "\n";
+                cantidad_tareas++;
             }
         } catch (SQLException e) {
         }
@@ -93,6 +103,11 @@ public class cambiar_disponible extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_tareas);
 
         jButton1.setText("Modificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Salir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +198,28 @@ public class cambiar_disponible extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        sql = "sp_actualizar_disponibilidad(?,?)";
+        int dispo=0;
+        try {
+            if (radio_d.isSelected()) {
+                dispo = 0;
+            } else if (radio_nd.isSelected()) {
+                dispo = 1;
+            }
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, dispo);
+            ps.setInt(2, cod_emp);
+            ResultSet rs = ps.executeQuery();
+            JOptionPane.showMessageDialog(null, "Empleado actualizado correctamente");
+        } catch (SQLException e) {
+             JOptionPane.showMessageDialog(null, e);
+        }
+        
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

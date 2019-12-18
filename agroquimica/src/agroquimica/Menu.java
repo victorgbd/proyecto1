@@ -13,6 +13,7 @@ import agroquimica.consultas.buscar_planta;
 import agroquimica.consultas.buscar_productos;
 import agroquimica.produccion.Asignar_trabajos;
 import agroquimica.produccion.Composicion_producto;
+import agroquimica.produccion.produccion_1;
 import agroquimica.ventas.cuentas_pagar;
 import agroquimica.ventas.factura_credito;
 import java.awt.Color;
@@ -1489,7 +1490,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbasignartrabajosMouseReleased
 
     private void lbcrearproduccionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcrearproduccionMouseReleased
-        // TODO add your handling code here:
+        produccion_1 obj =  new produccion_1();
+        obj.setLocationRelativeTo(jPanel2);
+        obj.setVisible(true);
     }//GEN-LAST:event_lbcrearproduccionMouseReleased
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();

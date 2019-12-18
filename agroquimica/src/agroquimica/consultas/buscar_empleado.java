@@ -43,12 +43,12 @@ public class buscar_empleado extends javax.swing.JFrame {
         });
 
         String sql = "SELECT e.codemp as Codigo,p.nombre as Nombre,p.apellido as Apellido,tp.descripcion as puesto, "
-                + "e.correo as Email, t.numero as Telefono \n"
+                + "e.correo as Email, t.numero as Telefono,disponibilidad \n"
                 + "from empleado e\n"
                 + "INNER JOIN persona p on e.codper = p.codper\n"
                 + "INNER JOIN tipo_de_empleado tp on e.codtipoemp = tp.codtipoemp\n"
                 + "INNER JOIN telefono t on e.codtel = t.codtel  WHERE "
-                + " p.nombre LIKE  '%" + dato + "%'"
+                + "p.nombre LIKE  '%" + dato + "%'"
                 + "OR e.correo LIKE  '%" + dato + "%'"
                 + "OR tp.descripcion LIKE  '%" + dato + "%'"
                 + "OR p.apellido LIKE  '%" + dato + "%'";
@@ -62,7 +62,8 @@ public class buscar_empleado extends javax.swing.JFrame {
             while (rs.next()) {
                 // agrega los datos de la consulta al modelo de la tabla
                 if (Funciones.nombre_formulario.equals("asignar trabajo")
-                        && rs.getString("puesto").equals("Operario")) {
+                        && rs.getString("puesto").equals("Operario")
+                        && rs.getString("disponibilidad").equals("0")) {
                     modelo.addRow(new Object[]{
                         rs.getString("Codigo"),
                         rs.getString("Nombre"),

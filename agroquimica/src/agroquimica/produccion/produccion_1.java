@@ -10,8 +10,6 @@ import agroquimica.Funciones;
 import static agroquimica.Funciones.sql;
 import static agroquimica.Menu.jPanel2;
 import agroquimica.consultas.buscar_productos;
-import static agroquimica.produccion.Asignar_trabajos.fecha_f;
-import static agroquimica.produccion.Asignar_trabajos.fecha_i;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,7 +59,7 @@ public class produccion_1 extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         fecha_fin = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("buscar producto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
