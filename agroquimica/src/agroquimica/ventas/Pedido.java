@@ -40,7 +40,7 @@ public class Pedido extends javax.swing.JFrame {
     private final ConexionBD cc = new ConexionBD();
     private final Connection cn = cc.conexion();
     private PreparedStatement ps;
-    boolean f = false;
+    boolean f = false; // la variable es para controlar que los combobox no exploten cuando se llenen automaticamente por el itemChanged
     public static int codvehiculo, cod_empleado, numfact;
 
     void limpiar() {
@@ -388,12 +388,13 @@ public class Pedido extends javax.swing.JFrame {
 
     private void combo_regionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_regionItemStateChanged
         // TODO add your handling code here:
-
+        //el si es verdadero llenara el siguiente pero como empieza a falso se ira la parte de 'else'
         if (f) {
             int codigo = Funciones.traeindice("region", combo_region.getSelectedItem().toString());
             llenar_d(combo_provincia, "provincia", codigo, "codreg");
             f = false;
         } else {
+            //ya como aqui se vuelve verdadero va a volver al if a cambiar el item y traera todo lo que pidas 
             f = true;
         }
 
@@ -401,12 +402,14 @@ public class Pedido extends javax.swing.JFrame {
 
     private void combo_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_provinciaItemStateChanged
         // TODO add your handling code here:
-
+        //en los combo box siguientes hay que irlo turneando la condicion para llevar una jerarquia de mayor a menor
+        //y asi con los otros
         if (!f) {
             int codigo = Funciones.traeindice("provincia", combo_provincia.getSelectedItem().toString());
             llenar_d(combo_municipio, "municipio", codigo, "codprovi");
             f = true;
         } else {
+
             f = false;
 
         }

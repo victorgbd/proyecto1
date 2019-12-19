@@ -61,7 +61,7 @@ public class buscar_empleado extends javax.swing.JFrame {
         ResultSet rs = Funciones.consulta(sql);
         try {
             while (rs.next()) {
-                // agrega los datos de la consulta al modelo de la tabla
+                // para la asignacion de trabajo se buscan los operarios disponibles
                 if (Funciones.nombre_formulario.equals("asignar trabajo")
                         && rs.getString("puesto").equals("Operario")
                         && rs.getString("disponibilidad").equals("0")) {
@@ -73,6 +73,7 @@ public class buscar_empleado extends javax.swing.JFrame {
                         rs.getString("Email"),
                         rs.getString("Telefono")
                     });
+                    //Esto llena la tabla si la busqueda viene de la venta y solo tiene que traer a los cajeros 
                 } else if (Funciones.nombre_formulario.isEmpty()
                         && rs.getString("puesto").equals("Caja")) {
                     modelo.addRow(new Object[]{
@@ -83,9 +84,9 @@ public class buscar_empleado extends javax.swing.JFrame {
                         rs.getString("Email"),
                         rs.getString("Telefono")
                     });
-
+                    //Aqui hace lo mismo que los operarios pero solo traera a los transportistas
                 } else if (Funciones.nombre_formulario.equals("pedido")
-                        && rs.getString("puesto").equals("Chofer")
+                        && rs.getString("puesto").equals("Transporte")
                         && rs.getString("disponibilidad").equals("0")) {
                     modelo.addRow(new Object[]{
                         rs.getString("Codigo"),
@@ -277,8 +278,10 @@ public class buscar_empleado extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.", "Empleado", JOptionPane.ERROR_MESSAGE);
 
         } else {
+
             nombre_completo = tabla.getValueAt(tabla.getSelectedRow(), 1).toString() + " " + tabla.getValueAt(tabla.getSelectedRow(), 2).toString();
             puesto = tabla.getValueAt(tabla.getSelectedRow(), 3).toString();
+            //aqui se asigna a una tabla las diferentes tareas de los empleados
             if (Funciones.nombre_formulario.equals("asignar trabajo")) {
                 String[] dato = new String[3];
                 DefaultTableModel tabladet = (DefaultTableModel) Asignar_trabajos.jTable1.getModel();
@@ -292,11 +295,14 @@ public class buscar_empleado extends javax.swing.JFrame {
                 Asignar_trabajos.cod_emp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
                 dispose();
             }
+            //aqui se agrega en el formulario de la factura los empleados que sean cajeros
             if (puesto.equals("Caja")) {
                 Menu.codemp = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
                 Menu.txt_empleado.setText(nombre_completo);
                 dispose();
             }
+            // Aqui se va enviar al formulario de pedido los campos seleccionados
+            // de la tabla y solo seran los choferes
             if (Funciones.nombre_formulario.equals("pedido") && puesto.equals("Chofer")) {
                 Pedido.txt_empleado.setText(nombre_completo);
                 Pedido.cod_empleado = Integer.parseInt(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
