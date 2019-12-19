@@ -66,6 +66,7 @@ public class Menu extends javax.swing.JFrame {
     public static int codemp = 0;
     public static int codclie = 0;
     DecimalFormat df = new DecimalFormat("###,###.##");
+    private boolean check=true;
 
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
@@ -1069,6 +1070,7 @@ public class Menu extends javax.swing.JFrame {
 
             //si no encuentra nada no presenta el mensaje
             if (contador == jTable1.getRowCount()) {
+                
                 if (tipfact == 1) {
                     factura_credito obj2 = new factura_credito(numfac, balance);
 
@@ -1077,6 +1079,12 @@ public class Menu extends javax.swing.JFrame {
                     obj2.total = total;
                     obj2.setVisible(true);
                     obj2.setLocationRelativeTo(null);
+                    if(check_pedido.isSelected()){
+                        Pedido obj = new Pedido();
+                        obj.setVisible(true);
+                        obj.setLocationRelativeTo(null);
+                        Pedido.txt_factura.setText(String.valueOf(numfac)); 
+                    }
 
                 } else {
                     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
@@ -1092,7 +1100,8 @@ public class Menu extends javax.swing.JFrame {
                         obj.setLocationRelativeTo(null);
                         Pedido.txt_factura.setText(String.valueOf(numfac)); 
                     }
-                  //  reporte(numfac, total);
+                    //imprime el reporte
+                    //reporte(numfac, total);
                     
                     jlTotal.setText("");
                     jCombotipofactura.setSelectedIndex(-1);
@@ -1517,6 +1526,18 @@ public class Menu extends javax.swing.JFrame {
 
     private void check_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_pedidoActionPerformed
         //aumentar total con el costo del pedido
+        
+        if(check_pedido.isSelected()&&!jlTotal.getText().isEmpty()&&check){
+            double total=Double.parseDouble(jlTotal.getText());
+            total=total+100;
+            jlTotal.setText(total+"");
+            check=false;
+        } else if(check==false&&!jlTotal.getText().isEmpty()){
+            double total=Double.parseDouble(jlTotal.getText());
+            total=total-100;
+            jlTotal.setText(total+"");
+            check=true;
+        }
     }//GEN-LAST:event_check_pedidoActionPerformed
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
