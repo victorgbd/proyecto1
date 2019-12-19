@@ -66,7 +66,7 @@ public class Menu extends javax.swing.JFrame {
     public static int codemp = 0;
     public static int codclie = 0;
     DecimalFormat df = new DecimalFormat("###,###.##");
-    private boolean check=true;
+    private boolean check = true;
 
     private void cargarIconos() {
         ImageIcon usuariosico = new ImageIcon(getClass().getResource("/iconos/iconfinder_group2_309041.png"));
@@ -165,6 +165,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txt_empleado = new javax.swing.JTextField();
         check_pedido = new javax.swing.JCheckBox();
+        jButton4 = new javax.swing.JButton();
         Registrar = new javax.swing.JPanel();
         lbregistrar_usuarios = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -633,7 +634,7 @@ public class Menu extends javax.swing.JFrame {
                 btn_empleadoActionPerformed(evt);
             }
         });
-        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, -1, -1));
+        Ventas_ventana.add(btn_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
@@ -652,6 +653,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         Ventas_ventana.add(check_pedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 80, -1));
+
+        jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        Ventas_ventana.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 80, -1, -1));
 
         jPanel2.add(Ventas_ventana, "card4");
 
@@ -991,27 +1000,28 @@ public class Menu extends javax.swing.JFrame {
             Animacion.Animacion.mover_derecha(-190, 0, 2, 2, jPanel3);
         }
     }//GEN-LAST:event_lbInicioMouseReleased
-    void reporte(int numfac,double total){
+    void reporte(int numfac, double total) {
         //reporte de jasperreport
-                    JasperReport reporte = null;
-                    String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
-                    ruta = ruta.replace("file:", "");
-                    Map parametro = new HashMap();
-                    parametro.put("numerodefactura", numfac);
-                    parametro.put("Totalfactura", total);
-                    parametro.put("TipoFactura", jCombotipofactura.getSelectedItem().toString());
-                    parametro.put("cliente", txt_cliente.getText());
-                    parametro.put("vendedor", txt_empleado.getText());
-                    try {
-                        reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
-                        JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
-                        JasperViewer view = new JasperViewer(jprint, false);
-                        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                        view.setVisible(true);
-                    } catch (JRException ex) {
-                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        JasperReport reporte = null;
+        String ruta = getClass().getResource("/Reportes/Factura.jasper").toString();
+        ruta = ruta.replace("file:", "");
+        Map parametro = new HashMap();
+        parametro.put("numerodefactura", numfac);
+        parametro.put("Totalfactura", total);
+        parametro.put("TipoFactura", jCombotipofactura.getSelectedItem().toString());
+        parametro.put("cliente", txt_cliente.getText());
+        parametro.put("vendedor", txt_empleado.getText());
+        try {
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn);
+            JasperViewer view = new JasperViewer(jprint, false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
     void crear_factura() {
 
         try {
@@ -1059,7 +1069,7 @@ public class Menu extends javax.swing.JFrame {
                     res.next();
                     opcion = res.getInt(1);
                 } catch (SQLException ex) {
-                    
+
                 }
 
                 if (opcion != 0) {
@@ -1070,7 +1080,7 @@ public class Menu extends javax.swing.JFrame {
 
             //si no encuentra nada no presenta el mensaje
             if (contador == jTable1.getRowCount()) {
-                
+
                 if (tipfact == 1) {
                     factura_credito obj2 = new factura_credito(numfac, balance);
 
@@ -1079,11 +1089,11 @@ public class Menu extends javax.swing.JFrame {
                     obj2.total = total;
                     obj2.setVisible(true);
                     obj2.setLocationRelativeTo(null);
-                    if(check_pedido.isSelected()){
+                    if (check_pedido.isSelected()) {
                         Pedido obj = new Pedido();
                         obj.setVisible(true);
                         obj.setLocationRelativeTo(null);
-                        Pedido.txt_factura.setText(String.valueOf(numfac)); 
+                        Pedido.txt_factura.setText(String.valueOf(numfac));
                     }
 
                 } else {
@@ -1092,17 +1102,17 @@ public class Menu extends javax.swing.JFrame {
                     while (modelo.getRowCount() > 0) {
                         modelo.removeRow(0);
                     }
-                    
+
                     JOptionPane.showMessageDialog(null, "Transaccion realizada correctamente");
-                    if(check_pedido.isSelected()){
+                    if (check_pedido.isSelected()) {
                         Pedido obj = new Pedido();
                         obj.setVisible(true);
                         obj.setLocationRelativeTo(null);
-                        Pedido.txt_factura.setText(String.valueOf(numfac)); 
+                        Pedido.txt_factura.setText(String.valueOf(numfac));
                     }
                     //imprime el reporte
                     //reporte(numfac, total);
-                    
+
                     jlTotal.setText("");
                     jCombotipofactura.setSelectedIndex(-1);
                     txt_empleado.setText("");
@@ -1519,26 +1529,35 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_lbasignartrabajosMouseReleased
 
     private void lbcrearproduccionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbcrearproduccionMouseReleased
-        produccion_1 obj =  new produccion_1();
+        produccion_1 obj = new produccion_1();
         obj.setLocationRelativeTo(jPanel2);
         obj.setVisible(true);
     }//GEN-LAST:event_lbcrearproduccionMouseReleased
 
     private void check_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_pedidoActionPerformed
         //aumentar total con el costo del pedido
-        
-        if(check_pedido.isSelected()&&!jlTotal.getText().isEmpty()&&check){
-            double total=Double.parseDouble(jlTotal.getText());
-            total=total+100;
-            jlTotal.setText(total+"");
-            check=false;
-        } else if(check==false&&!jlTotal.getText().isEmpty()){
-            double total=Double.parseDouble(jlTotal.getText());
-            total=total-100;
-            jlTotal.setText(total+"");
-            check=true;
+
+        if (check_pedido.isSelected() && !jlTotal.getText().isEmpty() && check) {
+            double total = Double.parseDouble(jlTotal.getText());
+            total = total + 100;
+            jlTotal.setText(total + "");
+            check = false;
+        } else if (check == false && !jlTotal.getText().isEmpty()) {
+            double total = Double.parseDouble(jlTotal.getText());
+            total = total - 100;
+            jlTotal.setText(total + "");
+            check = true;
         }
     }//GEN-LAST:event_check_pedidoActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        if (jTable1.getSelectedRow() > -1) {
+            modelo.removeRow(jTable1.getSelectedRow());
+        } else {
+            JOptionPane.showMessageDialog(null, "debes seleccionar un elemento para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
     private void recomendacion(int codenf, int codsuelo, int codplanta, int codespecie, int clima) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         while (modelo.getRowCount() > 0) {
@@ -1627,6 +1646,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboClima;
     private javax.swing.JComboBox<String> jComboSuelo;
     public static javax.swing.JComboBox<String> jCombotipofactura;
